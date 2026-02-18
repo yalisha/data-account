@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1100" viewBox="0 0 1600 1100">
+  <defs>
+    <style>
+      .title { font: 700 46px 'PingFang SC','Noto Sans CJK SC','Microsoft YaHei',sans-serif; fill: #111; }
+      .subtitle { font: 400 24px 'PingFang SC','Noto Sans CJK SC','Microsoft YaHei',sans-serif; fill: #444; }
+      .section { font: 700 28px 'PingFang SC','Noto Sans CJK SC','Microsoft YaHei',sans-serif; fill: #111; }
+      .htext { font: 600 24px 'PingFang SC','Noto Sans CJK SC','Microsoft YaHei',sans-serif; fill: #111; }
+      .btext { font: 400 22px 'PingFang SC','Noto Sans CJK SC','Microsoft YaHei',sans-serif; fill: #222; }
+      .stext { font: 400 20px 'PingFang SC','Noto Sans CJK SC','Microsoft YaHei',sans-serif; fill: #555; }
+      .ktext { font: 600 20px 'PingFang SC','Noto Sans CJK SC','Microsoft YaHei',sans-serif; fill: #333; }
+      .box { fill: #fff; stroke: #1a1a1a; stroke-width: 2.6; }
+      .soft { fill: #f3f3f3; stroke: #2a2a2a; stroke-width: 2.2; }
+      .panel { fill: #fafafa; stroke: #1a1a1a; stroke-width: 2.4; }
+      .dash { fill: none; stroke: #444; stroke-width: 2.6; stroke-dasharray: 10 8; }
+      .solid { fill: none; stroke: #111; stroke-width: 3; }
+      .light { fill: none; stroke: #444; stroke-width: 2.2; }
+    </style>
+
+    <marker id="arr" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 z" fill="#111" />
+    </marker>
+    <marker id="arrGray" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 z" fill="#444" />
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect x="0" y="0" width="1600" height="1100" fill="#ffffff"/>
+
+  <!-- Title -->
+  <text x="800" y="70" text-anchor="middle" class="title">数据要素利用与企业信息披露违规：研究框架</text>
+  <text x="800" y="110" text-anchor="middle" class="subtitle">基于数据交易所设立的多时点DID识别</text>
+
+  <!-- Identification strategy panel -->
+  <rect x="260" y="145" width="1080" height="120" rx="12" class="panel"/>
+  <text x="800" y="188" text-anchor="middle" class="section">识别策略：多时点双重差分（Staggered DID）</text>
+
+  <rect x="290" y="205" width="320" height="42" rx="8" class="soft"/>
+  <text x="450" y="233" text-anchor="middle" class="ktext">政策冲击：数据交易所分批设立</text>
+
+  <rect x="640" y="205" width="320" height="42" rx="8" class="soft"/>
+  <text x="800" y="233" text-anchor="middle" class="ktext">处理强度：NPP-VIIRS 夜光变化</text>
+
+  <rect x="990" y="205" width="320" height="42" rx="8" class="soft"/>
+  <text x="1150" y="233" text-anchor="middle" class="ktext">稳健估计量：Callaway &amp; Sant’Anna</text>
+
+  <!-- Left: key explanatory variable -->
+  <rect x="55" y="300" width="325" height="320" rx="16" class="box"/>
+  <text x="217" y="350" text-anchor="middle" class="section">核心解释变量</text>
+  <line x1="90" y1="368" x2="345" y2="368" class="light"/>
+  <text x="217" y="418" text-anchor="middle" class="htext">数据要素利用（Lnda）</text>
+  <text x="95" y="465" class="btext">度量方式：</text>
+  <text x="105" y="503" class="btext">• Word2Vec + 年报 MD&amp;A 文本</text>
+  <text x="105" y="538" class="btext">• 语义相似度（阈值 &gt; 0.5）</text>
+  <text x="95" y="578" class="btext">稳健性替换：</text>
+  <text x="105" y="613" class="btext">• 复合指数（专利+IT人员）</text>
+
+  <!-- Center: mechanisms -->
+  <rect x="550" y="330" width="500" height="360" rx="16" class="panel"/>
+  <text x="800" y="375" text-anchor="middle" class="section">机制一致性证据（非严格中介识别）</text>
+
+  <rect x="585" y="410" width="430" height="80" rx="10" class="soft"/>
+  <text x="800" y="447" text-anchor="middle" class="htext">路径一：信息透明度提升</text>
+  <text x="800" y="476" text-anchor="middle" class="stext">分析师预测误差下降、可读性改善</text>
+
+  <rect x="585" y="510" width="430" height="80" rx="10" class="soft"/>
+  <text x="800" y="547" text-anchor="middle" class="htext">路径二：内部控制质量改善</text>
+  <text x="800" y="576" text-anchor="middle" class="stext">内控缺陷减少、流程规范化</text>
+
+  <rect x="585" y="610" width="430" height="80" rx="10" class="soft"/>
+  <text x="800" y="647" text-anchor="middle" class="htext">路径三：外部监督强度提升</text>
+  <text x="800" y="676" text-anchor="middle" class="stext">审计质量提高、媒体关注增强</text>
+
+  <!-- Right: dependent variable -->
+  <rect x="1215" y="330" width="330" height="290" rx="16" class="box"/>
+  <text x="1380" y="380" text-anchor="middle" class="section">被解释变量</text>
+  <line x1="1248" y1="398" x2="1512" y2="398" class="light"/>
+  <text x="1380" y="448" text-anchor="middle" class="htext">信息披露违规</text>
+  <text x="1245" y="492" class="btext">① 行政处罚（证监会/交易所）</text>
+  <text x="1245" y="530" class="btext">② 年报问询函（是否/次数）</text>
+  <text x="1245" y="568" class="btext">③ 财务重述（会计差错更正）</text>
+
+  <!-- Moderator -->
+  <rect x="980" y="720" width="400" height="145" rx="14" class="box"/>
+  <text x="1180" y="764" text-anchor="middle" class="section">调节变量</text>
+  <line x1="1010" y1="782" x2="1350" y2="782" class="light"/>
+  <text x="1180" y="824" text-anchor="middle" class="htext">城市数字生态基础</text>
+  <text x="1015" y="857" class="btext">• NPP-VIIRS 夜光辐射强度</text>
+
+  <!-- Hypotheses -->
+  <rect x="55" y="670" width="460" height="210" rx="14" class="panel"/>
+  <text x="85" y="716" class="section">研究假设</text>
+  <text x="85" y="760" class="btext">H1：数据要素利用显著降低信息披露违规</text>
+  <text x="85" y="800" class="btext">H2：该效应在数字生态更好的地区更强</text>
+  <text x="85" y="840" class="btext">H3：作用路径体现为透明度、内控与监督改善</text>
+
+  <!-- Heterogeneity panel -->
+  <rect x="55" y="910" width="1490" height="145" rx="14" class="panel"/>
+  <text x="800" y="955" text-anchor="middle" class="section">异质性分析与拓展检验</text>
+
+  <rect x="95" y="975" width="330" height="60" rx="10" class="soft"/>
+  <text x="260" y="1012" text-anchor="middle" class="htext">产权性质：国企 vs 非国企</text>
+
+  <rect x="470" y="975" width="330" height="60" rx="10" class="soft"/>
+  <text x="635" y="1012" text-anchor="middle" class="htext">数字生态：高夜光 vs 低夜光</text>
+
+  <rect x="845" y="975" width="330" height="60" rx="10" class="soft"/>
+  <text x="1010" y="1012" text-anchor="middle" class="htext">股权集中度：高 vs 低</text>
+
+  <rect x="1220" y="975" width="290" height="60" rx="10" class="soft"/>
+  <text x="1365" y="1012" text-anchor="middle" class="htext">行业特征：高科技 vs 传统</text>
+
+  <!-- Arrows -->
+  <path d="M380,460 C470,440 520,430 580,450" class="solid" marker-end="url(#arr)"/>
+  <path d="M380,520 C470,520 520,530 580,550" class="solid" marker-end="url(#arr)"/>
+  <path d="M380,575 C470,610 520,640 580,650" class="solid" marker-end="url(#arr)"/>
+
+  <path d="M1015,450 C1090,450 1140,460 1210,500" class="solid" marker-end="url(#arr)"/>
+  <path d="M1015,550 C1090,550 1140,550 1210,550" class="solid" marker-end="url(#arr)"/>
+  <path d="M1015,650 C1090,650 1140,630 1210,585" class="solid" marker-end="url(#arr)"/>
+
+  <path d="M1180,720 C1110,695 1065,665 1015,610" class="dash" marker-end="url(#arrGray)"/>
+  <text x="1065" y="700" class="ktext">调节 H2</text>
+
+  <path d="M620,265 C430,300 330,315 250,320" class="dash" marker-end="url(#arrGray)"/>
+  <text x="380" y="305" class="ktext">政策外生来源</text>
+
+  <path d="M900,265 C1160,290 1250,320 1320,330" class="dash" marker-end="url(#arrGray)"/>
+  <text x="1065" y="300" class="ktext">识别到违规治理效应</text>
+
+  <!-- Footer -->
+  <text x="800" y="1085" text-anchor="middle" class="stext">注：机制部分报告为“机制一致性证据”，不作严格因果中介识别。</text>
+</svg>

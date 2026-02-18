@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1560" viewBox="0 0 1800 1560">
+  <defs>
+    <style>
+      .title { font: 700 48px 'Songti SC','STSong','Noto Serif CJK SC','SimSun',serif; fill: #111; }
+      .subtitle { font: 400 25px 'Songti SC','STSong','Noto Serif CJK SC','SimSun',serif; fill: #333; }
+      .panelTitle { font: 700 34px 'Songti SC','STSong','Noto Serif CJK SC','SimSun',serif; fill: #111; }
+      .section { font: 700 30px 'Songti SC','STSong','Noto Serif CJK SC','SimSun',serif; fill: #111; }
+      .head { font: 700 28px 'Songti SC','STSong','Noto Serif CJK SC','SimSun',serif; fill: #111; }
+      .body { font: 400 25px 'Songti SC','STSong','Noto Serif CJK SC','SimSun',serif; fill: #222; }
+      .small { font: 400 22px 'Songti SC','STSong','Noto Serif CJK SC','SimSun',serif; fill: #444; }
+      .eq { font: 400 24px 'Times New Roman','Songti SC','STSong',serif; fill: #111; }
+      .panel { fill: #fcfcfc; stroke: #111; stroke-width: 2.4; }
+      .box { fill: #fff; stroke: #111; stroke-width: 2.2; }
+      .soft { fill: #f3f3f3; stroke: #222; stroke-width: 2; }
+      .line { fill: none; stroke: #111; stroke-width: 2.6; }
+      .dash { fill: none; stroke: #333; stroke-width: 2.2; stroke-dasharray: 10 8; }
+      .rule { fill: none; stroke: #555; stroke-width: 1.8; }
+    </style>
+
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 z" fill="#111"/>
+    </marker>
+    <marker id="arrowGray" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 z" fill="#333"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1800" height="1560" fill="#ffffff"/>
+
+  <text x="900" y="68" text-anchor="middle" class="title">数据交易所设立与企业信息披露违规：A路线识别框架</text>
+  <text x="900" y="108" text-anchor="middle" class="subtitle">主线：政策效应的多时点双重差分；机制：异质性一致性证据（非中介识别）</text>
+
+  <!-- Panel A -->
+  <rect x="40" y="140" width="1720" height="430" rx="10" class="panel"/>
+  <text x="78" y="185" class="panelTitle">Panel A. 主识别设计（Policy Effect DID）</text>
+  <line x1="60" y1="198" x2="1740" y2="198" class="rule"/>
+
+  <rect x="95" y="228" width="1610" height="84" rx="8" class="soft"/>
+  <text x="900" y="265" text-anchor="middle" class="head">识别策略：Staggered DID（Callaway &amp; Sant’Anna, 2021）</text>
+  <text x="900" y="297" text-anchor="middle" class="small">关键检验：平行趋势（事件研究）｜安慰剂政策年｜并行政策排除</text>
+
+  <rect x="95" y="340" width="490" height="200" rx="10" class="box"/>
+  <text x="340" y="382" text-anchor="middle" class="section">处理变量（政策冲击）</text>
+  <line x1="125" y1="396" x2="555" y2="396" class="rule"/>
+  <text x="120" y="435" class="body">DID_it = Treat_c × Post_ct</text>
+  <text x="120" y="472" class="small">Treat_c：城市是否受交易所设立影响</text>
+  <text x="120" y="506" class="small">Post_ct：城市进入政策后年份</text>
+
+  <rect x="690" y="372" width="430" height="132" rx="10" class="soft"/>
+  <text x="905" y="418" text-anchor="middle" class="section">主效应假设 H1</text>
+  <text x="905" y="456" text-anchor="middle" class="body">β &lt; 0：政策冲击降低信息披露违规</text>
+
+  <rect x="1220" y="340" width="485" height="220" rx="10" class="box"/>
+  <text x="1462" y="382" text-anchor="middle" class="section">被解释变量</text>
+  <line x1="1250" y1="396" x2="1675" y2="396" class="rule"/>
+  <text x="1462" y="435" text-anchor="middle" class="head">信息披露违规（Violation）</text>
+  <text x="1250" y="472" class="small">① 行政处罚（证监会/交易所）</text>
+  <text x="1250" y="505" class="small">② 年报问询函（是否/次数）</text>
+  <text x="1250" y="542" class="small">③ 财务重述（会计差错更正）</text>
+
+  <path d="M585,442 C635,442 648,438 690,438" class="line" marker-end="url(#arrow)"/>
+  <path d="M1120,438 C1160,438 1178,442 1220,442" class="line" marker-end="url(#arrow)"/>
+
+  <!-- Panel B -->
+  <rect x="40" y="600" width="1720" height="370" rx="10" class="panel"/>
+  <text x="78" y="645" class="panelTitle">Panel B. 机制一致性检验（异质性机制，不作中介因果识别）</text>
+  <line x1="60" y1="658" x2="1740" y2="658" class="rule"/>
+
+  <rect x="95" y="688" width="1610" height="86" rx="8" class="soft"/>
+  <text x="900" y="726" text-anchor="middle" class="eq">Y_it = β1 DID_it + β2 (DID_it × H_i,pre) + γX_it + μ_i + λ_t + ε_it</text>
+  <text x="900" y="758" text-anchor="middle" class="small">H_i,pre 为政策前基线特征；若 β2 显著且方向一致，则视为机制一致性证据</text>
+
+  <rect x="95" y="800" width="505" height="140" rx="10" class="box"/>
+  <text x="348" y="844" text-anchor="middle" class="head">机制维度 1：信息透明度基线</text>
+  <text x="118" y="881" class="small">H_i,pre = 低透明度（高可读性负向指标/高预测误差）</text>
+  <text x="118" y="915" class="small">预期：治理效应更强（H2a）</text>
+
+  <rect x="650" y="800" width="505" height="140" rx="10" class="box"/>
+  <text x="902" y="844" text-anchor="middle" class="head">机制维度 2：内部控制基线</text>
+  <text x="673" y="881" class="small">H_i,pre = 低内控质量（更多缺陷/较弱治理流程）</text>
+  <text x="673" y="915" class="small">预期：治理效应更强（H2b）</text>
+
+  <rect x="1200" y="800" width="505" height="140" rx="10" class="box"/>
+  <text x="1452" y="844" text-anchor="middle" class="head">机制维度 3：外部监督基线</text>
+  <text x="1223" y="881" class="small">H_i,pre = 弱监督（低分析师覆盖/低媒体关注）</text>
+  <text x="1223" y="915" class="small">预期：治理效应更强（H2c）</text>
+
+  <path d="M900,774 C900,785 900,790 900,800" class="dash" marker-end="url(#arrowGray)"/>
+  <path d="M900,774 C760,790 640,800 600,820" class="dash" marker-end="url(#arrowGray)"/>
+  <path d="M900,774 C1040,790 1160,800 1200,820" class="dash" marker-end="url(#arrowGray)"/>
+
+  <!-- Panel C -->
+  <rect x="40" y="998" width="1720" height="202" rx="10" class="panel"/>
+  <text x="78" y="1040" class="panelTitle">Panel C. 稳健性与拓展（论文实证完整性）</text>
+  <line x1="60" y1="1052" x2="1740" y2="1052" class="rule"/>
+
+  <rect x="95" y="1075" width="300" height="95" rx="10" class="soft"/>
+  <text x="245" y="1128" text-anchor="middle" class="body">事件研究前趋势</text>
+
+  <rect x="430" y="1075" width="300" height="95" rx="10" class="soft"/>
+  <text x="580" y="1128" text-anchor="middle" class="body">安慰剂政策检验</text>
+
+  <rect x="765" y="1075" width="300" height="95" rx="10" class="soft"/>
+  <text x="915" y="1128" text-anchor="middle" class="body">并行政策排除</text>
+
+  <rect x="1100" y="1075" width="300" height="95" rx="10" class="soft"/>
+  <text x="1250" y="1128" text-anchor="middle" class="body">替代违规口径</text>
+
+  <rect x="1435" y="1075" width="270" height="95" rx="10" class="soft"/>
+  <text x="1570" y="1128" text-anchor="middle" class="body">异质性分组</text>
+
+  <text x="900" y="1215" text-anchor="middle" class="small">注：本图对应A路线。机制部分采用“异质性一致性”而非“中介效应识别”，以避免后处理偏误解释。</text>
+
+  <!-- Panel D -->
+  <rect x="40" y="1238" width="1720" height="286" rx="10" class="panel"/>
+  <text x="78" y="1280" class="panelTitle">Panel D. 理论支撑与边际创新</text>
+  <line x1="60" y1="1292" x2="1740" y2="1292" class="rule"/>
+
+  <rect x="95" y="1318" width="790" height="180" rx="10" class="box"/>
+  <text x="490" y="1360" text-anchor="middle" class="head">边际创新（Contribution）</text>
+  <line x1="120" y1="1372" x2="860" y2="1372" class="rule"/>
+  <text x="120" y="1410" class="small">① 识别创新：全国数据交易所分批设立 × Staggered DID</text>
+  <text x="120" y="1442" class="small">② 结果创新：聚焦“违规硬后果”（处罚/问询/重述）而非软质量</text>
+  <text x="120" y="1474" class="small">③ 机制创新：政策前基线异质性机制一致性（避免中介后处理偏误）</text>
+
+  <rect x="915" y="1318" width="790" height="180" rx="10" class="box"/>
+  <text x="1310" y="1360" text-anchor="middle" class="head">理论支撑（Theory）</text>
+  <line x1="940" y1="1372" x2="1680" y2="1372" class="rule"/>
+  <text x="940" y="1410" class="small">① 信息不对称理论：政策提升信息可得性，压缩违规空间</text>
+  <text x="940" y="1442" class="small">② 威慑理论：提高被发现概率与预期处罚成本，抑制违规激励</text>
+  <text x="940" y="1474" class="small">③ 委托代理与外部治理：内控、审计、分析师与媒体监督协同强化</text>
+
+  <text x="900" y="1548" text-anchor="middle" class="small">注：理论检验表述为“与机制一致的证据（mechanism-consistent evidence）”，不宣称严格机制因果识别。</text>
+</svg>

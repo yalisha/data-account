@@ -1,0 +1,224 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1150" font-family="'SimSun','STSong','Songti SC','Noto Serif CJK SC','Microsoft YaHei',serif">
+<defs>
+  <marker id="ad" markerWidth="8" markerHeight="6" refX="4" refY="6" orient="auto"><polygon points="0 0,8 0,4 6" fill="#000"/></marker>
+  <marker id="ar" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#000"/></marker>
+  <marker id="al" markerWidth="8" markerHeight="6" refX="0" refY="3" orient="auto"><polygon points="8 0,0 3,8 6" fill="#000"/></marker>
+</defs>
+
+<rect width="1200" height="1150" fill="#fff"/>
+
+<!-- ═══════ 标题 ═══════ -->
+<text x="600" y="36" text-anchor="middle" font-size="18" font-weight="bold" fill="#000">数据要素利用与大股东掏空行为：基于可解释机器学习的预测与识别</text>
+<text x="600" y="56" text-anchor="middle" font-size="10.5" fill="#555" font-style="italic">Data Element Utilization and Controlling Shareholder Tunneling: Prediction and Identification via Explainable ML</text>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- 第一层：变量构建（左X 右Y）            -->
+<!-- ═══════════════════════════════════════ -->
+<text x="600" y="84" text-anchor="middle" font-size="13" font-weight="bold" fill="#000">—— 变量构建 ——</text>
+<line x1="480" y1="88" x2="720" y2="88" stroke="#000" stroke-width="0.6"/>
+
+<!-- 左：自变量X -->
+<rect x="40" y="100" width="500" height="168" stroke="#000" stroke-width="1.5" fill="#fff"/>
+<rect x="40" y="100" width="500" height="26" fill="#e0e0e0" stroke="#000" stroke-width="1.5"/>
+<text x="290" y="118" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#000">自变量 X：数据要素利用强度（Lnda）</text>
+
+<text x="58" y="146" font-size="10.5" fill="#000" font-weight="bold">构建方法：Word2Vec（CBOW）</text>
+<text x="58" y="164" font-size="10" fill="#333">① 种子词表：数据资产、数据治理、数据交易、数据平台……</text>
+<text x="58" y="180" font-size="10" fill="#333">② 训练语料：全部A股年报 MD&amp;A 章节</text>
+<text x="58" y="196" font-size="10" fill="#333">③ 语义相似度 ≥ 0.5 扩展词表 → 词频统计 → 取对数</text>
+<text x="58" y="216" font-size="10" fill="#000" font-weight="bold">参考：朱康（2025）《会计研究》</text>
+<text x="58" y="234" font-size="10" fill="#333">▸ 方法论贡献①：NLP文本挖掘构建核心自变量</text>
+<text x="58" y="254" font-size="9" fill="#666" font-style="italic">数据来源：巨潮资讯网（年报全文）</text>
+
+<!-- 右：因变量Y -->
+<rect x="600" y="100" width="560" height="168" stroke="#000" stroke-width="1.5" fill="#fff"/>
+<rect x="600" y="100" width="560" height="26" fill="#e0e0e0" stroke="#000" stroke-width="1.5"/>
+<text x="880" y="118" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#000">因变量 Y：大股东掏空风险综合得分</text>
+
+<text x="618" y="146" font-size="10.5" fill="#000" font-weight="bold">构建方法：XGBoost 多维度预测模型</text>
+<text x="618" y="164" font-size="10" fill="#333">输入特征：财务异常指标（OREC、关联交易、担保）</text>
+<text x="618" y="180" font-size="10" fill="#333">　　　　　+ 治理结构（两权分离、股权集中度）</text>
+<text x="618" y="196" font-size="10" fill="#333">　　　　　+ 文本特征（关联交易披露详细度）</text>
+<text x="618" y="216" font-size="10" fill="#333">训练标签：CSRC处罚（资金占用/关联违规）→ Y=1</text>
+<text x="618" y="234" font-size="10" fill="#333">▸ 方法论贡献②：ML构建综合掏空风险度量</text>
+<text x="618" y="254" font-size="9" fill="#666" font-style="italic">数据来源：CSMAR（财务+治理+违规处罚+关联交易）</text>
+
+<!-- X→Y 连接箭头 -->
+<line x1="540" y1="184" x2="600" y2="184" stroke="#000" stroke-width="1.5" marker-end="url(#ar)"/>
+<text x="570" y="178" text-anchor="middle" font-size="9" fill="#000">预测</text>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- 向下箭头                                -->
+<!-- ═══════════════════════════════════════ -->
+<line x1="290" y1="268" x2="290" y2="306" stroke="#000" stroke-width="1.2" marker-end="url(#ad)"/>
+<line x1="880" y1="268" x2="880" y2="306" stroke="#000" stroke-width="1.2" marker-end="url(#ad)"/>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- 第二层：DID因果识别（主框架）           -->
+<!-- ═══════════════════════════════════════ -->
+<rect x="40" y="308" width="1120" height="180" stroke="#000" stroke-width="2" fill="#fff"/>
+<rect x="40" y="308" width="1120" height="28" fill="#d0d0d0" stroke="#000" stroke-width="2"/>
+<text x="600" y="328" text-anchor="middle" font-size="14" font-weight="bold" fill="#000">主体框架：多时点双重差分法（Staggered DID）</text>
+
+<!-- 左：政策冲击 -->
+<rect x="60" y="348" width="320" height="126" stroke="#000" stroke-width="1" fill="#fff"/>
+<rect x="60" y="348" width="320" height="24" fill="#ebebeb" stroke="#000" stroke-width="1"/>
+<text x="220" y="366" text-anchor="middle" font-size="11" font-weight="bold" fill="#000">政策冲击（Exogenous Shock）</text>
+<text x="76" y="392" font-size="10" fill="#333">数据交易所分批设立（2021—2024）</text>
+<text x="76" y="410" font-size="10" fill="#333">全国约30家，时间错开 → 多时点DID</text>
+<text x="76" y="430" font-size="10" fill="#000" font-weight="bold">处理强度：</text>
+<text x="76" y="448" font-size="10" fill="#333">NPP-VIIRS夜光辐射变化率（连续处理）</text>
+<text x="76" y="466" font-size="9" fill="#666" font-style="italic">数据来源：EOG夜光遥感（免费）+ 手工收集</text>
+
+<!-- 中：识别策略 -->
+<rect x="400" y="348" width="340" height="126" stroke="#000" stroke-width="1" fill="#fff"/>
+<rect x="400" y="348" width="340" height="24" fill="#ebebeb" stroke="#000" stroke-width="1"/>
+<text x="570" y="366" text-anchor="middle" font-size="11" font-weight="bold" fill="#000">识别策略与估计量</text>
+<text x="416" y="392" font-size="10" fill="#333">估计量：Callaway &amp; Sant'Anna (2021)</text>
+<text x="416" y="410" font-size="10" fill="#333">→ 避免异质性处理效应偏误</text>
+<text x="416" y="434" font-size="10" fill="#000" font-weight="bold">主回归模型：</text>
+<text x="416" y="452" font-size="10" fill="#333">Y_it = α + β·Treat_it + γ·X_it + μ_i + δ_t + ε_it</text>
+<text x="416" y="468" font-size="10" fill="#333">β &lt; 0 → 数据交易所设立降低掏空风险</text>
+
+<!-- 右：有效性检验 -->
+<rect x="760" y="348" width="380" height="126" stroke="#000" stroke-width="1" fill="#fff"/>
+<rect x="760" y="348" width="380" height="24" fill="#ebebeb" stroke="#000" stroke-width="1"/>
+<text x="950" y="366" text-anchor="middle" font-size="11" font-weight="bold" fill="#000">DID有效性检验</text>
+<text x="776" y="392" font-size="10" fill="#333">① 平行趋势检验（Event Study Plot）</text>
+<text x="776" y="410" font-size="10" fill="#333">② 安慰剂检验（随机化处理时间×500次）</text>
+<text x="776" y="428" font-size="10" fill="#333">③ 排除预期效应（剔除政策前1年样本）</text>
+<text x="776" y="446" font-size="10" fill="#333">④ PSM-DID（倾向得分匹配）</text>
+<text x="776" y="464" font-size="10" fill="#333">⑤ 替换Y：OREC原始值 / CSRC处罚哑变量</text>
+
+<!-- 因果逻辑链标注 -->
+<rect x="200" y="490" width="760" height="24" stroke="#000" stroke-width="1.2" fill="#f5f5f5"/>
+<text x="580" y="507" text-anchor="middle" font-size="10.5" fill="#000" font-weight="bold">因果链：数据交易所设立 → 企业数据要素利用↑ → 信息透明度↑ → 掏空成本↑ → 掏空行为↓</text>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- 向下箭头                                -->
+<!-- ═══════════════════════════════════════ -->
+<line x1="600" y1="514" x2="600" y2="542" stroke="#000" stroke-width="1.2" marker-end="url(#ad)"/>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- 第三层：SHAP可解释性分析               -->
+<!-- ═══════════════════════════════════════ -->
+<rect x="40" y="544" width="1120" height="154" stroke="#000" stroke-width="1.5" fill="#fff"/>
+<rect x="40" y="544" width="1120" height="28" fill="#d0d0d0" stroke="#000" stroke-width="1.5"/>
+<text x="600" y="564" text-anchor="middle" font-size="13" font-weight="bold" fill="#000">SHAP可解释性分析（方法论贡献③）</text>
+
+<!-- SHAP四维度 -->
+<rect x="58" y="584" width="245" height="100" stroke="#000" stroke-width="1" fill="#fff"/>
+<text x="181" y="602" text-anchor="middle" font-size="11" font-weight="bold" fill="#000">全局特征重要性</text>
+<line x1="68" y1="608" x2="293" y2="608" stroke="#000" stroke-width="0.5"/>
+<text x="68" y="624" font-size="9.5" fill="#333">四类特征（NLP/财务/治理/区域）</text>
+<text x="68" y="640" font-size="9.5" fill="#333">重要性排名与贡献度</text>
+<text x="68" y="656" font-size="9.5" fill="#333">SHAP Summary Plot</text>
+<text x="68" y="676" font-size="9" fill="#000" font-weight="bold">→ 数据要素特征排第几？</text>
+
+<rect x="318" y="584" width="245" height="100" stroke="#000" stroke-width="1" fill="#fff"/>
+<text x="441" y="602" text-anchor="middle" font-size="11" font-weight="bold" fill="#000">特征交互效应</text>
+<line x1="328" y1="608" x2="553" y2="608" stroke="#000" stroke-width="0.5"/>
+<text x="328" y="624" font-size="9.5" fill="#333">Lnda × 两权分离度</text>
+<text x="328" y="640" font-size="9.5" fill="#333">Lnda × 股权集中度</text>
+<text x="328" y="656" font-size="9.5" fill="#333">SHAP Dependence Plot</text>
+<text x="328" y="676" font-size="9" fill="#000" font-weight="bold">→ 何时数据治理最有效？</text>
+
+<rect x="578" y="584" width="245" height="100" stroke="#000" stroke-width="1" fill="#fff"/>
+<text x="701" y="602" text-anchor="middle" font-size="11" font-weight="bold" fill="#000">典型案例分析</text>
+<line x1="588" y1="608" x2="813" y2="608" stroke="#000" stroke-width="0.5"/>
+<text x="588" y="624" font-size="9.5" fill="#333">选取典型掏空企业</text>
+<text x="588" y="640" font-size="9.5" fill="#333">SHAP Waterfall Plot</text>
+<text x="588" y="656" font-size="9.5" fill="#333">逐因素分解预测逻辑</text>
+<text x="588" y="676" font-size="9" fill="#000" font-weight="bold">→ 为什么预测它掏空？</text>
+
+<rect x="838" y="584" width="305" height="100" stroke="#000" stroke-width="1" fill="#fff"/>
+<text x="991" y="602" text-anchor="middle" font-size="11" font-weight="bold" fill="#000">消融实验（Ablation）</text>
+<line x1="848" y1="608" x2="1133" y2="608" stroke="#000" stroke-width="0.5"/>
+<text x="848" y="624" font-size="9.5" fill="#333">去除NLP特征 → AUC变化</text>
+<text x="848" y="640" font-size="9.5" fill="#333">去除治理特征 → AUC变化</text>
+<text x="848" y="656" font-size="9.5" fill="#333">去除财务特征 → AUC变化</text>
+<text x="848" y="676" font-size="9" fill="#000" font-weight="bold">→ 各类特征的增量预测贡献</text>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- 向下箭头                                -->
+<!-- ═══════════════════════════════════════ -->
+<line x1="600" y1="698" x2="600" y2="726" stroke="#000" stroke-width="1.2" marker-end="url(#ad)"/>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- 第四层：机制检验                        -->
+<!-- ═══════════════════════════════════════ -->
+<rect x="40" y="728" width="1120" height="96" stroke="#000" stroke-width="1.5" fill="#fff"/>
+<rect x="40" y="728" width="1120" height="28" fill="#d0d0d0" stroke="#000" stroke-width="1.5"/>
+<text x="600" y="748" text-anchor="middle" font-size="13" font-weight="bold" fill="#000">机制检验（Mechanism Tests）</text>
+
+<rect x="60" y="768" width="330" height="44" stroke="#000" stroke-width="1" fill="#fff"/>
+<text x="225" y="786" text-anchor="middle" font-size="11" font-weight="bold" fill="#000">渠道一：信息透明度</text>
+<text x="225" y="804" text-anchor="middle" font-size="9.5" fill="#333">分析师预测分歧度↓ · 信息不对称↓</text>
+
+<rect x="420" y="768" width="330" height="44" stroke="#000" stroke-width="1" fill="#fff"/>
+<text x="585" y="786" text-anchor="middle" font-size="11" font-weight="bold" fill="#000">渠道二：外部监督强化</text>
+<text x="585" y="804" text-anchor="middle" font-size="9.5" fill="#333">媒体关注度↑ · 审计费用↑ · 机构持股↑</text>
+
+<rect x="780" y="768" width="360" height="44" stroke="#000" stroke-width="1" fill="#fff"/>
+<text x="960" y="786" text-anchor="middle" font-size="11" font-weight="bold" fill="#000">渠道三：内部治理改善</text>
+<text x="960" y="804" text-anchor="middle" font-size="9.5" fill="#333">独董投反对票比例↑ · 内部控制质量↑</text>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- 向下箭头                                -->
+<!-- ═══════════════════════════════════════ -->
+<line x1="600" y1="824" x2="600" y2="852" stroke="#000" stroke-width="1.2" marker-end="url(#ad)"/>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- 第五层：异质性分析                      -->
+<!-- ═══════════════════════════════════════ -->
+<rect x="40" y="854" width="1120" height="96" stroke="#000" stroke-width="1.5" fill="#fff"/>
+<rect x="40" y="854" width="1120" height="28" fill="#d0d0d0" stroke="#000" stroke-width="1.5"/>
+<text x="600" y="874" text-anchor="middle" font-size="13" font-weight="bold" fill="#000">异质性分析（Heterogeneity Analysis）</text>
+
+<rect x="60" y="894" width="195" height="44" stroke="#000" stroke-width="1" fill="#fff"/>
+<text x="158" y="912" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#000">产权性质</text>
+<text x="158" y="930" text-anchor="middle" font-size="9.5" fill="#333">国企 vs. 民企</text>
+
+<rect x="275" y="894" width="195" height="44" stroke="#000" stroke-width="1" fill="#fff"/>
+<text x="373" y="912" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#000">两权分离度</text>
+<text x="373" y="930" text-anchor="middle" font-size="9.5" fill="#333">高分离 vs. 低分离</text>
+
+<rect x="490" y="894" width="195" height="44" stroke="#000" stroke-width="1" fill="#fff"/>
+<text x="588" y="912" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#000">数字生态环境</text>
+<text x="588" y="930" text-anchor="middle" font-size="9.5" fill="#333">夜光高值 vs. 低值区</text>
+
+<rect x="705" y="894" width="195" height="44" stroke="#000" stroke-width="1" fill="#fff"/>
+<text x="803" y="912" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#000">行业特征</text>
+<text x="803" y="930" text-anchor="middle" font-size="9.5" fill="#333">数字原生 vs. 传统行业</text>
+
+<rect x="920" y="894" width="220" height="44" stroke="#000" stroke-width="1" fill="#fff"/>
+<text x="1030" y="912" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#000">监管环境</text>
+<text x="1030" y="930" text-anchor="middle" font-size="9.5" fill="#333">强执法 vs. 弱执法地区</text>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- 第六层：样本与数据                      -->
+<!-- ═══════════════════════════════════════ -->
+<rect x="40" y="964" width="1120" height="82" stroke="#000" stroke-width="1" fill="#fff"/>
+<text x="58" y="986" font-size="11.5" font-weight="bold" fill="#000">样本与数据</text>
+<line x1="58" y1="991" x2="1140" y2="991" stroke="#000" stroke-width="0.5"/>
+<text x="58" y="1008" font-size="9.5" fill="#333">样本期间：2015—2023  |  样本范围：沪深A股（剔除ST/*ST、金融业）  |  约40,000+观测值  |  特征维度：~50个</text>
+<text x="58" y="1024" font-size="9.5" fill="#333">数据来源：CSMAR（财务+治理+违规处罚+关联交易+担保）  |  巨潮资讯网（年报全文 → Word2Vec提取NLP特征）</text>
+<text x="58" y="1040" font-size="9.5" fill="#333">外部数据：NPP-VIIRS夜光遥感（EOG免费）  |  北大数字普惠金融指数  |  数据交易所设立时间（手工收集~30条）</text>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- 方法论贡献汇总标注（右侧竖条）         -->
+<!-- ═══════════════════════════════════════ -->
+<rect x="40" y="1060" width="1120" height="50" stroke="#000" stroke-width="1.5" fill="#f5f5f5"/>
+<text x="600" y="1080" text-anchor="middle" font-size="11" font-weight="bold" fill="#000">三重方法论贡献</text>
+<line x1="100" y1="1086" x2="1100" y2="1086" stroke="#000" stroke-width="0.4"/>
+<text x="230" y="1102" text-anchor="middle" font-size="10" fill="#333">① Word2Vec 构建 X（NLP文本挖掘）</text>
+<text x="600" y="1102" text-anchor="middle" font-size="10" fill="#333">② XGBoost 构建 Y（ML掏空风险度量）</text>
+<text x="970" y="1102" text-anchor="middle" font-size="10" fill="#333">③ SHAP 打开黑箱（可解释AI）</text>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- 底部图注                                -->
+<!-- ═══════════════════════════════════════ -->
+<line x1="40" y1="1122" x2="1160" y2="1122" stroke="#000" stroke-width="0.5"/>
+<text x="600" y="1140" text-anchor="middle" font-size="9.5" fill="#555">图1  研究框架：数据要素利用与大股东掏空行为——基于DID因果识别与可解释机器学习</text>
+
+</svg>

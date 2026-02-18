@@ -1,0 +1,331 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1900" height="2800" viewBox="0 0 1900 2800">
+  <defs>
+    <style>
+      .title { font: 700 42px 'Songti SC','STSong','Noto Serif CJK SC','SimSun',serif; fill: #111; }
+      .subtitle { font: 400 22px 'Songti SC','STSong','Noto Serif CJK SC','SimSun',serif; fill: #444; }
+      .panelTitle { font: 700 30px 'Songti SC','STSong','Noto Serif CJK SC','SimSun',serif; fill: #111; }
+      .section { font: 700 26px 'Songti SC','STSong','Noto Serif CJK SC','SimSun',serif; fill: #111; }
+      .head { font: 700 24px 'Songti SC','STSong','Noto Serif CJK SC','SimSun',serif; fill: #111; }
+      .body { font: 400 23px 'Songti SC','STSong','Noto Serif CJK SC','SimSun',serif; fill: #222; }
+      .small { font: 400 20px 'Songti SC','STSong','Noto Serif CJK SC','SimSun',serif; fill: #444; }
+      .tiny { font: 400 18px 'Songti SC','STSong','Noto Serif CJK SC','SimSun',serif; fill: #555; }
+      .result { font: 700 22px 'Times New Roman','Songti SC',serif; fill: #b22222; }
+      .resultSmall { font: 700 20px 'Times New Roman','Songti SC',serif; fill: #b22222; }
+      .resultNote { font: 400 19px 'Songti SC','STSong',serif; fill: #b22222; }
+      .confirm { font: 700 24px 'Songti SC','STSong',serif; fill: #006400; }
+      .panel { fill: #fcfcfc; stroke: #111; stroke-width: 2.4; }
+      .box { fill: #fff; stroke: #111; stroke-width: 2; }
+      .soft { fill: #f3f3f3; stroke: #222; stroke-width: 1.8; }
+      .accent { fill: #eaeaea; stroke: #111; stroke-width: 2.2; }
+      .highlight { fill: #e8e8e8; stroke: #111; stroke-width: 2.6; }
+      .resultBox { fill: #fff8f0; stroke: #b22222; stroke-width: 2.4; }
+      .confirmBox { fill: #f0fff0; stroke: #006400; stroke-width: 2.4; }
+      .line { fill: none; stroke: #111; stroke-width: 2.4; }
+      .dash { fill: none; stroke: #333; stroke-width: 2; stroke-dasharray: 10 8; }
+      .rule { fill: none; stroke: #555; stroke-width: 1.6; }
+      .arrowLine { fill: none; stroke: #111; stroke-width: 2.8; }
+    </style>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 z" fill="#111"/>
+    </marker>
+    <marker id="arrowRed" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 z" fill="#b22222"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1900" height="2800" fill="#ffffff"/>
+
+  <!-- ===== Title ===== -->
+  <text x="950" y="52" text-anchor="middle" class="title">数据要素利用、资产配置与资本定价效率</text>
+  <text x="950" y="86" text-anchor="middle" class="subtitle">面板回归 + DID + 机制检验 + 投资组合回测 + SHAP分解 | N = 43,847 | 2011-2024</text>
+
+  <!-- ===== Panel A: Theory ===== -->
+  <rect x="40" y="110" width="1820" height="440" rx="10" class="panel"/>
+  <text x="78" y="150" class="panelTitle">Panel A  理论分析与假说</text>
+  <line x1="60" y1="164" x2="1840" y2="164" class="rule"/>
+
+  <!-- Core premise -->
+  <rect x="80" y="182" width="1740" height="60" rx="8" class="highlight"/>
+  <text x="950" y="220" text-anchor="middle" class="head">核心前提：企业真实价值 = 传统资产价值 + 数据资产价值（会计度量系统性偏差）</text>
+
+  <!-- Two effects -->
+  <rect x="80" y="268" width="820" height="120" rx="10" class="box"/>
+  <text x="490" y="302" text-anchor="middle" class="section">信息模糊效应（抑制定价效率）</text>
+  <line x1="105" y1="314" x2="875" y2="314" class="rule"/>
+  <text x="105" y="343" class="small">会计度量失真：成本法低估数据资产增值能力</text>
+  <text x="105" y="370" class="small">分析师理解困难：数据驱动商业模式复杂性高</text>
+
+  <rect x="1000" y="268" width="820" height="120" rx="10" class="box"/>
+  <text x="1410" y="302" text-anchor="middle" class="section">信息供给效应（促进定价效率）</text>
+  <line x1="1025" y1="314" x2="1795" y2="314" class="rule"/>
+  <text x="1025" y="343" class="small">年报数据利用信息披露降低投资者推断难度</text>
+  <text x="1025" y="370" class="small">吸引分析师覆盖，信息中介作用增强</text>
+
+  <text x="940" y="338" text-anchor="middle" class="section">VS</text>
+
+  <!-- Hypotheses with result annotations -->
+  <rect x="80" y="415" width="540" height="110" rx="8" class="confirmBox"/>
+  <text x="350" y="448" text-anchor="middle" class="head">H1  主效应（竞争性假说）</text>
+  <text x="105" y="478" class="small">H1a 信息供给占主导 → 提升定价效率</text>
+  <text x="105" y="503" class="small">H1b 信息模糊占主导 → 降低定价效率</text>
+  <text x="545" y="505" class="confirm">H1a ✓</text>
+
+  <rect x="680" y="415" width="540" height="110" rx="8" class="resultBox"/>
+  <text x="950" y="448" text-anchor="middle" class="head">H2  资产配置渠道</text>
+  <text x="705" y="478" class="small">金融资产配置变动（信息环境渠道）</text>
+  <text x="705" y="503" class="small">分析师覆盖 / 机构持股变动</text>
+  <text x="1145" y="505" class="confirm">✓</text>
+
+  <rect x="1280" y="415" width="540" height="110" rx="8" class="resultBox"/>
+  <text x="1550" y="448" text-anchor="middle" class="head">H3  制度调节（2024入表新规）</text>
+  <text x="1305" y="478" class="small">短期增加信息处理成本（适应期）</text>
+  <text x="1305" y="503" class="small">投资组合截面定价差异扩大</text>
+  <text x="1745" y="505" class="result">部分 ✓</text>
+
+  <!-- ===== Arrow A→B ===== -->
+  <line x1="950" y1="550" x2="950" y2="580" class="arrowLine" marker-end="url(#arrow)"/>
+
+  <!-- ===== Panel B: Variables ===== -->
+  <rect x="40" y="590" width="1820" height="240" rx="10" class="panel"/>
+  <text x="78" y="630" class="panelTitle">Panel B  核心变量与研究设计</text>
+  <line x1="60" y1="644" x2="1840" y2="644" class="rule"/>
+
+  <!-- X -->
+  <rect x="80" y="662" width="540" height="148" rx="10" class="box"/>
+  <text x="350" y="696" text-anchor="middle" class="section">X  数据要素利用</text>
+  <line x1="105" y1="710" x2="595" y2="710" class="rule"/>
+  <text x="105" y="738" class="small">DU_kw：年报5维度关键词频率（每万字）</text>
+  <text x="105" y="764" class="small">替换：DU_kw_ln / DU_sub_ln / DU_ratio</text>
+  <text x="105" y="790" class="tiny">5维度：数据存量 + 开发能力 + 驱动应用 + 价值变现 + 治理</text>
+
+  <!-- Arrow X→M -->
+  <line x1="620" y1="736" x2="680" y2="736" class="arrowLine" marker-end="url(#arrow)"/>
+
+  <!-- M -->
+  <rect x="690" y="662" width="500" height="148" rx="10" class="box"/>
+  <text x="940" y="696" text-anchor="middle" class="section">M  机制变量</text>
+  <line x1="715" y1="710" x2="1165" y2="710" class="rule"/>
+  <text x="715" y="738" class="small">Analyst：分析师覆盖 ln(1+人数)</text>
+  <text x="715" y="764" class="small">FinAsset：金融资产占比</text>
+  <text x="715" y="790" class="small">InstHold：机构持股比例</text>
+
+  <!-- Arrow M→Y -->
+  <line x1="1190" y1="736" x2="1260" y2="736" class="arrowLine" marker-end="url(#arrow)"/>
+
+  <!-- Y -->
+  <rect x="1270" y="662" width="560" height="148" rx="10" class="box"/>
+  <text x="1550" y="696" text-anchor="middle" class="section">Y  资本定价效率</text>
+  <line x1="1295" y1="710" x2="1805" y2="710" class="rule"/>
+  <text x="1295" y="738" class="small">PriceDelay：Hou-Moskowitz (2005) 股价延迟</text>
+  <text x="1295" y="764" class="small">稳健性：SYNCH 股价同步性</text>
+  <text x="1295" y="790" class="tiny">FE: 企业+年份 | 聚类: 行业x年份 | Winsorize 1%/99%</text>
+
+  <!-- ===== Arrow B→C ===== -->
+  <line x1="950" y1="830" x2="950" y2="860" class="arrowLine" marker-end="url(#arrow)"/>
+
+  <!-- ===== Panel C: Main Results ===== -->
+  <rect x="40" y="870" width="1820" height="620" rx="10" class="panel"/>
+  <text x="78" y="910" class="panelTitle">Panel C  核心实证结果</text>
+  <line x1="60" y1="924" x2="1840" y2="924" class="rule"/>
+
+  <!-- Left: Baseline Regression -->
+  <rect x="80" y="942" width="860" height="520" rx="10" class="box"/>
+  <text x="510" y="978" text-anchor="middle" class="section">基准回归与因果识别</text>
+  <line x1="105" y1="992" x2="915" y2="992" class="rule"/>
+
+  <!-- Baseline result box -->
+  <rect x="105" y="1008" width="810" height="110" rx="8" class="resultBox"/>
+  <text x="130" y="1038" class="head">基准回归（Firm + Year FE）</text>
+  <text x="130" y="1068" class="result">DU_kw: coef = -0.00416, t = -4.28***</text>
+  <text x="130" y="1098" class="resultNote">经济意义：1个标准差增加 → PriceDelay 降低 6.9%</text>
+
+  <!-- DID result box -->
+  <rect x="105" y="1135" width="810" height="130" rx="8" class="resultBox"/>
+  <text x="130" y="1165" class="head">DID  2024入表新规（窗口2021-2024, N=17,538）</text>
+  <text x="130" y="1195" class="result">Treat x Post: coef = +0.007, t = 1.75*</text>
+  <text x="130" y="1225" class="resultNote">正向系数：入表新规短期增加信息处理成本（适应期效应）</text>
+  <text x="130" y="1248" class="tiny">平行趋势通过（2019-2022均不显著）| 安慰剂2020/2021/2022均不显著</text>
+
+  <!-- Heterogeneity -->
+  <rect x="105" y="1282" width="810" height="160" rx="8" class="soft"/>
+  <text x="130" y="1312" class="head">异质性分析（全部显著）</text>
+  <text x="130" y="1342" class="resultSmall">小企业更强  t = -4.94*** vs 大企业 t = -3.61***</text>
+  <text x="130" y="1370" class="resultSmall">高分析师覆盖更强  t = -5.60*** vs 低覆盖 t = -2.56**</text>
+  <text x="130" y="1398" class="resultSmall">国企 t = -4.00*** vs 民企 t = -3.86***</text>
+  <text x="130" y="1426" class="resultSmall">高科技 t = -3.17*** vs 传统 t = -3.06***</text>
+
+  <!-- Right: Portfolio -->
+  <rect x="980" y="942" width="860" height="520" rx="10" class="box"/>
+  <text x="1410" y="978" text-anchor="middle" class="section">投资组合回测（156个月）</text>
+  <line x1="1005" y1="992" x2="1815" y2="992" class="rule"/>
+
+  <!-- Portfolio results -->
+  <rect x="1005" y="1008" width="810" height="160" rx="8" class="resultBox"/>
+  <text x="1030" y="1038" class="head">分组收益与Alpha</text>
+  <text x="1030" y="1068" class="resultSmall">Q1（低数据组）FF3 alpha = -0.28%  t = -2.08**</text>
+  <text x="1030" y="1096" class="resultNote">低数据利用企业被市场系统性高估</text>
+  <text x="1030" y="1126" class="resultSmall">DAT因子（Q5-Q1）全样本 FF3: +0.37%  t = 1.17 (n.s.)</text>
+  <text x="1030" y="1148" class="tiny">GRS检验: F=1.44, p=0.213（不拒绝）</text>
+
+  <!-- Post-reform -->
+  <rect x="1005" y="1185" width="810" height="110" rx="8" class="resultBox"/>
+  <text x="1030" y="1215" class="head">入表后子期（2024-）</text>
+  <text x="1030" y="1248" class="result">DAT FF3 alpha = +2.08%  t = 2.24**</text>
+  <text x="1030" y="1278" class="resultNote">入表后市场开始对数据利用差异定价，高数据组显著溢价</text>
+
+  <!-- Interpretation box -->
+  <rect x="1005" y="1312" width="810" height="130" rx="8" class="soft"/>
+  <text x="1030" y="1342" class="head">DID与组合的互补解读</text>
+  <text x="1030" y="1372" class="small">DID（面板）：个体层面信息处理成本短期上升</text>
+  <text x="1030" y="1398" class="small">组合（截面）：高低数据利用组收益差异扩大</text>
+  <text x="1030" y="1424" class="small">新规让数据利用差异更可见，虽短期增成本但促进区分定价</text>
+
+  <!-- ===== Arrow C→D ===== -->
+  <line x1="950" y1="1490" x2="950" y2="1520" class="arrowLine" marker-end="url(#arrow)"/>
+
+  <!-- ===== Panel D: Mechanisms ===== -->
+  <rect x="40" y="1530" width="1820" height="260" rx="10" class="panel"/>
+  <text x="78" y="1570" class="panelTitle">Panel D  机制检验</text>
+  <line x1="60" y1="1584" x2="1840" y2="1584" class="rule"/>
+
+  <text x="80" y="1612" class="small">所有模型控制基准控制变量（15个），使用企业+年份固定效应，标准误聚类于行业x年份</text>
+
+  <!-- Analyst -->
+  <rect x="80" y="1632" width="540" height="130" rx="10" class="resultBox"/>
+  <text x="350" y="1665" text-anchor="middle" class="head">渠道一：分析师覆盖</text>
+  <line x1="105" y1="1678" x2="595" y2="1678" class="rule"/>
+  <text x="130" y="1706" class="result">DU_kw → Analyst: t = 2.63***</text>
+  <text x="130" y="1736" class="small">数据利用高的企业吸引更多分析师跟踪</text>
+  <text x="130" y="1756" class="tiny">信息中介通过研报加速信息传导 → 降低股价延迟</text>
+
+  <!-- FinAsset -->
+  <rect x="680" y="1632" width="540" height="130" rx="10" class="resultBox"/>
+  <text x="950" y="1665" text-anchor="middle" class="head">渠道二：金融资产配置</text>
+  <line x1="705" y1="1678" x2="1195" y2="1678" class="rule"/>
+  <text x="730" y="1706" class="result">DU_kw → FinAsset: t = 2.65***</text>
+  <text x="730" y="1736" class="small">数据利用强的企业金融资产配置更多</text>
+  <text x="730" y="1756" class="tiny">数据赋能下资金运用效率提升，资产配置灵活性增强</text>
+
+  <!-- InstHold -->
+  <rect x="1280" y="1632" width="540" height="130" rx="10" class="resultBox"/>
+  <text x="1550" y="1665" text-anchor="middle" class="head">渠道三：机构持股</text>
+  <line x1="1305" y1="1678" x2="1795" y2="1678" class="rule"/>
+  <text x="1330" y="1706" class="result">DU_kw → InstHold: t = -3.19***</text>
+  <text x="1330" y="1736" class="small">部分机构回避信息复杂度高的数据企业</text>
+  <text x="1330" y="1756" class="tiny">分析师补偿效应更强，整体定价效率仍提升</text>
+
+  <!-- ===== Arrow D→E ===== -->
+  <line x1="950" y1="1790" x2="950" y2="1820" class="arrowLine" marker-end="url(#arrow)"/>
+
+  <!-- ===== Panel E: SHAP ===== -->
+  <rect x="40" y="1830" width="1820" height="330" rx="10" class="panel"/>
+  <text x="78" y="1870" class="panelTitle">Panel E  进一步分析：SHAP分解与反事实</text>
+  <line x1="60" y1="1884" x2="1840" y2="1884" class="rule"/>
+
+  <!-- SHAP -->
+  <rect x="80" y="1902" width="1100" height="230" rx="10" class="box"/>
+  <text x="630" y="1938" text-anchor="middle" class="section">SHAP子维度贡献分解（LightGBM, R² = 0.50）</text>
+  <line x1="105" y1="1952" x2="1155" y2="1952" class="rule"/>
+
+  <!-- SHAP bars (simplified visual) -->
+  <rect x="400" y="1970" width="476" height="28" rx="4" fill="#b22222" opacity="0.7"/>
+  <text x="130" y="1992" class="body">数据开发能力</text>
+  <text x="890" y="1992" class="resultSmall">39.7%</text>
+
+  <rect x="400" y="2008" width="340" height="28" rx="4" fill="#b22222" opacity="0.55"/>
+  <text x="130" y="2030" class="body">数据驱动应用</text>
+  <text x="755" y="2030" class="resultSmall">28.3%</text>
+
+  <rect x="400" y="2046" width="233" height="28" rx="4" fill="#b22222" opacity="0.4"/>
+  <text x="130" y="2068" class="body">数据存量</text>
+  <text x="648" y="2068" class="resultSmall">19.4%</text>
+
+  <rect x="400" y="2084" width="98" height="28" rx="4" fill="#b22222" opacity="0.3"/>
+  <text x="130" y="2106" class="body">数据治理</text>
+  <text x="513" y="2106" class="resultSmall">8.2%</text>
+
+  <rect x="400" y="2122" width="53" height="16" rx="4" fill="#b22222" opacity="0.2"/>
+  <text x="130" y="2138" class="small">数据价值变现</text>
+  <text x="468" y="2138" class="resultSmall">4.4%</text>
+
+  <!-- Counterfactual -->
+  <rect x="1220" y="1902" width="610" height="230" rx="10" class="box"/>
+  <text x="1525" y="1938" text-anchor="middle" class="section">反事实分析</text>
+  <line x1="1245" y1="1952" x2="1805" y2="1952" class="rule"/>
+
+  <text x="1245" y="1985" class="head">情景一</text>
+  <text x="1245" y="2012" class="small">低于P75企业提升至P75</text>
+  <text x="1245" y="2036" class="result">PriceDelay -1.19%</text>
+
+  <text x="1245" y="2068" class="head">情景二</text>
+  <text x="1245" y="2095" class="small">消除数据利用差异</text>
+  <text x="1245" y="2119" class="result">PriceDelay -1.05%</text>
+
+  <!-- ===== Arrow E→F ===== -->
+  <line x1="950" y1="2160" x2="950" y2="2190" class="arrowLine" marker-end="url(#arrow)"/>
+
+  <!-- ===== Panel F: Robustness ===== -->
+  <rect x="40" y="2200" width="1820" height="230" rx="10" class="panel"/>
+  <text x="78" y="2240" class="panelTitle">Panel F  稳健性检验</text>
+  <line x1="60" y1="2254" x2="1840" y2="2254" class="rule"/>
+
+  <rect x="80" y="2272" width="290" height="130" rx="8" class="confirmBox"/>
+  <text x="225" y="2305" text-anchor="middle" class="body">替换因变量</text>
+  <text x="225" y="2335" text-anchor="middle" class="small">SYNCH: t=1.79*</text>
+  <text x="225" y="2360" text-anchor="middle" class="small">方向一致</text>
+  <text x="225" y="2390" text-anchor="middle" class="confirm">✓</text>
+
+  <rect x="400" y="2272" width="290" height="130" rx="8" class="confirmBox"/>
+  <text x="545" y="2305" text-anchor="middle" class="body">替换自变量</text>
+  <text x="545" y="2335" text-anchor="middle" class="small">DU_kw_ln: t=-3.47***</text>
+  <text x="545" y="2360" text-anchor="middle" class="small">DU_sub_ln: t=-4.71***</text>
+  <text x="545" y="2390" text-anchor="middle" class="confirm">✓</text>
+
+  <rect x="720" y="2272" width="290" height="130" rx="8" class="confirmBox"/>
+  <text x="865" y="2305" text-anchor="middle" class="body">PSM匹配</text>
+  <text x="865" y="2335" text-anchor="middle" class="small">1:1最近邻 caliper=0.05</text>
+  <text x="865" y="2360" text-anchor="middle" class="small">t=-3.99***, 14/14平衡</text>
+  <text x="865" y="2390" text-anchor="middle" class="confirm">✓</text>
+
+  <rect x="1040" y="2272" width="290" height="130" rx="8" class="confirmBox"/>
+  <text x="1185" y="2305" text-anchor="middle" class="body">安慰剂检验</text>
+  <text x="1185" y="2335" text-anchor="middle" class="small">2020/2021/2022</text>
+  <text x="1185" y="2360" text-anchor="middle" class="small">三个虚假年均 n.s.</text>
+  <text x="1185" y="2390" text-anchor="middle" class="confirm">✓</text>
+
+  <rect x="1360" y="2272" width="470" height="130" rx="8" class="confirmBox"/>
+  <text x="1595" y="2305" text-anchor="middle" class="body">子样本</text>
+  <text x="1595" y="2335" text-anchor="middle" class="small">剔除2024: t=-5.05*** (效应增强)</text>
+  <text x="1595" y="2360" text-anchor="middle" class="small">仅主板: t=-3.79***</text>
+  <text x="1595" y="2390" text-anchor="middle" class="confirm">✓</text>
+
+  <!-- ===== Panel G: Contributions ===== -->
+  <rect x="40" y="2470" width="1820" height="300" rx="10" class="panel"/>
+  <text x="78" y="2510" class="panelTitle">Panel G  研究贡献</text>
+  <line x1="60" y1="2524" x2="1840" y2="2524" class="rule"/>
+
+  <rect x="80" y="2542" width="560" height="200" rx="8" class="box"/>
+  <text x="360" y="2575" text-anchor="middle" class="head">理论贡献</text>
+  <line x1="105" y1="2590" x2="615" y2="2590" class="rule"/>
+  <text x="105" y="2618" class="small">信息模糊 vs 信息供给竞争框架</text>
+  <text x="105" y="2644" class="small">数据要素利用（非披露/非资产化）视角</text>
+  <text x="105" y="2670" class="small">入表新规短期效应的信息处理成本解释</text>
+  <text x="105" y="2696" class="small">分析师渠道与机构持股的差异化响应</text>
+
+  <rect x="670" y="2542" width="560" height="200" rx="8" class="box"/>
+  <text x="950" y="2575" text-anchor="middle" class="head">方法贡献</text>
+  <line x1="695" y1="2590" x2="1205" y2="2590" class="rule"/>
+  <text x="695" y="2618" class="small">年报5维度关键词体系度量数据利用</text>
+  <text x="695" y="2644" class="small">面板回归 + DID + 投资组合双重检验</text>
+  <text x="695" y="2670" class="small">DAT数据要素因子构建与定价检验</text>
+  <text x="695" y="2696" class="small">SHAP分解识别关键驱动子维度</text>
+
+  <rect x="1260" y="2542" width="560" height="200" rx="8" class="box"/>
+  <text x="1540" y="2575" text-anchor="middle" class="head">政策贡献</text>
+  <line x1="1285" y1="2590" x2="1795" y2="2590" class="rule"/>
+  <text x="1285" y="2618" class="small">入表新规的定价效率因果效应证据</text>
+  <text x="1285" y="2644" class="small">数据开发能力是定价效率核心驱动</text>
+  <text x="1285" y="2670" class="small">小企业和信息不对称企业受益更大</text>
+  <text x="1285" y="2696" class="small">数据要素市场化配置的资本市场证据</text>
+
+</svg>

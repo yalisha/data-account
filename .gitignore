@@ -1,0 +1,37 @@
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.pytest_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# Local assistant/runtime
+.claude/
+
+# Large/raw data (do not track)
+data_parquet/
+annual_reports/
+第三方资料
+
+# Binary assets (keep repo lightweight; regenerate when needed)
+*.png
+*.jpg
+*.jpeg
+*.pdf
+
+# Generated artifacts
+results/*.log
+
+# Keep tabular outputs for reproducibility
+!results/*.csv
+
+# Large binary references
+*.parquet

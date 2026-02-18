@@ -1,0 +1,232 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1080" font-family="'SimSun','STSong','Songti SC','Noto Serif CJK SC','Microsoft YaHei',serif">
+<defs>
+  <marker id="arrowDown" markerWidth="8" markerHeight="6" refX="4" refY="6" orient="auto"><polygon points="0 0,8 0,4 6" fill="#000"/></marker>
+  <marker id="arrowRight" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#000"/></marker>
+  <marker id="arrowLeft" markerWidth="8" markerHeight="6" refX="0" refY="3" orient="auto"><polygon points="8 0,0 3,8 6" fill="#000"/></marker>
+</defs>
+
+<!-- 背景 -->
+<rect width="1200" height="1080" fill="#fff"/>
+
+<!-- ═══════ 标题 ═══════ -->
+<text x="600" y="38" text-anchor="middle" font-size="18" font-weight="bold" fill="#000">数据要素利用与大股东掏空行为：基于可解释机器学习的预测与识别</text>
+<text x="600" y="60" text-anchor="middle" font-size="11" fill="#555" font-style="italic">Data Element Utilization and Controlling Shareholder Tunneling: Prediction and Identification via Explainable ML</text>
+
+<!-- ═══════ 阶段一：多源特征工程 ═══════ -->
+<rect x="30" y="80" width="1140" height="210" rx="0" fill="#fff" stroke="#000" stroke-width="1.5"/>
+<text x="600" y="100" text-anchor="middle" font-size="14" font-weight="bold" fill="#000">阶段一：多源特征工程（Feature Engineering）</text>
+<line x1="200" y1="106" x2="1000" y2="106" stroke="#000" stroke-width="0.8"/>
+
+<!-- 四个特征方框 -->
+<!-- 卡1: NLP数据要素特征 -->
+<rect x="48" y="118" width="255" height="160" rx="0" fill="#fff" stroke="#000" stroke-width="1"/>
+<rect x="48" y="118" width="255" height="24" rx="0" fill="#e8e8e8" stroke="#000" stroke-width="1"/>
+<text x="176" y="135" text-anchor="middle" font-size="11" font-weight="bold" fill="#000">NLP特征（年报文本提取）</text>
+<text x="60" y="160" font-size="10" fill="#000" font-weight="bold">数据要素利用强度 Lnda</text>
+<text x="60" y="176" font-size="9.5" fill="#333">  Word2Vec + MD&amp;A语义相似度</text>
+<text x="60" y="194" font-size="10" fill="#000" font-weight="bold">信息披露文本质量</text>
+<text x="60" y="210" font-size="9.5" fill="#333">  可读性 · 模糊语言占比 · 语气操纵</text>
+<text x="60" y="228" font-size="10" fill="#000" font-weight="bold">关联交易叙述特征</text>
+<text x="60" y="244" font-size="9.5" fill="#333">  关联交易披露详细度 · 异常表述</text>
+<text x="60" y="266" font-size="9" fill="#666" font-style="italic">~8个特征</text>
+
+<!-- 卡2: 财务特征 -->
+<rect x="323" y="118" width="255" height="160" rx="0" fill="#fff" stroke="#000" stroke-width="1"/>
+<rect x="323" y="118" width="255" height="24" rx="0" fill="#e8e8e8" stroke="#000" stroke-width="1"/>
+<text x="451" y="135" text-anchor="middle" font-size="11" font-weight="bold" fill="#000">财务特征（CSMAR报表）</text>
+<text x="335" y="160" font-size="9.5" fill="#333">其他应收款/总资产（OREC）</text>
+<text x="335" y="176" font-size="9.5" fill="#333">关联交易总额/总资产</text>
+<text x="335" y="192" font-size="9.5" fill="#333">关联担保金额/净资产</text>
+<text x="335" y="208" font-size="9.5" fill="#333">ROA · 资产负债率 · 营收增长率</text>
+<text x="335" y="224" font-size="9.5" fill="#333">经营现金流 · 应计项目 · Tobin's Q</text>
+<text x="335" y="266" font-size="9" fill="#666" font-style="italic">~15个特征</text>
+
+<!-- 卡3: 治理特征 -->
+<rect x="598" y="118" width="255" height="160" rx="0" fill="#fff" stroke="#000" stroke-width="1"/>
+<rect x="598" y="118" width="255" height="24" rx="0" fill="#e8e8e8" stroke="#000" stroke-width="1"/>
+<text x="726" y="135" text-anchor="middle" font-size="11" font-weight="bold" fill="#000">治理特征（CSMAR治理库）</text>
+<text x="610" y="160" font-size="9.5" fill="#333">第一大股东持股比例</text>
+<text x="610" y="176" font-size="9.5" fill="#333">控制权-现金流权分离度（Wedge）</text>
+<text x="610" y="192" font-size="9.5" fill="#333">股权制衡度（第2-5 / 第1）</text>
+<text x="610" y="208" font-size="9.5" fill="#333">独董比例 · 两职合一 · 董事会规模</text>
+<text x="610" y="224" font-size="9.5" fill="#333">机构持股 · 审计质量 · 分析师关注</text>
+<text x="610" y="266" font-size="9" fill="#666" font-style="italic">~12个特征</text>
+
+<!-- 卡4: 区域特征 -->
+<rect x="873" y="118" width="280" height="160" rx="0" fill="#fff" stroke="#000" stroke-width="1"/>
+<rect x="873" y="118" width="280" height="24" rx="0" fill="#e8e8e8" stroke="#000" stroke-width="1"/>
+<text x="1013" y="135" text-anchor="middle" font-size="11" font-weight="bold" fill="#000">区域特征（遥感+公开数据）</text>
+<text x="885" y="160" font-size="9.5" fill="#333">NPP-VIIRS夜间灯光辐射值</text>
+<text x="885" y="176" font-size="9.5" fill="#333">北大数字普惠金融指数</text>
+<text x="885" y="192" font-size="9.5" fill="#333">数据交易所设立（0/1）</text>
+<text x="885" y="208" font-size="9.5" fill="#333">城市互联网普及率</text>
+<text x="885" y="224" font-size="9.5" fill="#333">市场化指数（樊纲）</text>
+<text x="885" y="266" font-size="9" fill="#666" font-style="italic">~5个特征 | EOG · 北大 · 手工</text>
+
+<!-- 特征总计标注 -->
+<text x="600" y="285" text-anchor="middle" font-size="9.5" fill="#666">合计约 40–50 个特征 → 输入机器学习模型</text>
+
+<!-- 向下箭头: 阶段一 → 阶段二 -->
+<line x1="600" y1="290" x2="600" y2="318" stroke="#000" stroke-width="1.2" marker-end="url(#arrowDown)"/>
+
+<!-- ═══════ 阶段二：预测目标 ═══════ -->
+<rect x="280" y="320" width="640" height="80" rx="0" fill="#fff" stroke="#000" stroke-width="1.5"/>
+<rect x="280" y="320" width="640" height="26" rx="0" fill="#d0d0d0" stroke="#000" stroke-width="1.5"/>
+<text x="600" y="339" text-anchor="middle" font-size="13" font-weight="bold" fill="#000">预测目标 Y：大股东掏空（Tunneling）</text>
+
+<text x="300" y="366" font-size="10" fill="#000" font-weight="bold">主标签：</text>
+<text x="358" y="366" font-size="10" fill="#333">OREC &gt; 行业-年度中位数 → Y=1（高掏空风险）</text>
+<text x="300" y="384" font-size="10" fill="#000" font-weight="bold">稳健标签：</text>
+<text x="372" y="384" font-size="10" fill="#333">CSRC处罚（资金占用/关联违规）→ Y=1  |  异常OREC残差法 → Y=1</text>
+
+<!-- 向下箭头: 阶段二 → 阶段三 -->
+<line x1="600" y1="400" x2="600" y2="428" stroke="#000" stroke-width="1.2" marker-end="url(#arrowDown)"/>
+
+<!-- ═══════ 阶段三：模型训练与对比 ═══════ -->
+<rect x="100" y="430" width="1000" height="128" rx="0" fill="#fff" stroke="#000" stroke-width="1.5"/>
+<rect x="100" y="430" width="1000" height="26" rx="0" fill="#d0d0d0" stroke="#000" stroke-width="1.5"/>
+<text x="600" y="449" text-anchor="middle" font-size="13" font-weight="bold" fill="#000">阶段三：模型训练与性能对比</text>
+
+<!-- 4个模型方框 -->
+<rect x="125" y="468" width="185" height="72" rx="0" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="218" y="488" text-anchor="middle" font-size="11" font-weight="bold" fill="#000">Logistic Regression</text>
+<text x="218" y="504" text-anchor="middle" font-size="10" fill="#333">基线模型（Baseline）</text>
+<text x="218" y="520" text-anchor="middle" font-size="9" fill="#666">传统方法对照组</text>
+
+<rect x="330" y="468" width="185" height="72" rx="0" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="423" y="488" text-anchor="middle" font-size="11" font-weight="bold" fill="#000">Random Forest</text>
+<text x="423" y="504" text-anchor="middle" font-size="10" fill="#333">集成学习（Bagging）</text>
+<text x="423" y="520" text-anchor="middle" font-size="9" fill="#666">特征重要性基准</text>
+
+<rect x="535" y="468" width="185" height="72" rx="0" fill="#f0f0f0" stroke="#000" stroke-width="2"/>
+<text x="628" y="488" text-anchor="middle" font-size="11" font-weight="bold" fill="#000">XGBoost / LightGBM</text>
+<text x="628" y="504" text-anchor="middle" font-size="10" fill="#333">集成学习（Boosting）</text>
+<text x="628" y="520" text-anchor="middle" font-size="9" fill="#000" font-weight="bold">预期最优模型 ★</text>
+
+<rect x="740" y="468" width="185" height="72" rx="0" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="833" y="488" text-anchor="middle" font-size="11" font-weight="bold" fill="#000">MLP / Neural Net</text>
+<text x="833" y="504" text-anchor="middle" font-size="10" fill="#333">深度学习（可选）</text>
+<text x="833" y="520" text-anchor="middle" font-size="9" fill="#666">非线性边界探索</text>
+
+<!-- 验证策略标注 -->
+<text x="960" y="478" font-size="9.5" fill="#000" font-weight="bold">验证策略</text>
+<line x1="960" y1="482" x2="1070" y2="482" stroke="#000" stroke-width="0.5"/>
+<text x="960" y="496" font-size="9" fill="#333">时间序列分割</text>
+<text x="960" y="510" font-size="9" fill="#333">2015–2019 训练</text>
+<text x="960" y="524" font-size="9" fill="#333">2020–2023 测试</text>
+<text x="960" y="540" font-size="9" fill="#000" font-weight="bold">指标：AUC · F1 · PR</text>
+
+<!-- 核心发现标注 -->
+<rect x="350" y="560" width="500" height="22" rx="0" fill="#fff" stroke="#000" stroke-width="1" stroke-dasharray="4,2"/>
+<text x="600" y="576" text-anchor="middle" font-size="10" fill="#000" font-weight="bold">核心发现：加入数据要素NLP特征后 AUC 显著提升 → 增量预测力</text>
+
+<!-- 向下箭头: 阶段三 → 阶段四/五 -->
+<line x1="400" y1="582" x2="400" y2="610" stroke="#000" stroke-width="1.2" marker-end="url(#arrowDown)"/>
+<line x1="850" y1="558" x2="850" y2="610" stroke="#000" stroke-width="1.2" marker-end="url(#arrowDown)"/>
+
+<!-- ═══════ 阶段四：SHAP可解释性 ═══════ -->
+<rect x="30" y="612" width="690" height="176" rx="0" fill="#fff" stroke="#000" stroke-width="1.5"/>
+<rect x="30" y="612" width="690" height="26" rx="0" fill="#d0d0d0" stroke="#000" stroke-width="1.5"/>
+<text x="375" y="631" text-anchor="middle" font-size="13" font-weight="bold" fill="#000">阶段四：SHAP可解释性分析（Explainable AI）</text>
+
+<!-- SHAP四维度 -->
+<rect x="48" y="648" width="155" height="128" rx="0" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="126" y="666" text-anchor="middle" font-size="11" font-weight="bold" fill="#000">全局SHAP</text>
+<line x1="58" y1="672" x2="193" y2="672" stroke="#000" stroke-width="0.5"/>
+<text x="58" y="688" font-size="9.5" fill="#333">四类特征重要性排名</text>
+<text x="58" y="704" font-size="9.5" fill="#333">数据要素特征贡献度</text>
+<text x="58" y="720" font-size="9.5" fill="#333">SHAP Summary Plot</text>
+<text x="58" y="740" font-size="9" fill="#000" font-weight="bold">→ 数据要素排第几？</text>
+<text x="58" y="766" font-size="8.5" fill="#666" font-style="italic">（图：蜂群图/条形图）</text>
+
+<rect x="218" y="648" width="155" height="128" rx="0" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="296" y="666" text-anchor="middle" font-size="11" font-weight="bold" fill="#000">特征交互</text>
+<line x1="228" y1="672" x2="363" y2="672" stroke="#000" stroke-width="0.5"/>
+<text x="228" y="688" font-size="9.5" fill="#333">Lnda × 股权集中度</text>
+<text x="228" y="704" font-size="9.5" fill="#333">Lnda × 两权分离度</text>
+<text x="228" y="720" font-size="9.5" fill="#333">SHAP Interaction Plot</text>
+<text x="228" y="740" font-size="9" fill="#000" font-weight="bold">→ 何时数据治理最有效？</text>
+
+<rect x="388" y="648" width="155" height="128" rx="0" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="466" y="666" text-anchor="middle" font-size="11" font-weight="bold" fill="#000">局部案例</text>
+<line x1="398" y1="672" x2="533" y2="672" stroke="#000" stroke-width="0.5"/>
+<text x="398" y="688" font-size="9.5" fill="#333">选取典型掏空案例</text>
+<text x="398" y="704" font-size="9.5" fill="#333">SHAP Waterfall Plot</text>
+<text x="398" y="720" font-size="9.5" fill="#333">逐因素分解预测</text>
+<text x="398" y="740" font-size="9" fill="#000" font-weight="bold">→ 为什么预测它掏空？</text>
+
+<rect x="558" y="648" width="148" height="128" rx="0" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="632" y="666" text-anchor="middle" font-size="11" font-weight="bold" fill="#000">消融实验</text>
+<line x1="568" y1="672" x2="696" y2="672" stroke="#000" stroke-width="0.5"/>
+<text x="568" y="688" font-size="9.5" fill="#333">去除NLP特征后AUC</text>
+<text x="568" y="704" font-size="9.5" fill="#333">去除治理特征后AUC</text>
+<text x="568" y="720" font-size="9.5" fill="#333">去除财务特征后AUC</text>
+<text x="568" y="740" font-size="9" fill="#000" font-weight="bold">→ 各类特征增量贡献</text>
+
+<!-- ═══════ 阶段五：因果补充DID ═══════ -->
+<rect x="740" y="612" width="430" height="176" rx="0" fill="#fff" stroke="#000" stroke-width="1.5"/>
+<rect x="740" y="612" width="430" height="26" rx="0" fill="#d0d0d0" stroke="#000" stroke-width="1.5"/>
+<text x="955" y="631" text-anchor="middle" font-size="13" font-weight="bold" fill="#000">阶段五：因果推断补充</text>
+
+<text x="758" y="658" font-size="11.5" font-weight="bold" fill="#000">多时点DID</text>
+<line x1="758" y1="663" x2="1150" y2="663" stroke="#000" stroke-width="0.5"/>
+<text x="758" y="680" font-size="10" fill="#333">政策冲击：数据交易所分批设立（2021—2024）</text>
+<text x="758" y="696" font-size="10" fill="#333">处理强度：NPP-VIIRS夜光变化率</text>
+<text x="758" y="712" font-size="10" fill="#333">估计量：Callaway &amp; Sant'Anna (2021)</text>
+
+<line x1="758" y1="722" x2="1150" y2="722" stroke="#000" stroke-width="0.5" stroke-dasharray="3,2"/>
+
+<text x="758" y="740" font-size="11.5" font-weight="bold" fill="#000">因果逻辑</text>
+<text x="758" y="758" font-size="10" fill="#333">数据交易所设立 → 当地企业数据要素利用</text>
+<text x="758" y="774" font-size="10" fill="#333">水平外生提升 → 掏空行为下降？</text>
+
+<!-- 双证据连接 -->
+<rect x="280" y="800" width="640" height="26" rx="0" fill="#f0f0f0" stroke="#000" stroke-width="1.5"/>
+<text x="600" y="818" text-anchor="middle" font-size="11" fill="#000" font-weight="bold">双重证据链：ML预测（相关性+预测力） + DID（因果性） → 结论更可信</text>
+
+<!-- 连接箭头：阶段四/五 → 双证据链 -->
+<line x1="375" y1="788" x2="375" y2="800" stroke="#000" stroke-width="1" marker-end="url(#arrowDown)"/>
+<line x1="955" y1="788" x2="955" y2="800" stroke="#000" stroke-width="1" marker-end="url(#arrowDown)"/>
+
+<!-- 向下箭头: 双证据链 → 异质性 -->
+<line x1="600" y1="826" x2="600" y2="850" stroke="#000" stroke-width="1.2" marker-end="url(#arrowDown)"/>
+
+<!-- ═══════ 异质性分析 ═══════ -->
+<rect x="30" y="852" width="1140" height="100" rx="0" fill="#fff" stroke="#000" stroke-width="1.5"/>
+<rect x="30" y="852" width="1140" height="26" rx="0" fill="#d0d0d0" stroke="#000" stroke-width="1.5"/>
+<text x="600" y="871" text-anchor="middle" font-size="13" font-weight="bold" fill="#000">异质性分析 &amp; 经济意义检验</text>
+
+<!-- 五个异质性维度方框 -->
+<rect x="48" y="890" width="195" height="48" rx="0" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="146" y="910" text-anchor="middle" font-size="11" font-weight="bold" fill="#000">产权性质</text>
+<text x="146" y="928" text-anchor="middle" font-size="9.5" fill="#333">国企 vs. 民企</text>
+
+<rect x="263" y="890" width="195" height="48" rx="0" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="361" y="910" text-anchor="middle" font-size="11" font-weight="bold" fill="#000">两权分离度</text>
+<text x="361" y="928" text-anchor="middle" font-size="9.5" fill="#333">高分离 vs. 低分离</text>
+
+<rect x="478" y="890" width="195" height="48" rx="0" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="576" y="910" text-anchor="middle" font-size="11" font-weight="bold" fill="#000">数字生态环境</text>
+<text x="576" y="928" text-anchor="middle" font-size="9.5" fill="#333">夜光高值区 vs. 低值区</text>
+
+<rect x="693" y="890" width="195" height="48" rx="0" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="791" y="910" text-anchor="middle" font-size="11" font-weight="bold" fill="#000">行业特征</text>
+<text x="791" y="928" text-anchor="middle" font-size="9.5" fill="#333">数字原生 vs. 传统行业</text>
+
+<rect x="908" y="890" width="245" height="48" rx="0" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="1031" y="910" text-anchor="middle" font-size="11" font-weight="bold" fill="#000">监管环境</text>
+<text x="1031" y="928" text-anchor="middle" font-size="9.5" fill="#333">强执法 vs. 弱执法地区</text>
+
+<!-- ═══════ 样本信息 ═══════ -->
+<rect x="30" y="966" width="1140" height="82" rx="0" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="50" y="988" font-size="11.5" font-weight="bold" fill="#000">样本与数据</text>
+<line x1="50" y1="993" x2="1150" y2="993" stroke="#000" stroke-width="0.5"/>
+<text x="50" y="1010" font-size="9.5" fill="#333">样本期间：2015—2023年  |  样本范围：沪深A股（剔除ST/*ST、金融业、缺失值）  |  约40,000个观测值  |  特征维度：~50个</text>
+<text x="50" y="1026" font-size="9.5" fill="#333">数据来源：CSMAR（财务+治理+违规处罚+关联交易+担保） |  巨潮资讯网（年报文本 → NLP特征）</text>
+<text x="50" y="1042" font-size="9.5" fill="#333">外部数据：NPP-VIIRS夜光遥感（EOG免费） |  北大数字普惠金融指数（免费申请） |  数据交易所设立时间（手工收集~30条）</text>
+
+<!-- ═══════ 底部标注 ═══════ -->
+<line x1="30" y1="1058" x2="1170" y2="1058" stroke="#000" stroke-width="0.5"/>
+<text x="600" y="1074" text-anchor="middle" font-size="9.5" fill="#333">图1  研究框架：数据要素利用与大股东掏空行为的可解释机器学习预测模型</text>
+
+</svg>

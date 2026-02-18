@@ -1,0 +1,221 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1900" height="2100" viewBox="0 0 1900 2100">
+  <defs>
+    <style>
+      .title { font: 700 44px 'Songti SC','STSong','Noto Serif CJK SC','SimSun',serif; fill: #111; }
+      .subtitle { font: 400 24px 'Songti SC','STSong','Noto Serif CJK SC','SimSun',serif; fill: #333; }
+      .panelTitle { font: 700 32px 'Songti SC','STSong','Noto Serif CJK SC','SimSun',serif; fill: #111; }
+      .section { font: 700 28px 'Songti SC','STSong','Noto Serif CJK SC','SimSun',serif; fill: #111; }
+      .head { font: 700 26px 'Songti SC','STSong','Noto Serif CJK SC','SimSun',serif; fill: #111; }
+      .body { font: 400 24px 'Songti SC','STSong','Noto Serif CJK SC','SimSun',serif; fill: #222; }
+      .small { font: 400 21px 'Songti SC','STSong','Noto Serif CJK SC','SimSun',serif; fill: #444; }
+      .eq { font: 400 23px 'Times New Roman','Songti SC','STSong',serif; fill: #111; }
+      .panel { fill: #fcfcfc; stroke: #111; stroke-width: 2.4; }
+      .box { fill: #fff; stroke: #111; stroke-width: 2.2; }
+      .soft { fill: #f3f3f3; stroke: #222; stroke-width: 2; }
+      .accent { fill: #eaeaea; stroke: #111; stroke-width: 2.2; }
+      .line { fill: none; stroke: #111; stroke-width: 2.6; }
+      .dash { fill: none; stroke: #333; stroke-width: 2.2; stroke-dasharray: 10 8; }
+      .rule { fill: none; stroke: #555; stroke-width: 1.8; }
+      .thick { fill: none; stroke: #111; stroke-width: 3.2; }
+    </style>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 z" fill="#111"/>
+    </marker>
+    <marker id="arrowGray" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 z" fill="#333"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1900" height="2100" fill="#ffffff"/>
+
+  <!-- Title -->
+  <text x="950" y="60" text-anchor="middle" class="title">数据要素利用、资产配置与资本定价效率：研究框架</text>
+  <text x="950" y="98" text-anchor="middle" class="subtitle">方法体系：LLM信息提取 + 时间序列预测 + 因果可解释性 + 传统OLS稳健性</text>
+
+  <!-- ============ Panel A: 方法论架构 ============ -->
+  <rect x="40" y="130" width="1820" height="520" rx="10" class="panel"/>
+  <text x="78" y="172" class="panelTitle">Panel A. 方法论架构：四模块协同</text>
+  <line x1="60" y1="186" x2="1840" y2="186" class="rule"/>
+
+  <!-- Module 1: LLM -->
+  <rect x="80" y="210" width="400" height="260" rx="10" class="accent"/>
+  <text x="280" y="250" text-anchor="middle" class="head">模块1：LLM信息提取</text>
+  <line x1="105" y1="264" x2="455" y2="264" class="rule"/>
+  <text x="105" y="300" class="small">输入：上市公司年报全文</text>
+  <text x="105" y="332" class="small">任务1：数据要素利用评分</text>
+  <text x="105" y="364" class="small">任务2：语义特征向量提取</text>
+  <text x="105" y="396" class="small">任务3：数据资产披露质量评估</text>
+  <text x="105" y="436" class="small">优势：语义理解 &gt; TF-IDF词频</text>
+
+  <!-- Module 2: Time Series -->
+  <rect x="520" y="210" width="400" height="260" rx="10" class="accent"/>
+  <text x="720" y="250" text-anchor="middle" class="head">模块2：时间序列预测</text>
+  <line x1="545" y1="264" x2="895" y2="264" class="rule"/>
+  <text x="545" y="300" class="small">输入：财务时序 + LLM语义特征</text>
+  <text x="545" y="332" class="small">模型：Transformer-based时序模型</text>
+  <text x="545" y="364" class="small">输出：企业基本面价值预测</text>
+  <text x="545" y="396" class="small">定价效率 = |市场价格 - 预测值|</text>
+  <text x="545" y="436" class="small">优势：直接度量mispricing</text>
+
+  <!-- Module 3: Causal XAI -->
+  <rect x="960" y="210" width="400" height="260" rx="10" class="accent"/>
+  <text x="1160" y="250" text-anchor="middle" class="head">模块3：因果可解释性</text>
+  <line x1="985" y1="264" x2="1335" y2="264" class="rule"/>
+  <text x="985" y="300" class="small">因果发现：PC/FCI因果图学习</text>
+  <text x="985" y="332" class="small">Granger因果：时间维度因果链</text>
+  <text x="985" y="364" class="small">反事实分析：量化传导幅度</text>
+  <text x="985" y="396" class="small">SHAP分解：各因素边际贡献</text>
+  <text x="985" y="436" class="small">优势：因果识别 + 机制发现统一</text>
+
+  <!-- Module 4: Traditional OLS -->
+  <rect x="1400" y="210" width="400" height="260" rx="10" class="accent"/>
+  <text x="1600" y="250" text-anchor="middle" class="head">模块4：传统OLS稳健性</text>
+  <line x1="1425" y1="264" x2="1775" y2="264" class="rule"/>
+  <text x="1425" y="300" class="small">面板固定效应回归</text>
+  <text x="1425" y="332" class="small">DID：2024入表新规政策冲击</text>
+  <text x="1425" y="364" class="small">IV：互联网基础设施等工具变量</text>
+  <text x="1425" y="396" class="small">传统定价效率指标对照</text>
+  <text x="1425" y="436" class="small">优势：可比性 + 审稿人接受度</text>
+
+  <!-- Arrows between modules -->
+  <path d="M480,340 L520,340" class="line" marker-end="url(#arrow)"/>
+  <path d="M920,340 L960,340" class="line" marker-end="url(#arrow)"/>
+  <path d="M1360,340 L1400,340" class="dash" marker-end="url(#arrowGray)"/>
+
+  <!-- Module flow labels -->
+  <text x="950" y="510" text-anchor="middle" class="eq">LLM构建变量 → 时序模型预测基本面 → 因果框架识别传导机制 → OLS验证稳健性</text>
+  <text x="950" y="540" text-anchor="middle" class="small">四模块递进协同，每个模块解决一个具体方法论问题</text>
+
+  <!-- ============ Panel B: 核心因果链 ============ -->
+  <rect x="40" y="680" width="1820" height="400" rx="10" class="panel"/>
+  <text x="78" y="722" class="panelTitle">Panel B. 核心因果链条与假说体系</text>
+  <line x1="60" y1="736" x2="1840" y2="736" class="rule"/>
+
+  <!-- X: Data Factor Utilization -->
+  <rect x="80" y="770" width="440" height="150" rx="10" class="box"/>
+  <text x="300" y="810" text-anchor="middle" class="section">自变量：数据要素利用</text>
+  <line x1="105" y1="824" x2="495" y2="824" class="rule"/>
+  <text x="300" y="858" text-anchor="middle" class="body">LLM年报语义评分指数</text>
+  <text x="300" y="892" text-anchor="middle" class="small">度量企业数据采集、处理、分析、应用能力</text>
+
+  <!-- M: Asset Allocation -->
+  <rect x="730" y="770" width="440" height="150" rx="10" class="box"/>
+  <text x="950" y="810" text-anchor="middle" class="section">中间变量：资产配置结构</text>
+  <line x1="755" y1="824" x2="1145" y2="824" class="rule"/>
+  <text x="950" y="858" text-anchor="middle" class="body">金融资产占比 / 实体资产占比</text>
+  <text x="950" y="892" text-anchor="middle" class="small">数据资产入表金额 / 无形资产结构变化</text>
+
+  <!-- Y: Pricing Efficiency -->
+  <rect x="1380" y="770" width="440" height="150" rx="10" class="box"/>
+  <text x="1600" y="810" text-anchor="middle" class="section">因变量：资本定价效率</text>
+  <line x1="1405" y1="824" x2="1795" y2="824" class="rule"/>
+  <text x="1600" y="858" text-anchor="middle" class="body">|市场价格 - 时序模型预测值|</text>
+  <text x="1600" y="892" text-anchor="middle" class="small">稳健性：股价同步性 / 股价延迟 / 方差比率</text>
+
+  <!-- Arrows for causal chain -->
+  <path d="M520,845 L730,845" class="thick" marker-end="url(#arrow)"/>
+  <path d="M1170,845 L1380,845" class="thick" marker-end="url(#arrow)"/>
+  <!-- Direct effect arrow (curved) -->
+  <path d="M520,790 C750,720 1150,720 1380,790" class="dash" marker-end="url(#arrowGray)"/>
+
+  <!-- Hypothesis labels -->
+  <text x="625" y="832" text-anchor="middle" class="head">H1</text>
+  <text x="1275" y="832" text-anchor="middle" class="head">H2</text>
+  <text x="950" y="712" text-anchor="middle" class="head">H3 直接效应</text>
+
+  <!-- Hypothesis descriptions -->
+  <rect x="80" y="950" width="540" height="100" rx="8" class="soft"/>
+  <text x="350" y="987" text-anchor="middle" class="body">H1：数据要素利用 → 抑制金融资产配置</text>
+  <text x="350" y="1020" text-anchor="middle" class="small">脱虚向实效应：现金流不确定性下降 + 产能利用率提升</text>
+
+  <rect x="680" y="950" width="540" height="100" rx="8" class="soft"/>
+  <text x="950" y="987" text-anchor="middle" class="body">H2：资产配置优化 → 提升定价效率</text>
+  <text x="950" y="1020" text-anchor="middle" class="small">信息增量效应 vs 信息模糊效应的竞争</text>
+
+  <rect x="1280" y="950" width="540" height="100" rx="8" class="soft"/>
+  <text x="1550" y="987" text-anchor="middle" class="body">H3：数据要素利用 → 直接改善定价</text>
+  <text x="1550" y="1020" text-anchor="middle" class="small">信息供给增加 + 分析师覆盖增加 + 投资者关注度提升</text>
+
+  <!-- ============ Panel C: 因果可解释性设计 ============ -->
+  <rect x="40" y="1110" width="1820" height="370" rx="10" class="panel"/>
+  <text x="78" y="1152" class="panelTitle">Panel C. 因果可解释性：三层递进检验</text>
+  <line x1="60" y1="1166" x2="1840" y2="1166" class="rule"/>
+
+  <!-- Layer 1 -->
+  <rect x="80" y="1190" width="540" height="140" rx="10" class="box"/>
+  <text x="350" y="1228" text-anchor="middle" class="head">第一层：因果发现</text>
+  <line x1="105" y1="1242" x2="595" y2="1242" class="rule"/>
+  <text x="105" y="1275" class="small">PC/FCI算法学习变量间因果图结构</text>
+  <text x="105" y="1308" class="small">验证理论假说的因果方向是否被数据支持</text>
+
+  <!-- Layer 2 -->
+  <rect x="680" y="1190" width="540" height="140" rx="10" class="box"/>
+  <text x="950" y="1228" text-anchor="middle" class="head">第二层：Granger因果 + SHAP分解</text>
+  <line x1="705" y1="1242" x2="1195" y2="1242" class="rule"/>
+  <text x="705" y="1275" class="small">面板Granger检验因果传导链的时间序</text>
+  <text x="705" y="1308" class="small">SHAP分解数据要素对基本面预测的边际贡献</text>
+
+  <!-- Layer 3 -->
+  <rect x="1280" y="1190" width="540" height="140" rx="10" class="box"/>
+  <text x="1550" y="1228" text-anchor="middle" class="head">第三层：反事实分析</text>
+  <line x1="1305" y1="1242" x2="1795" y2="1242" class="rule"/>
+  <text x="1305" y="1275" class="small">反事实推断：若无数据要素投入，定价效率如何</text>
+  <text x="1305" y="1308" class="small">可解释性缺口 = SHAP贡献 vs 市场定价权重差异</text>
+
+  <!-- Arrows between layers -->
+  <path d="M620,1260 L680,1260" class="line" marker-end="url(#arrow)"/>
+  <path d="M1220,1260 L1280,1260" class="line" marker-end="url(#arrow)"/>
+
+  <!-- Key insight box -->
+  <rect x="80" y="1360" width="1740" height="90" rx="8" class="soft"/>
+  <text x="950" y="1397" text-anchor="middle" class="body">核心创新：可解释性缺口指标 = 数据要素对基本面的实际贡献 - 市场价格中隐含的数据要素权重</text>
+  <text x="950" y="1430" text-anchor="middle" class="small">若缺口显著为正，则市场系统性低估了数据要素的价值创造能力，存在定价不足</text>
+
+  <!-- ============ Panel D: 调节效应与稳健性 ============ -->
+  <rect x="40" y="1510" width="1820" height="290" rx="10" class="panel"/>
+  <text x="78" y="1552" class="panelTitle">Panel D. 调节效应与稳健性检验</text>
+  <line x1="60" y1="1566" x2="1840" y2="1566" class="rule"/>
+
+  <!-- DID Moderation -->
+  <rect x="80" y="1590" width="540" height="180" rx="10" class="box"/>
+  <text x="350" y="1628" text-anchor="middle" class="head">调节效应：2024数据资产入表新规</text>
+  <line x1="105" y1="1642" x2="595" y2="1642" class="rule"/>
+  <text x="105" y="1678" class="small">DID设计：高数据利用组 vs 低数据利用组</text>
+  <text x="105" y="1710" class="small">政策后，高利用组的定价效率改善更显著</text>
+  <text x="105" y="1742" class="small">入表制度缓解信息模糊效应，释放正面定价效应</text>
+
+  <!-- Robustness -->
+  <rect x="680" y="1590" width="540" height="180" rx="10" class="box"/>
+  <text x="950" y="1628" text-anchor="middle" class="head">传统OLS稳健性检验</text>
+  <line x1="705" y1="1642" x2="1195" y2="1642" class="rule"/>
+  <text x="705" y="1678" class="small">替换因变量：股价同步性 / 股价延迟 / 方差比率</text>
+  <text x="705" y="1710" class="small">替换自变量：传统文本分析指标替代LLM评分</text>
+  <text x="705" y="1742" class="small">面板固定效应 + 聚类标准误</text>
+
+  <!-- Heterogeneity -->
+  <rect x="1280" y="1590" width="540" height="180" rx="10" class="box"/>
+  <text x="1550" y="1628" text-anchor="middle" class="head">异质性分析</text>
+  <line x1="1305" y1="1642" x2="1795" y2="1642" class="rule"/>
+  <text x="1305" y="1678" class="small">产权性质：国企 vs 非国企</text>
+  <text x="1305" y="1710" class="small">行业属性：数字经济核心产业 vs 传统产业</text>
+  <text x="1305" y="1742" class="small">信息环境：高分析师覆盖 vs 低分析师覆盖</text>
+
+  <!-- ============ Panel E: 理论贡献 ============ -->
+  <rect x="40" y="1830" width="1820" height="240" rx="10" class="panel"/>
+  <text x="78" y="1872" class="panelTitle">Panel E. 边际贡献与理论支撑</text>
+  <line x1="60" y1="1886" x2="1840" y2="1886" class="rule"/>
+
+  <rect x="80" y="1910" width="860" height="130" rx="10" class="box"/>
+  <text x="510" y="1948" text-anchor="middle" class="head">边际贡献</text>
+  <line x1="105" y1="1962" x2="915" y2="1962" class="rule"/>
+  <text x="105" y="1996" class="small">① 方法创新：LLM + 时序预测 + 因果可解释性构建新定价效率指标</text>
+  <text x="105" y="2028" class="small">② 链条创新：打通 数据要素利用→资产配置→定价效率 完整因果链</text>
+
+  <rect x="960" y="1910" width="860" height="130" rx="10" class="box"/>
+  <text x="1390" y="1948" text-anchor="middle" class="head">理论支撑</text>
+  <line x1="985" y1="1962" x2="1795" y2="1962" class="rule"/>
+  <text x="985" y="1996" class="small">① 信息不对称理论：数据要素利用改善信息环境</text>
+  <text x="985" y="2028" class="small">② 生产要素理论：数据作为第五生产要素的资本市场定价含义</text>
+
+  <text x="950" y="2085" text-anchor="middle" class="small">注：传统OLS框架作为稳健性检验，确保结论与主流方法论体系兼容。</text>
+</svg>

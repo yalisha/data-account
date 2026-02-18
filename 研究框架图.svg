@@ -1,0 +1,212 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" font-family="'Microsoft YaHei', 'SimHei', 'Noto Sans SC', sans-serif">
+  <defs>
+    <!-- 渐变定义 -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8fafc;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#eef2f7;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="ivGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1d4ed8;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="dvGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ef4444;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#b91c1c;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="mechGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#059669;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="modGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f59e0b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#d97706;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="didGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#8b5cf6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6d28d9;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="hetGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#4338ca;stop-opacity:1" />
+    </linearGradient>
+    <!-- 阴影 -->
+    <filter id="shadow" x="-5%" y="-5%" width="115%" height="115%">
+      <feDropShadow dx="2" dy="3" stdDeviation="4" flood-color="#00000020"/>
+    </filter>
+    <filter id="shadowLight" x="-3%" y="-3%" width="108%" height="108%">
+      <feDropShadow dx="1" dy="2" stdDeviation="2" flood-color="#00000015"/>
+    </filter>
+    <!-- 箭头标记 -->
+    <marker id="arrowBlue" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#3b82f6"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#10b981"/>
+    </marker>
+    <marker id="arrowRed" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#ef4444"/>
+    </marker>
+    <marker id="arrowPurple" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arrowOrange" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#f59e0b"/>
+    </marker>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="1200" height="900" fill="url(#bgGrad)" rx="12"/>
+
+  <!-- 标题 -->
+  <text x="600" y="48" text-anchor="middle" font-size="22" font-weight="bold" fill="#1e293b">数据要素利用与企业信息披露违规：研究框架</text>
+  <text x="600" y="72" text-anchor="middle" font-size="13" fill="#64748b">——基于数据交易所设立的多时点DID与夜间灯光数据的证据</text>
+
+  <!-- ═══════════════ 识别策略区域（顶部） ═══════════════ -->
+  <rect x="280" y="92" width="640" height="88" rx="10" fill="url(#didGrad)" filter="url(#shadow)" opacity="0.95"/>
+  <text x="600" y="115" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">识别策略：多时点双重差分法（Staggered DID）</text>
+
+  <!-- DID内容小卡片 -->
+  <rect x="300" y="125" width="185" height="42" rx="6" fill="#ffffff30" stroke="#ffffff50" stroke-width="1"/>
+  <text x="392" y="143" text-anchor="middle" font-size="11" fill="#fff" font-weight="bold">政策冲击</text>
+  <text x="392" y="158" text-anchor="middle" font-size="10" fill="#ffffffcc">数据交易所分批设立</text>
+
+  <rect x="507" y="125" width="185" height="42" rx="6" fill="#ffffff30" stroke="#ffffff50" stroke-width="1"/>
+  <text x="600" y="143" text-anchor="middle" font-size="11" fill="#fff" font-weight="bold">处理强度</text>
+  <text x="600" y="158" text-anchor="middle" font-size="10" fill="#ffffffcc">NPP-VIIRS夜间灯光变化</text>
+
+  <rect x="714" y="125" width="185" height="42" rx="6" fill="#ffffff30" stroke="#ffffff50" stroke-width="1"/>
+  <text x="807" y="143" text-anchor="middle" font-size="11" fill="#fff" font-weight="bold">稳健估计量</text>
+  <text x="807" y="158" text-anchor="middle" font-size="10" fill="#ffffffcc">Callaway &amp; Sant'Anna (2021)</text>
+
+  <!-- ═══════════════ 核心解释变量（左） ═══════════════ -->
+  <rect x="40" y="228" width="240" height="200" rx="12" fill="#fff" stroke="#3b82f6" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="40" y="228" width="240" height="44" rx="12" fill="url(#ivGrad)"/>
+  <rect x="40" y="258" width="240" height="14" fill="url(#ivGrad)"/>
+  <text x="160" y="256" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">核心解释变量</text>
+
+  <text x="160" y="296" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e40af">数据要素利用（Lnda）</text>
+
+  <line x1="70" y1="312" x2="250" y2="312" stroke="#e2e8f0" stroke-width="1"/>
+
+  <text x="80" y="334" font-size="11" fill="#475569">度量方式：</text>
+  <text x="80" y="352" font-size="11" fill="#64748b">• Word2Vec + 年报MD&amp;A文本</text>
+  <text x="80" y="370" font-size="11" fill="#64748b">• 语义相似度阈值 &gt; 0.5</text>
+  <text x="80" y="390" font-size="11" fill="#334155" font-weight="bold">稳健性替换：</text>
+  <text x="80" y="408" font-size="11" fill="#64748b">• 复合指数（+专利+IT人员）</text>
+
+  <!-- ═══════════════ 被解释变量（右） ═══════════════ -->
+  <rect x="920" y="228" width="240" height="200" rx="12" fill="#fff" stroke="#ef4444" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="920" y="228" width="240" height="44" rx="12" fill="url(#dvGrad)"/>
+  <rect x="920" y="258" width="240" height="14" fill="url(#dvGrad)"/>
+  <text x="1040" y="256" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">被解释变量</text>
+
+  <text x="1040" y="296" text-anchor="middle" font-size="15" font-weight="bold" fill="#991b1b">信息披露违规</text>
+
+  <line x1="950" y1="312" x2="1130" y2="312" stroke="#e2e8f0" stroke-width="1"/>
+
+  <text x="940" y="334" font-size="11" fill="#64748b">① 行政处罚（证监会/交易所）</text>
+  <text x="940" y="354" font-size="11" fill="#64748b">② 年报问询函（是否/次数）</text>
+  <text x="940" y="374" font-size="11" fill="#64748b">③ 信息披露考评等级（深交所）</text>
+  <text x="940" y="394" font-size="11" fill="#64748b">④ 财务重述（会计差错更正）</text>
+  <text x="940" y="414" font-size="11" fill="#94a3b8" style="font-style:italic">数据来源：CSMAR违规处理数据库</text>
+
+  <!-- ═══════════════ 机制路径（中间三个通道） ═══════════════ -->
+  <!-- 通道1：信息透明度 -->
+  <rect x="430" y="218" width="200" height="56" rx="8" fill="#fff" stroke="#10b981" stroke-width="1.5" filter="url(#shadowLight)"/>
+  <rect x="430" y="218" width="200" height="4" rx="2" fill="#10b981"/>
+  <text x="530" y="242" text-anchor="middle" font-size="12" font-weight="bold" fill="#065f46">路径一：信息透明度 ↑</text>
+  <text x="530" y="260" text-anchor="middle" font-size="10" fill="#64748b">分析师预测误差↓ · 买卖价差↓</text>
+
+  <!-- 通道2：内部控制 -->
+  <rect x="430" y="296" width="200" height="56" rx="8" fill="#fff" stroke="#10b981" stroke-width="1.5" filter="url(#shadowLight)"/>
+  <rect x="430" y="296" width="200" height="4" rx="2" fill="#10b981"/>
+  <text x="530" y="320" text-anchor="middle" font-size="12" font-weight="bold" fill="#065f46">路径二：内部控制质量 ↑</text>
+  <text x="530" y="338" text-anchor="middle" font-size="10" fill="#64748b">内控缺陷↓ · 流程规范性↑</text>
+
+  <!-- 通道3：外部监督 -->
+  <rect x="430" y="374" width="200" height="56" rx="8" fill="#fff" stroke="#10b981" stroke-width="1.5" filter="url(#shadowLight)"/>
+  <rect x="430" y="374" width="200" height="4" rx="2" fill="#10b981"/>
+  <text x="530" y="398" text-anchor="middle" font-size="12" font-weight="bold" fill="#065f46">路径三：外部监督强度 ↑</text>
+  <text x="530" y="416" text-anchor="middle" font-size="10" fill="#64748b">审计质量↑ · 媒体关注度↑</text>
+
+  <!-- 机制路径标签 -->
+  <text x="530" y="208" text-anchor="middle" font-size="13" font-weight="bold" fill="#059669">机制路径（中介效应）</text>
+
+  <!-- ═══════════════ 箭头连接 ═══════════════ -->
+  <!-- 主效应：解释变量 → 机制 -->
+  <path d="M 280 310 Q 340 246, 428 246" fill="none" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrowGreen)" stroke-dasharray="none"/>
+  <path d="M 280 328 L 428 324" fill="none" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrowGreen)"/>
+  <path d="M 280 345 Q 340 402, 428 402" fill="none" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrowGreen)" stroke-dasharray="none"/>
+
+  <!-- 机制 → 被解释变量 -->
+  <path d="M 630 246 Q 740 246, 918 310" fill="none" stroke="#10b981" stroke-width="2" marker-end="url(#arrowRed)"/>
+  <path d="M 630 324 L 918 328" fill="none" stroke="#10b981" stroke-width="2" marker-end="url(#arrowRed)"/>
+  <path d="M 630 402 Q 740 402, 918 345" fill="none" stroke="#10b981" stroke-width="2" marker-end="url(#arrowRed)"/>
+
+  <!-- 直接效应虚线 -->
+  <path d="M 280 328 L 918 328" fill="none" stroke="#475569" stroke-width="1.8" stroke-dasharray="8,5" opacity="0.4"/>
+  <text x="600" y="460" text-anchor="middle" font-size="10" fill="#94a3b8" style="font-style:italic">H1：主效应（直接路径）</text>
+
+  <!-- 识别策略 → 解释变量 -->
+  <path d="M 480 180 L 200 226" fill="none" stroke="#8b5cf6" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowPurple)"/>
+  <text x="310" y="198" text-anchor="middle" font-size="9" fill="#7c3aed" transform="rotate(-10, 310, 198)">外生变异来源</text>
+
+  <!-- ═══════════════ 调节变量（右侧中部） ═══════════════ -->
+  <rect x="730" y="470" width="240" height="108" rx="10" fill="#fff" stroke="#f59e0b" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="730" y="470" width="240" height="36" rx="10" fill="url(#modGrad)"/>
+  <rect x="730" y="496" width="240" height="10" fill="url(#modGrad)"/>
+  <text x="850" y="494" text-anchor="middle" font-size="13" font-weight="bold" fill="#fff">调节变量</text>
+
+  <text x="750" y="528" font-size="11" fill="#92400e" font-weight="bold">城市数字生态指数</text>
+  <text x="750" y="546" font-size="10" fill="#64748b">• NPP-VIIRS夜光辐射强度</text>
+  <text x="750" y="562" font-size="10" fill="#64748b">• 北大数字普惠金融指数</text>
+
+  <!-- 调节变量箭头 → 主效应路径 -->
+  <path d="M 730 520 Q 620 470, 580 440" fill="none" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowOrange)"/>
+  <text x="680" y="476" text-anchor="middle" font-size="9" fill="#b45309">调节H2</text>
+
+  <!-- ═══════════════ 假设区域（中下） ═══════════════ -->
+  <rect x="40" y="480" width="320" height="130" rx="10" fill="#fff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#shadowLight)"/>
+  <text x="60" y="506" font-size="13" font-weight="bold" fill="#1e293b">研究假设</text>
+  <line x1="60" y1="514" x2="340" y2="514" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="60" y="536" font-size="11" fill="#334155" font-weight="bold">H1:</text>
+  <text x="88" y="536" font-size="11" fill="#475569">数据要素利用显著降低信息披露违规</text>
+  <text x="60" y="556" font-size="11" fill="#334155" font-weight="bold">H2:</text>
+  <text x="88" y="556" font-size="11" fill="#475569">数字生态越好，H1效应越强</text>
+  <text x="60" y="576" font-size="11" fill="#334155" font-weight="bold">H3:</text>
+  <text x="88" y="576" font-size="11" fill="#475569">信息透明度/内部控制/外部监督发挥</text>
+  <text x="88" y="593" font-size="11" fill="#475569">中介作用</text>
+
+  <!-- ═══════════════ 异质性分析（底部） ═══════════════ -->
+  <rect x="40" y="640" width="1120" height="110" rx="10" fill="#fff" stroke="#6366f1" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="40" y="640" width="1120" height="36" rx="10" fill="url(#hetGrad)"/>
+  <rect x="40" y="666" width="1120" height="10" fill="url(#hetGrad)"/>
+  <text x="600" y="664" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">异质性分析 &amp; 拓展检验</text>
+
+  <!-- 四个异质性维度 -->
+  <rect x="70" y="690" width="220" height="42" rx="6" fill="#eef2ff" stroke="#c7d2fe" stroke-width="1"/>
+  <text x="180" y="710" text-anchor="middle" font-size="12" font-weight="bold" fill="#4338ca">产权性质</text>
+  <text x="180" y="724" text-anchor="middle" font-size="10" fill="#6366f1">国有企业 vs. 非国有企业</text>
+
+  <rect x="320" y="690" width="220" height="42" rx="6" fill="#eef2ff" stroke="#c7d2fe" stroke-width="1"/>
+  <text x="430" y="710" text-anchor="middle" font-size="12" font-weight="bold" fill="#4338ca">数字生态环境</text>
+  <text x="430" y="724" text-anchor="middle" font-size="10" fill="#6366f1">夜光高值区 vs. 低值区</text>
+
+  <rect x="570" y="690" width="220" height="42" rx="6" fill="#eef2ff" stroke="#c7d2fe" stroke-width="1"/>
+  <text x="680" y="710" text-anchor="middle" font-size="12" font-weight="bold" fill="#4338ca">股权集中度</text>
+  <text x="680" y="724" text-anchor="middle" font-size="10" fill="#6366f1">高集中度 vs. 低集中度</text>
+
+  <rect x="820" y="690" width="220" height="42" rx="6" fill="#eef2ff" stroke="#c7d2fe" stroke-width="1"/>
+  <text x="930" y="710" text-anchor="middle" font-size="12" font-weight="bold" fill="#4338ca">行业特征</text>
+  <text x="930" y="724" text-anchor="middle" font-size="10" fill="#6366f1">数字原生行业 vs. 传统行业</text>
+
+  <!-- ═══════════════ 样本信息（底部脚注） ═══════════════ -->
+  <rect x="40" y="775" width="1120" height="80" rx="10" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="60" y="798" font-size="12" font-weight="bold" fill="#475569">样本与数据</text>
+  <text x="60" y="818" font-size="10.5" fill="#64748b">样本期间：2015—2023年 | 样本范围：沪深A股上市公司（剔除ST/*ST、金融业、缺失值） | 约10000+观测值</text>
+  <text x="60" y="838" font-size="10.5" fill="#64748b">数据来源：CSMAR（财务+治理+违规处理）| 巨潮资讯网（年报文本）| NPP-VIIRS（夜光遥感）| 北大数字普惠金融指数 | 数据交易所设立公告（手工收集）</text>
+
+  <!-- 装饰线 -->
+  <line x1="40" y1="870" x2="1160" y2="870" stroke="#cbd5e1" stroke-width="0.5"/>
+  <text x="600" y="888" text-anchor="middle" font-size="9" fill="#94a3b8">图1  研究框架</text>
+</svg>
