@@ -1,0 +1,479 @@
+\documentclass[11pt,a4paper]{article}
+
+% === 页面与字体 ===
+\usepackage[margin=2.2cm]{geometry}
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\usepackage{xeCJK}
+\setCJKmainfont{Songti SC}
+\setCJKfamilyfont{hei}{Heiti SC}
+\newcommand{\hei}{\CJKfamily{hei}}
+
+% === 表格 ===
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{dcolumn}
+\newcolumntype{d}[1]{D{.}{.}{#1}}
+\usepackage{placeins}
+
+% === caption 中文格式 ===
+\usepackage{caption}
+\renewcommand{\tablename}{表}
+\captionsetup[table]{labelsep=quad, font={bf}, justification=centering}
+
+% === 其他 ===
+\usepackage{amsmath}
+\usepackage{hyperref}
+\hypersetup{colorlinks=false}
+\usepackage{setspace}
+\onehalfspacing
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\small 数据要素利用与资本市场定价效率}
+\lhead{\small 实证结果汇总}
+\cfoot{\thepage}
+
+\title{{\hei\Large 数据要素利用与资本市场定价效率} \\[8pt]
+{\large 实证结果汇总}}
+\author{}
+\date{2026年2月}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+% ============================================================
+\FloatBarrier
+% ============================================================
+%                        表 1  描述性统计
+% ============================================================
+
+\begin{table}[htbp]
+\centering
+\caption{变量的描述性统计}
+\label{tab:desc}
+\small
+\begin{tabular}{l*{7}{c}}
+\toprule
+变量 & 观测值 & 均值 & 标准差 & 最小值 & P25 & 中位数 & 最大值 \\
+\midrule
+\multicolumn{8}{l}{\textit{被解释变量}} \\
+\textit{PriceDelay} & 38\,943 & 0.110 & 0.120 & 0.005 & 0.033 & 0.068 & 0.664 \\[4pt]
+\multicolumn{8}{l}{\textit{核心解释变量}} \\
+\textit{DU\_kw}      & 38\,943 & 1.070 & 1.695 & 0.000 & 0.193 & 0.478 & 10.060 \\
+\textit{DU\_kw\_ln}  & 38\,943 & 2.415 & 1.250 & 0.000 & 1.609 & 2.398 & 5.481 \\
+\textit{DU\_sub}     & 38\,943 & 12.279 & 24.132 & 0.000 & 1.000 & 4.000 & 152.000 \\
+\textit{DU\_ratio}   & 38\,943 & 0.621 & 0.379 & 0.000 & 0.333 & 0.750 & 1.000 \\[4pt]
+\multicolumn{8}{l}{\textit{控制变量}} \\
+\textit{Size}        & 38\,943 & 22.643 & 0.972 & 20.949 & 21.934 & 22.481 & 25.667 \\
+\textit{Lev}         & 38\,943 & 0.434 & 0.205 & 0.055 & 0.271 & 0.427 & 0.923 \\
+\textit{ROA}         & 38\,943 & 0.027 & 0.068 & $-$0.279 & 0.009 & 0.031 & 0.191 \\
+\textit{TobinQ}      & 38\,943 & 2.027 & 1.314 & 0.830 & 1.219 & 1.604 & 8.443 \\
+\textit{Age}         & 38\,943 & 2.282 & 0.635 & 1.099 & 1.792 & 2.398 & 3.219 \\
+\textit{Growth}      & 38\,943 & 0.127 & 0.371 & $-$0.591 & $-$0.056 & 0.075 & 2.157 \\
+\textit{BoardSize}   & 38\,943 & 2.109 & 0.198 & 1.609 & 1.946 & 2.197 & 2.639 \\
+\textit{IndepRatio}  & 38\,943 & 0.379 & 0.054 & 0.333 & 0.333 & 0.364 & 0.571 \\
+\textit{Dual}        & 38\,943 & 0.287 & 0.453 & 0.000 & 0.000 & 0.000 & 1.000 \\
+\textit{Top1Share}   & 38\,943 & 33.034 & 14.756 & 8.110 & 21.600 & 30.550 & 74.020 \\
+\textit{SOE}         & 38\,943 & 0.340 & 0.474 & 0.000 & 0.000 & 0.000 & 1.000 \\
+\textit{InstHold}    & 38\,943 & 42.081 & 24.331 & 0.350 & 21.540 & 43.372 & 90.708 \\
+\textit{Amihud}      & 38\,943 & 0.042 & 0.043 & 0.002 & 0.015 & 0.030 & 0.302 \\
+\textit{Analyst}     & 38\,943 & 2.489 & 1.739 & 0.000 & 0.693 & 2.639 & 5.656 \\
+\textit{AuditType}   & 38\,943 & 0.963 & 0.188 & 0.000 & 1.000 & 1.000 & 1.000 \\
+\bottomrule
+\end{tabular}
+
+\vspace{4pt}
+{\footnotesize 注：连续变量均在1\%和99\%分位数处缩尾处理。\textit{DU\_kw}使用$t-1$年年报数据。\textit{Size}=ln(总资产)，\textit{Age}=ln(上市年限)，\textit{Analyst}=ln(1+分析师人数)，\textit{BoardSize}=ln(董事会人数)。样本为2011--2024年沪深A股非金融非ST上市公司。}
+\end{table}
+
+
+% ============================================================
+\FloatBarrier
+% ============================================================
+%                        表 2  基准回归
+% ============================================================
+
+\begin{table}[htbp]
+\centering
+\caption{基准回归检验}
+\label{tab:baseline}
+\small
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{l*{6}{c}}
+\toprule
+ & (1) & (2) & (3) & (4) & (5) & (6) \\
+ & \textit{PriceDelay} & \textit{PriceDelay} & \textit{PriceDelay} & \textit{PriceDelay} & \textit{PriceDelay} & \textit{PriceDelay} \\
+\midrule
+\textit{DU\_kw}
+ & $-$0.0049$^{***}$ & $-$0.0036$^{**}$ & & & $-$0.0019$^{***}$ & \\
+ & (0.0016) & (0.0014) & & & (0.0006) & \\[4pt]
+\textit{DU\_kw\_ln}
+ & & & $-$0.0032$^{***}$ & & & $-$0.0022$^{***}$ \\
+ & & & (0.0010) & & & (0.0007) \\[4pt]
+\textit{DU\_sub\_ln}
+ & & & & $-$0.0022$^{***}$ & & \\
+ & & & & (0.0008) & & \\[4pt]
+\textit{Size}
+ & & 0.013$^{**}$ & & & & \\
+ & & (0.005) & & & & \\[2pt]
+\textit{Lev}
+ & & 0.019$^{**}$ & & & & \\
+ & & (0.008) & & & & \\[2pt]
+\textit{ROA}
+ & & $-$0.038$^{**}$ & & & & \\
+ & & (0.015) & & & & \\[2pt]
+\textit{TobinQ}
+ & & 0.012$^{***}$ & & & & \\
+ & & (0.001) & & & & \\[2pt]
+\textit{Age}
+ & & $-$0.020$^{**}$ & & & & \\
+ & & (0.008) & & & & \\[2pt]
+\textit{Growth}
+ & & 0.011$^{***}$ & & & & \\
+ & & (0.002) & & & & \\[2pt]
+\textit{BoardSize}
+ & & $-$0.018$^{***}$ & & & & \\
+ & & (0.006) & & & & \\[2pt]
+\textit{IndepRatio}
+ & & $-$0.040$^{**}$ & & & & \\
+ & & (0.019) & & & & \\[2pt]
+\textit{Dual}
+ & & $-$0.001 & & & & \\
+ & & (0.002) & & & & \\[2pt]
+\textit{Top1Share}
+ & & 0.000 & & & & \\
+ & & (0.000) & & & & \\[2pt]
+\textit{SOE}
+ & & $-$0.001 & & & & \\
+ & & (0.005) & & & & \\[2pt]
+\textit{InstHold}
+ & & 0.000$^{**}$ & & & & \\
+ & & (0.000) & & & & \\[2pt]
+\textit{Amihud}
+ & & 0.078$^{**}$ & & & & \\
+ & & (0.031) & & & & \\[2pt]
+\textit{Analyst}
+ & & $-$0.008$^{***}$ & & & & \\
+ & & (0.001) & & & & \\[2pt]
+\textit{AuditType}
+ & & $-$0.014$^{***}$ & & & & \\
+ & & (0.005) & & & & \\[4pt]
+\midrule
+控制变量 & 否 & 是 & 是 & 是 & 是 & 是 \\
+固定效应 & 公司+年份 & 公司+年份 & 公司+年份 & 公司+年份 & 行业+年份 & 行业+年份 \\
+$N$ & 38\,614 & 38\,614 & 38\,614 & 38\,614 & 29\,968 & 29\,968 \\
+$R^2$ & & 0.414 & & & & \\
+$R^2_{\text{within}}$ & & 0.023 & & & & \\
+\bottomrule
+\end{tabular}
+
+\vspace{4pt}
+{\footnotesize 注：括号内为标准误，聚类于行业$\times$年份层面。$^{***}$、$^{**}$、$^{*}$分别表示在1\%、5\%、10\%的水平上显著，下同。模型(2)为主报告模型，控制变量同时适用于模型(3)--(6)但限于篇幅未报告。经济意义：\textit{DU\_kw}增加一个标准差(1.70)$\to$ \textit{PriceDelay}降低约5.6\%。}
+\end{table}
+
+
+% ============================================================
+\FloatBarrier
+% ============================================================
+%                    表 3  工具变量估计
+% ============================================================
+
+\begin{table}[htbp]
+\centering
+\caption{工具变量估计}
+\label{tab:iv}
+\small
+
+\vspace{4pt}
+{\hei Panel A：主结果（$N=38\,598$）}
+\vspace{4pt}
+
+\begin{tabular}{l*{3}{c}}
+\toprule
+ & (1) OLS & (2) 一阶段 & (3) 2SLS \\
+ & \textit{PriceDelay} & \textit{DU\_kw} & \textit{PriceDelay} \\
+\midrule
+\textit{DU\_kw}
+ & $-$0.0036$^{**}$ & & $-$0.0446$^{***}$ \\
+ & (0.0014) & & (0.0161) \\[4pt]
+\textit{IV1} (Toi\_s$\times$year\_c)
+ & & 0.0008$^{***}$ & \\
+ & & (0.0001) & \\[4pt]
+\midrule
+控制变量 & 是 & 是 & 是 \\
+固定效应 & 公司+年份 & 公司+年份 & 公司+年份 \\
+一阶段$F$ & & 92.2 & \\
+\bottomrule
+\end{tabular}
+
+\vspace{14pt}
+{\hei Panel B：替代口径}
+\vspace{4pt}
+
+\begin{tabular}{lccc}
+\toprule
+IV口径 & 一阶段$F$ & 2SLS系数 & 标准误 \\
+\midrule
+Toi\_s（综合指数，主） & 92.2 & $-$0.045$^{***}$ & (0.016) \\
+Coi\_s（商用指数） & 59.8 & $-$0.066$^{***}$ & (0.019) \\
+Goi\_s（政用指数） & 97.6 & $-$0.034$^{**}$ & (0.016) \\
+\bottomrule
+\end{tabular}
+
+\vspace{14pt}
+{\hei Panel C：Oster (2019) $\delta^*$界}
+\vspace{4pt}
+
+\begin{tabular}{lcc}
+\toprule
+固定效应规格 & $\delta^*$ ($R_{\max}=1.3\tilde{R}^2$) & 结论 \\
+\midrule
+公司+年份 & 9.03 & 稳健 \\
+公司+行业$\times$年份 & 3.65 & 稳健 \\
+\bottomrule
+\end{tabular}
+
+\vspace{6pt}
+{\footnotesize 注：Panel A中IV1为2016年省级大数据发展指数(Toi\_s)乘以时间趋势(year$-$2016)。一阶段$F$远超Stock--Yogo临界值10。2SLS系数为OLS的12.2倍，可归因于\textit{DU\_kw}作为关键词计数的测量误差导致OLS存在衰减偏误，IV修正后效应更大。Panel B三个替代口径方向完全一致、全部显著。Panel C两个规格$\delta^*>1$，遗漏变量需达到可观测控制变量的3.7--9.0倍才能推翻结果。过度识别检验（IV1+IV2, Hansen $J=21.44$, $p<0.001$）拒绝联合外生性，故仅以IV1作为主报告。}
+\end{table}
+
+
+% ============================================================
+\FloatBarrier
+% ============================================================
+%                    表 4  机制检验
+% ============================================================
+
+\begin{table}[htbp]
+\centering
+\caption{作用机制检验}
+\label{tab:mechanism}
+\small
+\begin{tabular}{l*{3}{c}}
+\toprule
+ & (1) & (2) & (3) \\
+ & \textit{Analyst} & \textit{FinAsset} & \textit{InstHold} \\
+ & 分析师跟踪 & 金融资产占比 & 机构持股比例 \\
+\midrule
+\textit{DU\_kw}
+ & 0.0363$^{***}$ & 0.0012$^{***}$ & $-$0.2344$^{***}$ \\
+ & (0.0092) & (0.0004) & (0.0859) \\[6pt]
+\midrule
+控制变量 & 是 & 是 & 是 \\
+固定效应 & 公司+年份 & 公司+年份 & 公司+年份 \\
+$N$ & 38\,614 & 38\,614 & 38\,614 \\
+\bottomrule
+\end{tabular}
+
+\vspace{4pt}
+{\footnotesize 注：分析师渠道是核心传导路径：数据利用高的企业吸引更多分析师跟踪，加速信息向股价传导。\textit{InstHold}方向为负，可解释为数据驱动型企业信息复杂度高，部分机构投资者选择回避，但分析师渠道的补偿效应更强。}
+\end{table}
+
+
+% ============================================================
+\FloatBarrier
+% ============================================================
+%                    表 5  异质性分析
+% ============================================================
+
+\begin{table}[htbp]
+\centering
+\caption{异质性检验}
+\label{tab:hetero}
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{l*{8}{c}}
+\toprule
+ & \multicolumn{2}{c}{产权性质} & \multicolumn{2}{c}{企业规模} & \multicolumn{2}{c}{分析师覆盖} & \multicolumn{2}{c}{行业属性} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}\cmidrule(lr){8-9}
+ & (1) & (2) & (3) & (4) & (5) & (6) & (7) & (8) \\
+ & 国企 & 民企 & 大企业 & 小企业 & 高覆盖 & 低覆盖 & 高科技 & 传统 \\
+\midrule
+\textit{DU\_kw}
+ & $-$0.0054$^{**}$ & $-$0.0029$^{**}$ & $-$0.0033 & $-$0.0048$^{***}$ & $-$0.0046$^{***}$ & $-$0.0024 & $-$0.0040$^{***}$ & $-$0.0038$^{**}$ \\
+ & (0.0024) & (0.0012) & (0.0022) & (0.0010) & (0.0011) & (0.0019) & (0.0013) & (0.0019) \\[6pt]
+\midrule
+控制变量 & 是 & 是 & 是 & 是 & 是 & 是 & 是 & 是 \\
+固定效应 & \multicolumn{8}{c}{公司+年份} \\
+$N$ & 13\,162 & 25\,378 & 18\,885 & 18\,895 & 19\,368 & 18\,728 & 8\,074 & 30\,278 \\
+\bottomrule
+\end{tabular}
+
+\vspace{4pt}
+{\footnotesize 注：大/小企业以\textit{Size}年度中位数划分；高/低分析师覆盖以\textit{Analyst}年度中位数划分；高科技行业包括计算机(C39)、软件(I65)、专用设备(C35)等。小企业效应强于大企业（信息不对称更严重），高分析师覆盖组显著而低覆盖组不显著（与分析师中介机制一致）。}
+\end{table}
+
+
+% ============================================================
+\FloatBarrier
+% ============================================================
+%                    表 6  稳健性检验
+% ============================================================
+
+\begin{table}[htbp]
+\centering
+\caption{稳健性检验}
+\label{tab:robust}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{l*{6}{c}}
+\toprule
+ & (1) & (2) & (3) & (4) & (5) & (6) \\
+ & \multicolumn{3}{c}{替换被解释变量} & PSM & 剔除 & 仅主板 \\
+\cmidrule(lr){2-4}
+ & \textit{SYNCH} & \textit{SYNCH\_ln} & \textit{SYNCH} & \textit{PriceDelay} & \textit{PriceDelay} & \textit{PriceDelay} \\
+ & Firm+Year & Firm+Year & Ind+Year & Firm+Year & Firm+Year & Firm+Year \\
+\midrule
+\textit{DU\_kw}
+ & 0.0110$^{*}$ & & 0.0111$^{**}$ & $-$0.0048$^{***}$ & $-$0.0050$^{***}$ & $-$0.0039$^{**}$ \\
+ & (0.0066) & & (0.0048) & (0.0013) & (0.0010) & (0.0016) \\[4pt]
+\textit{DU\_kw\_ln}
+ & & 0.0152$^{**}$ & & & & \\
+ & & (0.0062) & & & & \\[4pt]
+\midrule
+控制变量 & 是 & 是 & 是 & 是 & 是 & 是 \\
+固定效应 & 公司+年份 & 公司+年份 & 行业+年份 & 公司+年份 & 公司+年份 & 公司+年份 \\
+$N$ & 29\,444 & 29\,444 & 29\,924 & 31\,381 & 33\,878 & 29\,666 \\
+\bottomrule
+\end{tabular}
+
+\vspace{4pt}
+{\footnotesize 注：模型(1)--(3)替换被解释变量为股价同步性（\textit{SYNCH}），系数方向为正（数据利用提高同步性），与\textit{PriceDelay}方向相反，符合预期。模型(4)为PSM 1:1最近邻匹配（caliper=0.05），平衡性良好（14/14变量SMD$<$12\%）。模型(5)剔除2024年样本。模型(6)仅保留主板样本。}
+\end{table}
+
+
+% ============================================================
+\FloatBarrier
+% ============================================================
+%                    表 7  投资组合检验
+% ============================================================
+
+\begin{table}[htbp]
+\centering
+\caption{基于数据利用分组的投资组合$\alpha$检验}
+\label{tab:portfolio}
+\small
+
+\vspace{4pt}
+{\hei Panel A：各分位组月度$\alpha$（$N=156$个月）}
+\vspace{4pt}
+
+\begin{tabular}{lcccc}
+\toprule
+组合 & CAPM & FF3 & FF5 & FF5+MOM \\
+\midrule
+Q1（最低利用）
+ & 0.0025 & $-$0.0029$^{**}$ & $-$0.0053$^{***}$ & $-$0.0064$^{***}$ \\
+ & (0.81) & ($-$2.08) & ($-$3.15) & ($-$3.81) \\[3pt]
+Q2
+ & 0.0027 & $-$0.0017 & $-$0.0047$^{***}$ & $-$0.0055$^{***}$ \\
+ & (0.84) & ($-$1.58) & ($-$3.11) & ($-$3.64) \\[3pt]
+Q3
+ & 0.0037 & $-$0.0004 & $-$0.0039$^{***}$ & $-$0.0044$^{***}$ \\
+ & (1.16) & ($-$0.43) & ($-$3.06) & ($-$3.40) \\[3pt]
+Q4
+ & 0.0045 & 0.0008 & $-$0.0031$^{**}$ & $-$0.0033$^{**}$ \\
+ & (1.23) & (0.81) & ($-$2.20) & ($-$2.31) \\[3pt]
+Q5（最高利用）
+ & 0.0054 & 0.0009 & $-$0.0039 & $-$0.0041 \\
+ & (1.04) & (0.38) & ($-$1.58) & ($-$1.60) \\[3pt]
+\midrule
+DAT (Q5$-$Q1)
+ & 0.0029 & 0.0037 & 0.0014 & 0.0023 \\
+ & (0.77) & (1.17) & (0.44) & (0.71) \\
+\bottomrule
+\end{tabular}
+
+\vspace{14pt}
+{\hei Panel B：入表前后对比}
+\vspace{4pt}
+
+\begin{tabular}{lcc}
+\toprule
+期间 & DAT FF3 $\alpha$ & $t$值 \\
+\midrule
+入表前（2012--2023） & $+$0.21\% & 0.63 \\
+入表后（2024--） & $+$2.08\% & 2.24$^{**}$ \\
+\bottomrule
+\end{tabular}
+
+\vspace{6pt}
+{\footnotesize 注：每年6月按\textit{DU\_kw}五分组，7月至次年6月持有。Panel A括号内为$t$统计量。Q1（低数据利用）在FF3模型下$\alpha$显著为负（月均$-$0.29\%，年化约$-$3.4\%），说明市场对数据利用不足的企业系统性高估。Panel B中，2024年入表新规后高低组收益差异从不显著跳升至$+$2.08\%/月（$t=2.24$），说明政策使数据利用差异更为可见。GRS检验$F=1.44$（$p=0.213$），不拒绝所有$\alpha$联合为零。}
+\end{table}
+
+
+% ============================================================
+\FloatBarrier
+% ============================================================
+%                    附表 A1  DID 检验
+% ============================================================
+
+\begin{table}[htbp]
+\centering
+\caption*{{\bf 附表A1\quad DID检验（2024年数据资产入表新规）}}
+\label{tab:did}
+\small
+
+\vspace{4pt}
+{\hei Panel A：主结果}
+\vspace{4pt}
+
+\begin{tabular}{l*{5}{c}}
+\toprule
+ & (1) & (2) & (3) & (4) & (5) \\
+ & \multicolumn{3}{c}{二值DID} & \multicolumn{2}{c}{连续DID} \\
+\cmidrule(lr){2-4}\cmidrule(lr){5-6}
+处理组定义 & 2017--21 & 2011--21 & 旧分组 & 2019--24 & 2021--24 \\
+ & 均值 & 均值 & 2019--23 & 强度 & 强度 \\
+\midrule
+\textit{Treat}$\times$\textit{Post}
+ & 0.0196$^{***}$ & 0.0201$^{***}$ & 0.0075 & 0.0097$^{***}$ & 0.0087$^{***}$ \\
+ & (0.0042) & (0.0035) & (0.0054) & (0.0018) & (0.0021) \\[4pt]
+\midrule
+$N$ & 16\,005 & 16\,005 & 16\,005 & 22\,471 & 16\,005 \\
+\bottomrule
+\end{tabular}
+
+\vspace{14pt}
+{\hei Panel B：安慰剂检验（虚假政策年份）}
+\vspace{4pt}
+
+\begin{tabular}{lcccc}
+\toprule
+虚假年份 & 系数 & 标准误 & $t$值 & $p$值 \\
+\midrule
+2019 & $-$0.0114 & (0.0048) & $-$2.39 & 0.017$^{**}$ \\
+2020 & $-$0.0127 & (0.0058) & $-$2.21 & 0.028$^{**}$ \\
+2021 & $-$0.0062 & (0.0051) & $-$1.20 & 0.233 \\
+2022 & 0.0078 & (0.0044) & 1.77 & 0.078$^{*}$ \\
+\textbf{2024（真实）} & \textbf{0.0196} & \textbf{(0.0042)} & \textbf{4.68} & $<$\textbf{0.001}$^{***}$ \\
+\bottomrule
+\end{tabular}
+
+\vspace{14pt}
+{\hei Panel C：平行趋势检验（基期=2023）}
+\vspace{4pt}
+
+\begin{tabular}{lcc}
+\toprule
+年份交互 & 系数 & $t$值 \\
+\midrule
+\textit{Treat}$\times$2019 & $-$0.0056 & $-$0.92 \\
+\textit{Treat}$\times$2020 & $-$0.0101 & $-$1.23 \\
+\textit{Treat}$\times$2021 & $-$0.0159$^{**}$ & $-$2.41 \\
+\textit{Treat}$\times$2022 & 0.0008 & 0.19 \\
+\textit{Treat}$\times$2024 & 0.0048$^{***}$ & 4.37 \\
+\bottomrule
+\end{tabular}
+
+\vspace{6pt}
+{\footnotesize 注：Panel A窗口为2021--2024，公司+年份固定效应，聚类于行业$\times$年份。Panel B中2019/2020虚假政策年安慰剂检验显著，表明处理组在政策实施前已系统性异于控制组，平行趋势假设不满足。入表新规为普遍性政策，缺乏真正的对照组；处理组定义（\textit{DU\_kw}中位数分组）具有内生性。基于上述原因，DID设计存在内部效度问题，仅作为附录参考。}
+\end{table}
+
+
+\end{document}

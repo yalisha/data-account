@@ -223,6 +223,7 @@ print("\n" + "=" * 60)
 print("7. 机制检验")
 print("=" * 60)
 
+mech_rows = []
 for dep, fml in [
     ('FinAsset', f"FinAsset ~ DU_kw + {ctrl_str} | Stkcd + year"),
     ('DataAsset', f"DataAsset ~ DU_kw + {ctrl_str} | Stkcd + year"),
@@ -236,6 +237,11 @@ for dep, fml in [
     p = m.pvalue().get('DU_kw', np.nan)
     sig = '***' if p < 0.01 else '**' if p < 0.05 else '*' if p < 0.1 else ''
     print(f"  DU_kw -> {dep}: coef={c:.6f}, t={t:.3f}, p={p:.4f} {sig} (N={m._N})")
+    mech_rows.append({'Outcome': dep, 'Var': 'DU_kw', 'FE': 'Firm+Year',
+                      'Coef': c, 't': t, 'p': p, 'Sig': sig, 'N': m._N})
+
+pd.DataFrame(mech_rows).to_csv(f"{RES_DIR}/mechanism_results.csv", index=False)
+print(f"  已保存: mechanism_results.csv")
 
 # ================================================================
 # 8. 异质性
@@ -247,6 +253,7 @@ print("=" * 60)
 base = f"PriceDelay ~ DU_kw + {ctrl_str} | Stkcd + year"
 hightech = {'C39', 'I65', 'C35', 'C27', 'C40'}
 
+het_rows = []
 for label, sub in [
     ('国企', reg_fe[reg_fe.SOE == 1]),
     ('民企', reg_fe[reg_fe.SOE == 0]),
@@ -264,8 +271,13 @@ for label, sub in [
         p = m.pvalue().get('DU_kw', np.nan)
         sig = '***' if p < 0.01 else '**' if p < 0.05 else '*' if p < 0.1 else ''
         print(f"  {label} (N={m._N:,}): coef={c:.6f}, t={t:.3f}, p={p:.4f} {sig}")
+        het_rows.append({'Group': label, 'Var': 'DU_kw', 'FE': 'Firm+Year',
+                         'Coef': c, 't': t, 'p': p, 'Sig': sig, 'N': m._N})
     except Exception as e:
         print(f"  {label}: ERROR {e}")
+
+pd.DataFrame(het_rows).to_csv(f"{RES_DIR}/heterogeneity_results.csv", index=False)
+print(f"  已保存: heterogeneity_results.csv")
 
 # ================================================================
 # 9. 汇总
