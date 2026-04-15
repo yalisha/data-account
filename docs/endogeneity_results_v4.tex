@@ -1,0 +1,143 @@
+\documentclass[11pt,a4paper]{article}
+
+% === 页面与字体 ===
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{fontspec}
+\setmainfont{TeX Gyre Termes}
+\usepackage{xeCJK}
+\setCJKmainfont{Noto Serif SC}
+\setCJKfamilyfont{song}{Noto Serif SC}
+\newcommand{\hei}{\CJKfamily{song}\bfseries}
+
+% === 表格 ===
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{array}
+
+% === caption 中文格式 ===
+\usepackage{caption}
+\renewcommand{\tablename}{表}
+\captionsetup[table]{labelsep=quad, font={bf}, justification=centering}
+
+% === 其他 ===
+\usepackage{amsmath}
+\usepackage{hyperref}
+\hypersetup{colorlinks=false}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{enumitem}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\small 数据要素利用与资本市场定价效率}
+\lhead{\small 内生性检验}
+\cfoot{\thepage}
+
+\title{{\hei\Large 数据要素利用与资本市场定价效率} \\[8pt]
+{\large 内生性检验（v4: 修正Bartik构造与样本量报告）}}
+\author{}
+\date{2026年3月}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+% ============================================================
+\section*{一、内生性问题与处理策略}
+
+在基准回归中，数据要素利用程度（$DU\_kw$）对股价延迟（$PriceDelay$）的负向效应在统计和经济意义上均显著（$\beta=-0.0042$, $t=-4.28$, $N=43{,}847$）。然而，该估计可能受到遗漏变量偏误和反向因果的困扰。为缓解上述问题，本文采用以下策略：（1）同行业均值工具变量法；（2）Bartik移位份额工具变量法；（3）滞后一期自变量；（4）Oster (2019) 系数稳定性检验。所有检验使用同期$DU\_kw$口径，企业和年份双向固定效应，行业$\times$年份聚类标准误，样本筛选与基准回归完全一致（剔除金融业、ST企业和上市不足一年企业）。
+
+% ============================================================
+\section*{二、工具变量法}
+
+\subsection*{（一）同行业均值工具变量}
+
+参照已有文献的做法（Chang等, 2024; 李世刚等, 2025; 朱康和汤甬, 2025），本文以同年度同行业（证监会二级，剔除本企业）的数据要素利用均值作为工具变量：
+\begin{equation}
+IV_{Peer,i,t} = \frac{1}{N_{j,t}-1}\sum_{k \in j, k \neq i} DU\_kw_{k,t}
+\end{equation}
+该工具变量的逻辑在于：同行业企业面临相似的技术环境和竞争压力，行业层面的数据要素利用趋势影响个体企业的数据化进程，但行业均值本身不太可能直接影响某一特定企业的股价延迟。
+
+表\ref{tab:iv}列(1)的2SLS结果显示：Kleibergen-Paap rk Wald F统计量为419.41，远超Stock和Yogo (2005) 在10\%最大偏误下的临界值16.38，排除弱工具变量的可能。Anderson-Rubin弱工具变量稳健检验的F值为10.31（$p=0.001$），即使在弱IV情形下效应仍然显著。第二阶段$DU\_kw$系数为$-0.0146$（$t=-3.15$），在1\%水平上显著为负，方向与OLS一致且系数绝对值约为OLS的3.5倍。Durbin-Wu-Hausman内生性检验的F值为7.24（$p=0.007$），在1\%水平上拒绝$DU\_kw$外生的原假设，表明内生性问题确实存在，工具变量估计是必要的。
+
+\subsection*{（二）Bartik移位份额工具变量}
+
+借鉴Goldsmith-Pinkham等 (2020) 的方法，本文构造Bartik型移位份额工具变量：
+\begin{equation}
+IV_{Bartik,i,t} = \overline{DU\_kw}_{j,2011} \times g_{-j,t}
+\end{equation}
+其中$\overline{DU\_kw}_{j,2011}$为行业$j$在基期2011年的均值（份额项），$g_{-j,t}$为\textbf{剔除本行业后}全国其余行业从基期到$t$期的平均增长率（移位项）。使用剔除本行业的全国增长率是为了避免移位项中包含行业自身信息、导致工具变量退化为当期行业均值的问题。排他性建立在基期行业数据化水平通过全国（剔除本行业）趋势影响当期个体企业数据化程度、但不直接影响当期个体企业股价延迟的假设之上。
+
+表\ref{tab:iv}列(2)显示，Kleibergen-Paap F统计量为75.01，远超16.38的临界值。Anderson-Rubin F为11.77（$p=0.001$），DWH F为8.82（$p=0.003$）。第二阶段$DU\_kw$系数为$-0.0170$（$t=-3.38$），在1\%水平上显著为负。值得注意的是，Bartik IV的KP F（75.01）明显低于同行业均值IV（419.41），这是因为Bartik IV的移位项使用剔除本行业的全国增长率，在一阶段中的解释力弱于直接使用同行业信息，但其排他性更强。两种工具变量的2SLS系数均显著大于OLS，这一模式与$DU\_kw$作为关键词计数的代理变量含有测量误差、OLS存在衰减偏误的预期相符。
+
+% ============================================================
+\section*{三、滞后一期自变量}
+
+为进一步缓解反向因果担忧，本文将自变量替换为$DU\_kw_{t-1}$。表\ref{tab:iv}列(3)显示，OLS估计中$DU\_kw_{t-1}$系数为$-0.0037$（$t=-2.57$），在5\%水平上显著为负。以$DU\_kw_{t-1}$的同行业均值滞后值作为工具变量进行2SLS估计，系数为$-0.0168$（$t=-3.60$），在1\%水平上显著，一阶段F统计量为353.88，Anderson-Rubin F为14.16（$p<0.001$），DWH F为9.59（$p=0.002$），均在1\%水平上显著（列(4)）。滞后一期的结果与同期口径方向完全一致，排除了反向因果的替代解释。
+
+% ============================================================
+\section*{四、Oster系数稳定性检验}
+
+Oster (2019) 提出基于系数稳定性和$R^2$变化评估遗漏变量偏误的方法。不含控制变量时，$\hat{\beta}=-0.0053$，$R^2=0.409$；加入全部控制变量后，$\hat{\beta}=-0.0042$，$R^2=0.425$。
+
+以$R^2_{max}=\min(1, 1.3\tilde{R})=0.552$计算，$\delta^*=27.8$，即遗漏变量需要达到可观测控制变量的27.8倍才能将系数推至零（此设定下偏误调整后系数变号，说明线性外推不适用于如此极端的$\delta^*$值）。以更保守的$R^2_{max}=2\tilde{R}-\dot{R}=0.441$计算，$\delta^*=3.6$，偏误调整后$\hat{\beta}_{adj}=-0.0030$仍为负值。两种设定下$\delta^*$均大于1，满足Oster (2019) 提出的稳健性标准。
+
+% ============================================================
+\section*{五、内生性检验结果汇总}
+
+\begin{table}[htbp]
+\centering
+\caption{内生性检验结果汇总}
+\label{tab:iv}
+\vspace{6pt}
+\begin{tabular}{lccccc}
+\toprule
+& (0) & (1) & (2) & (3) & (4) \\
+& OLS & Peer IV & Bartik IV & OLS($t{-}1$) & IV($t{-}1$) \\
+\midrule
+$DU\_kw$ / $DU\_kw_{t-1}$ & $-$0.0042$^{***}$ & $-$0.0146$^{***}$ & $-$0.0170$^{***}$ & $-$0.0037$^{**}$ & $-$0.0168$^{***}$ \\
+& (0.0010) & (0.0046) & (0.0050) & (0.0014) & (0.0047) \\[6pt]
+\textit{Panel B: IV诊断} \\[3pt]
+KP rk Wald $F$ & & 419.41 & 75.01 & & 353.88 \\
+Anderson-Rubin $F$ & & 10.31$^{***}$ & 11.77$^{***}$ & & 14.16$^{***}$ \\
+DWH $F$ & & 7.24$^{***}$ & 8.82$^{***}$ & & 9.59$^{***}$ \\[3pt]
+\textit{Panel C: Oster bounds} \\[3pt]
+$\delta^*$ ($R^2_{max}=1.3\tilde{R}$) & \multicolumn{5}{c}{27.8} \\
+$\delta^*$ ($R^2_{max}=2\tilde{R}-\dot{R}$) & \multicolumn{5}{c}{3.6} \\
+$\hat{\beta}_{adj}$ ($\delta=1$, 保守$R^2_{max}$) & \multicolumn{5}{c}{$-$0.0030} \\[3pt]
+\midrule
+控制变量 & 是 & 是 & 是 & 是 & 是 \\
+企业固定效应 & 是 & 是 & 是 & 是 & 是 \\
+年份固定效应 & 是 & 是 & 是 & 是 & 是 \\
+$N$ & 43,847 & 34,055 & 33,564 & 38,569 & 29,377 \\
+\bottomrule
+\end{tabular}
+
+\vspace{6pt}
+{\small 注：括号内为行业$\times$年份聚类稳健标准误。$^{***}$、$^{**}$、$^{*}$分别表示在1\%、5\%、10\%水平上显著。KP $F$为Kleibergen-Paap rk Wald $F$统计量（恰好识别时等于一阶段$t$值的平方）。Anderson-Rubin检验为弱工具变量稳健推断。DWH为Durbin-Wu-Hausman内生性检验，原假设为$DU\_kw$外生。Oster $\delta^*$为将系数推至零所需的相对选择度，$\delta^*>1$表示结果稳健。保守$R^2_{max}$下$\hat{\beta}_{adj}$为$\delta=1$时的偏误调整系数。列(0)--(2)使用同期$DU\_kw$，列(3)(4)使用$DU\_kw_{t-1}$。样本筛选与基准回归完全一致（剔除金融业、ST企业和上市不足一年企业）。列(1)--(4)因证监会二级行业分组中singleton企业年份被剔除或Bartik构造要求基期数据，样本量略小。}
+\end{table}
+
+表\ref{tab:iv}汇总了全部内生性检验结果。可以得到以下结论：第一，所有方法均得到$DU\_kw$对$PriceDelay$的显著负向效应，系数方向完全一致。第二，三种工具变量的系数绝对值（0.015--0.017）约为OLS（0.004）的3.5--4倍，这一模式与$DU\_kw$作为关键词计数的代理变量含有测量误差、OLS存在衰减偏误的预期一致：IV修正测量误差后效应更大。第三，DWH检验在所有IV设定下均拒绝$DU\_kw$的外生性（$p<0.01$），说明遗漏变量偏误或测量误差确实是本研究中需要关注的问题，工具变量估计是必要的。第四，Oster $\delta^*$在两种$R^2_{max}$设定下均大于1（3.6至27.8），保守设定下偏误调整后系数仍为负值。综上，多种内生性检验结果均支持数据要素利用对资本市场定价效率具有促进作用这一核心发现的因果性和稳健性。
+
+% ============================================================
+\section*{参考文献}
+
+\begin{enumerate}[label={[\arabic*]}, leftmargin=2em, itemsep=3pt]
+
+\item Chang Y, Liu C, Zhou F. Digital Transformation and Capital Market Pricing Efficiency: Identification from a Natural Experiment[J]. \textit{Finance Research Letters}, 2024, 65: 105557.
+
+\item Goldsmith-Pinkham P, Sorkin I, Swift H. Bartik Instruments: What, When, Why, and How[J]. \textit{American Economic Review}, 2020, 110(8): 2586--2624.
+
+\item Oster E. Unobservable Selection and Coefficient Stability: Theory and Evidence[J]. \textit{Journal of Business \& Economic Statistics}, 2019, 37(2): 187--204.
+
+\item Stock J H, Yogo M. Testing for Weak Instruments in Linear IV Regression[C]// Andrews D W K, Stock J H. Identification and Inference for Econometric Models. Cambridge University Press, 2005: 80--108.
+
+\item 李世刚, 唐松, 施海晶. 企业数据资产信息披露与资本市场定价效率[J]. 中国工业经济, 2025(1): 137--155.
+
+\item 朱康, 汤甬. 数据要素利用与企业金融资产配置[J]. 会计研究, 2025(2).
+
+\end{enumerate}
+
+\end{document}

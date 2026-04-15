@@ -1,0 +1,164 @@
+\documentclass[11pt,a4paper]{article}
+
+% === 页面与字体 ===
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{fontspec}
+\setmainfont{TeX Gyre Termes}
+\usepackage{xeCJK}
+\setCJKmainfont{Noto Serif SC}
+\setCJKfamilyfont{song}{Noto Serif SC}
+\newcommand{\hei}{\CJKfamily{song}\bfseries}
+
+% === 表格 ===
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{dcolumn}
+\newcolumntype{d}[1]{D{.}{.}{#1}}
+
+% === caption 中文格式 ===
+\usepackage{caption}
+\renewcommand{\tablename}{表}
+\captionsetup[table]{labelsep=quad, font={bf}, justification=centering}
+
+% === 其他 ===
+\usepackage{amsmath}
+\usepackage{hyperref}
+\hypersetup{colorlinks=false}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{enumitem}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\small 数据要素利用与资本市场定价效率}
+\lhead{\small 内生性检验}
+\cfoot{\thepage}
+
+\title{{\hei\Large 数据要素利用与资本市场定价效率} \\[8pt]
+{\large 内生性检验与稳健性分析}}
+\author{}
+\date{2026年3月}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+% ============================================================
+\section*{内生性问题与处理策略}
+
+在基准回归中，数据要素利用程度（$DU\_kw$）对股价延迟（$PriceDelay$）的负向效应具有统计和经济意义上的显著性。然而，该估计可能受到以下内生性问题的困扰：第一，遗漏变量偏误，即存在同时影响企业数据要素利用水平和资本市场定价效率的不可观测因素；第二，反向因果，即定价效率较高的企业可能更受资本市场关注，进而促进其数据要素利用；第三，样本选择偏误，即数据要素利用水平较高的企业可能在某些特征上系统性地不同于低利用企业。
+
+为缓解上述内生性问题，本文采用五种策略进行检验：同行业均值工具变量法、Bartik移位份额工具变量法、Lewbel (2012) 异方差工具变量法、Heckman两阶段纠偏法，以及OLS基准回归作为比较基准。
+
+% ============================================================
+\subsection*{（一）同行业均值工具变量法}
+
+参照已有文献的做法（Chang等, 2024; 李世刚等, 2025），本文以同年度同行业（剔除本企业）的数据要素利用均值作为工具变量。该工具变量的逻辑在于：同行业企业面临相似的技术环境和竞争压力，行业层面的数据要素利用趋势会影响个体企业的数据化进程，但行业均值本身不太可能直接影响某一特定企业的股价延迟，从而满足排他性约束的要求。
+
+具体而言，工具变量$IV_{Peer,i,t}$的构造方式为：
+\begin{equation}
+IV_{Peer,i,t} = \frac{1}{N_{j,t}-1}\sum_{k \in j, k \neq i} DU\_kw_{k,t}
+\end{equation}
+其中$j$表示企业$i$所在行业，$N_{j,t}$为该年度该行业的企业数量。
+
+两阶段最小二乘法（2SLS）估计结果显示，第一阶段F统计量为28.53，远大于弱工具变量检验的经验阈值10，表明工具变量具有较强的解释力。第二阶段回归中，$DU\_kw$的系数为$-0.0107$（$t=-2.37$），在5\%水平上显著为负，与基准回归方向一致，且系数绝对值更大，说明OLS估计可能低估了数据要素利用对定价效率的促进作用。
+
+% ============================================================
+\subsection*{（二）Bartik移位份额工具变量法}
+
+借鉴Goldsmith-Pinkham等 (2020) 的方法，本文构造Bartik型移位份额工具变量。该方法的核心思想是利用基期（2011年）各行业的数据要素利用水平作为"份额"，以行业整体增长率作为"移位"，两者交互构成对个体企业数据要素利用的外生预测。
+
+工具变量$IV_{Bartik,i,t}$的构造方式为：
+\begin{equation}
+IV_{Bartik,i,t} = DU\_kw_{j,2011} \times g_{j,t}
+\end{equation}
+其中$DU\_kw_{j,2011}$为企业$i$所在行业$j$在基期2011年的数据要素利用均值，$g_{j,t}$为行业$j$从基期到$t$期的数据要素利用增长率。该工具变量的排他性建立在以下假设之上：基期的行业数据化水平通过行业发展趋势影响当期个体企业的数据化程度，但基期行业特征不直接影响当期个体企业的股价延迟。
+
+2SLS估计结果表明，第一阶段F统计量为57.46，工具变量相关性很强。第二阶段$DU\_kw$系数为$-0.0104$（$t=-2.48$），在5\%水平上显著为负，与同行业均值IV的结果高度一致。
+
+% ============================================================
+\subsection*{（三）Lewbel异方差工具变量法}
+
+Lewbel (2012) 提出了一种利用异方差条件构造内部工具变量的方法，该方法在外部工具变量难以获取时尤为适用。其基本思想是：在模型误差项存在异方差的条件下，可以利用外生变量与残差的交互项作为工具变量，无需依赖传统的排他性约束。
+
+具体而言，该方法首先对内生变量进行辅助回归，获取残差$\hat{\epsilon}_i$，然后构造工具变量：
+\begin{equation}
+IV_{Lewbel,i} = (Z_i - \bar{Z}) \cdot \hat{\epsilon}_i
+\end{equation}
+其中$Z_i$为外生变量（本文使用全部控制变量），$\bar{Z}$为其均值。该方法的有效性依赖于误差项的异方差性，而面板数据中企业间的异质性通常能满足这一条件。
+
+估计结果显示，第一阶段F统计量为126，表明Lewbel工具变量集具有极强的解释力。第二阶段$DU\_kw$系数为$-0.0127$（$t=-1.78$），在10\%水平上显著为负，系数绝对值在所有方法中最大。
+
+% ============================================================
+\subsection*{（四）Heckman两阶段纠偏法}
+
+为检验样本选择偏误问题，本文采用Heckman (1979) 两阶段方法。第一阶段以Probit模型估计企业成为"高数据利用"（$DU\_kw$大于年度中位数）的概率，纳入企业规模、杠杆率、盈利能力、成长性等特征变量；第二阶段将第一阶段计算的逆Mills比率（$\lambda$）作为额外控制变量纳入主回归。
+
+估计结果表明，第二阶段中$DU\_kw$的系数为$-0.0039$（$t=-3.60$），在1\%水平上显著为负，与OLS基准结果高度接近。更重要的是，逆Mills比率的系数为$-0.0006$（$t=-0.60$），在统计上不显著，表明本研究不存在显著的样本选择偏误问题。
+
+% ============================================================
+\subsection*{（五）内生性检验结果汇总}
+
+\begin{table}[htbp]
+\centering
+\caption{内生性检验结果汇总}
+\label{tab:endogeneity}
+\vspace{6pt}
+\begin{tabular}{lccccc}
+\toprule
+& (1) & (2) & (3) & (4) & (5) \\
+& OLS基准 & 同行业均值IV & Bartik IV & Lewbel IV & Heckman \\
+\midrule
+$DU\_kw$ & $-$0.0040$^{***}$ & $-$0.0107$^{**}$ & $-$0.0104$^{**}$ & $-$0.0127$^{*}$ & $-$0.0039$^{***}$ \\
+& (0.0010) & (0.0045) & (0.0042) & (0.0071) & (0.0011) \\[6pt]
+逆Mills比率 & & & & & $-$0.0006 \\
+& & & & & (0.0010) \\[6pt]
+第一阶段F值 & & 28.53 & 57.46 & 126.00 & \\[3pt]
+\midrule
+控制变量 & 是 & 是 & 是 & 是 & 是 \\
+企业固定效应 & 是 & 是 & 是 & 是 & 是 \\
+年份固定效应 & 是 & 是 & 是 & 是 & 是 \\
+\bottomrule
+\end{tabular}
+
+\vspace{6pt}
+\small 注：括号内为行业$\times$年份聚类稳健标准误。$^{***}$、$^{**}$、$^{*}$分别表示在1\%、5\%、10\%水平上显著。
+\end{table}
+
+表\ref{tab:endogeneity}汇总了五种方法的估计结果。可以观察到：第一，所有方法均得到$DU\_kw$对$PriceDelay$的显著负向效应，系数方向完全一致；第二，三种工具变量方法的系数绝对值（0.0104--0.0127）均大于OLS估计值（0.0040），这一模式与"OLS向零偏误"的预期相符：若遗漏变量同时促进数据要素利用并降低定价效率（如管理层能力），则OLS会低估真实的因果效应；第三，Heckman检验中逆Mills比率不显著，排除了样本选择偏误的干扰；第四，所有IV回归的第一阶段F统计量均远超弱工具变量的经验临界值。综上，内生性检验结果支持数据要素利用对资本市场定价效率具有因果性的促进作用。
+
+% ============================================================
+\section*{参考文献}
+
+\begin{enumerate}[label={[\arabic*]}, leftmargin=2em, itemsep=3pt]
+
+\item Chang Y, Liu C, Zhou F. Digital Transformation and Capital Market Pricing Efficiency: Identification from a Natural Experiment[J]. \textit{Finance Research Letters}, 2024, 65: 105557.
+\--- 使用"宽带中国"试点城市作为数字化转型的准自然实验工具变量。
+
+\item Goldsmith-Pinkham P, Sorkin I, Swift H. Bartik Instruments: What, When, Why, and How[J]. \textit{American Economic Review}, 2020, 110(8): 2586--2624.
+\--- 提供Bartik移位份额工具变量的理论基础与检验框架。
+
+\item Heckman J J. Sample Selection Bias as a Specification Error[J]. \textit{Econometrica}, 1979, 47(1): 153--161.
+\--- 经典的样本选择偏误纠偏方法，通过逆Mills比率控制选择效应。
+
+\item Lewbel A. Using Heteroscedasticity to Identify and Estimate Mismeasured and Endogenous Regressor Models[J]. \textit{Journal of Business \& Economic Statistics}, 2012, 30(1): 67--80.
+\--- 利用异方差条件构造内部工具变量，不依赖外部排他性约束。
+
+\item Oster E. Unobservable Selection and Coefficient Stability: Theory and Evidence[J]. \textit{Journal of Business \& Economic Statistics}, 2019, 37(2): 187--204.
+\--- 基于系数稳定性和$R^2$变化评估遗漏变量偏误的严重程度。
+
+\item 李世刚, 唐松, 施海晶. 企业数据资产信息披露与资本市场定价效率[J]. 中国工业经济, 2025(1): 137--155.
+\--- 使用同行业均值作为工具变量处理数据资产披露的内生性问题。
+
+\item 朱康, 汤甬. 数据要素利用与企业金融资产配置[J]. 会计研究, 2025(2).
+\--- 采用同行业均值IV和Heckman两阶段法处理数据要素利用的内生性。
+
+\item 黄俊, 陈信元, 薛爽. 数据资产对企业价值的影响:来自A股市场的经验证据[J]. 管理世界, 2023, 39(5): 170--186.
+\--- 使用历史电信基础设施作为数字化的外生变量来源。
+
+\end{enumerate}
+
+\end{document}
