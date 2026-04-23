@@ -1,0 +1,32 @@
+\begin{table}[htbp]\centering
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\caption{表3 稳健性检验}
+\begin{tabular}{l*{8}{S}}
+\toprule
+          &Ind$\times$Year         &Prov$\times$Year         &   IndAdj         &  No 2024         &    No IT         &MainBoard         &      PSM         &  Two-way         \\
+          &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)}&\multicolumn{1}{c}{(7)}&\multicolumn{1}{c}{(8)}\\
+          &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)}&\multicolumn{1}{c}{(7)}&\multicolumn{1}{c}{(8)}\\
+\midrule
+DU\_kw     &   -0.002\sym{***}&   -0.004\sym{***}&                  &   -0.005\sym{***}&   -0.004\sym{***}&   -0.003\sym{**} &   -0.004\sym{***}&   -0.004\sym{***}\\
+          &  (0.001)         &  (0.001)         &                  &  (0.001)         &  (0.001)         &  (0.001)         &  (0.001)         &  (0.001)         \\
+\addlinespace
+DU\_kw\_indadj&                  &                  &   -0.002\sym{***}&                  &                  &                  &                  &                  \\
+          &                  &                  &  (0.001)         &                  &                  &                  &                  &                  \\
+\midrule
+Controls  &      YES         &      YES         &      YES         &      YES         &      YES         &      YES         &      YES         &      YES         \\
+Firm FE   &      YES         &      YES         &      YES         &      YES         &      YES         &      YES         &      YES         &      YES         \\
+Year FE   &       NO         &       NO         &      YES         &      YES         &      YES         &      YES         &      YES         &      YES         \\
+Ind$\times$Year FE&      YES         &       NO         &       NO         &       NO         &       NO         &       NO         &       NO         &       NO         \\
+Prov$\times$Year FE&       NO         &      YES         &       NO         &       NO         &       NO         &       NO         &       NO         &       NO         \\
+$N$       &   43,778         &   43,842         &   43,843         &   38,916         &   40,720         &   18,837         &   34,425         &   43,843         \\
+$R^2$     &    0.478         &    0.435         &    0.424         &    0.434         &    0.425         &    0.417         &    0.434         &    0.425         \\
+\bottomrule
+\multicolumn{9}{l}{\footnotesize 注：括号内数值为稳健标准误。}\\
+\multicolumn{9}{l}{\footnotesize ***、**、*分别表示1\%、5\%、10\%的水平上显著，下同。}\\
+\multicolumn{9}{l}{\footnotesize 模型(1)控制企业和行业×年份交互固定效应。}\\
+\multicolumn{9}{l}{\footnotesize 模型(2)控制企业和省份×年份交互固定效应。}\\
+\multicolumn{9}{l}{\footnotesize 模型(3)使用行业年度均值调整后的DU\\_kw。}\\
+\multicolumn{9}{l}{\footnotesize 模型(7)使用倾向得分匹配后的样本。}\\
+\multicolumn{9}{l}{\footnotesize 模型(8)使用企业和年份双向聚类标准误。}\\
+\end{tabular}
+\end{table}

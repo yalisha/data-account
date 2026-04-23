@@ -1,0 +1,78 @@
+\documentclass[12pt]{article}
+\usepackage[UTF8]{ctex}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage[a4paper,left=1.0cm,right=1.0cm,top=2cm,bottom=2.5cm]{geometry}
+\usepackage{threeparttable}
+\usepackage{caption}
+\usepackage[hang,flushmargin]{footmisc}
+\captionsetup{font=small, labelsep=space}
+
+\pagestyle{empty}
+
+\newcolumntype{Y}{>{\centering\arraybackslash}p{1.55cm}}
+
+% 脚注格式
+\renewcommand{\thefootnote}{[\arabic{footnote}]}
+
+\begin{document}
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\begin{threeparttable}
+\caption{扩展机制检验}
+\label{tab:mechanism_new}
+\begin{tabular}{l*{9}{Y}}
+\toprule
+ & (1) & (2) & (3) & (4) & (5) & (6) & (7) & (8) & (9) \\
+ & 盈余管理 & 年报篇幅 & 稳定型 & 审计费用 & 收益率 & 管理层 & 换手率 & 投资效率 & 长期预测 \\
+ & 程度 & (万字) & 机构持股 & (对数) & 自相关 & 持股 & 波动率 & 偏离 & 误差 \\
+变量 & $absDA$ & $ARLen$ & $InstStb$ & $AudFee$ & $RetAC$ & $MgmtH$ & $TnvrVol$ & $InvInf$ & $FcAcc_{LT}$ \\
+\cmidrule(lr){2-2}\cmidrule(lr){3-3}\cmidrule(lr){4-4}\cmidrule(lr){5-5}\cmidrule(lr){6-6}\cmidrule(lr){7-7}\cmidrule(lr){8-8}\cmidrule(lr){9-9}\cmidrule(lr){10-10}
+\scriptsize 来源 & \tiny \footnotemark[1] & \tiny \footnotemark[2] & \tiny \footnotemark[3] & \tiny \footnotemark[4] & \tiny \footnotemark[5] & \tiny \footnotemark[6] & \tiny \footnotemark[7] & \tiny \footnotemark[8] & \tiny \footnotemark[9] \\
+\midrule
+\multicolumn{10}{l}{\textit{Panel A: 同期回归 $DU\_kw_{i,t} \to M_{i,t}$}} \\[3pt]
+$DU\_kw$ & $-$0.0010\textsuperscript{***} & 0.0785\textsuperscript{***} & $-$0.1710\textsuperscript{***} & 0.0049\textsuperscript{***} & $-$0.0019\textsuperscript{***} & $-$0.1414\textsuperscript{***} & 0.5470\textsuperscript{***} & $-$0.0010\textsuperscript{*} & 0.0429 \\
+ & \tiny(0.0003) & \tiny(0.0204) & \tiny(0.0261) & \tiny(0.0016) & \tiny(0.0007) & \tiny(0.0398) & \tiny(0.1228) & \tiny(0.0006) & \tiny(0.0410) \\[4pt]
+控制变量 & YES & YES & YES & YES & YES & YES & YES & YES & YES \\
+FE & YES & YES & YES & YES & YES & YES & YES & YES & YES \\
+$N$ & 32{,}973 & 43{,}843 & 43{,}843 & 43{,}541 & 43{,}843 & 41{,}444 & 43{,}843 & 28{,}974 & 24{,}601 \\
+$R^2$ & 0.278 & 0.845 & 0.695 & 0.901 & 0.331 & 0.845 & 0.570 & 0.280 & 0.387 \\
+\midrule
+\multicolumn{10}{l}{\textit{Panel B: 滞后回归 $DU\_kw_{i,t} \to M_{i,t+1}$}} \\[3pt]
+$DU\_kw$ & $-$0.0010\textsuperscript{**} & 0.1046\textsuperscript{***} & $-$0.1324\textsuperscript{***} & 0.0036\textsuperscript{**} & $-$0.0013\textsuperscript{*} & $-$0.1092\textsuperscript{**} & 0.6177\textsuperscript{***} & $-$0.0009 & 0.0695\textsuperscript{*} \\
+ & \tiny(0.0004) & \tiny(0.0207) & \tiny(0.0404) & \tiny(0.0017) & \tiny(0.0007) & \tiny(0.0442) & \tiny(0.1306) & \tiny(0.0006) & \tiny(0.0391) \\[4pt]
+控制变量 & YES & YES & YES & YES & YES & YES & YES & YES & YES \\
+FE & YES & YES & YES & YES & YES & YES & YES & YES & YES \\
+$N$ & 27{,}967 & 37{,}871 & 37{,}877 & 37{,}804 & 37{,}934 & 35{,}733 & 37{,}934 & 26{,}933 & 20{,}724 \\
+$R^2$ & 0.278 & 0.849 & 0.617 & 0.906 & 0.332 & 0.825 & 0.530 & 0.286 & 0.408 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}
+\scriptsize
+\item 注: 遵循江艇(2022)两步法, Panel~A报告同期回归, Panel~B报告滞后一期回归。企业+年份双向固定效应, 标准误按行业$\times$年份聚类(括号内报告)。\textsuperscript{***}、\textsuperscript{**}、\textsuperscript{*}分别表示在1\%、5\%和10\%的统计水平上显著。
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\footnotetext[1]{Du, K. (2020). Connections between the market pricing of accruals quality and accounting-based anomalies. \textit{Contemporary Accounting Research}, \textit{37}(3), 1682--1710.}
+
+\footnotetext[2]{Rjiba, H., Saadi, S., Boubaker, S., \& Ding, X. S. (2021). Annual report readability and the cost of equity capital. \textit{Journal of Corporate Finance}, \textit{67}, 101902.}
+
+\footnotetext[3]{Buss, A., \& Sundaresan, S. (2023). More risk, more information: How passive ownership can improve informational efficiency. \textit{The Review of Financial Studies}, \textit{36}(12), 4713--4758.}
+
+\footnotetext[4]{Knechel, W. R., \& Salterio, S. E. (2022). \textit{Auditing: Assurance and risk} (5th ed.). Routledge; DeFond, M. L., \& Zhang, J. (2014). A review of archival auditing research. \textit{Journal of Accounting and Economics}, \textit{58}(2--3), 275--326.}
+
+\footnotetext[5]{Hou, K., \& Moskowitz, T. J. (2005). Market frictions, price delay, and the cross-section of expected returns. \textit{The Review of Financial Studies}, \textit{18}(3), 981--1020; Chordia, T., Roll, R., \& Subrahmanyam, A. (2008). Liquidity and market efficiency. \textit{Journal of Financial Economics}, \textit{87}(2), 249--268.}
+
+\footnotetext[6]{Balsam, S., Bartov, E., \& Marquardt, C. (2002). Accruals management, investor sophistication, and equity valuation. \textit{Journal of Accounting Research}, \textit{40}(4), 987--1012; Core, J. E., Holthausen, R. W., \& Larcker, D. F. (1999). Corporate governance, chief executive officer compensation, and firm performance. \textit{Journal of Financial Economics}, \textit{51}(3), 371--406.}
+
+\footnotetext[7]{Davila, E., \& Parlatore, C. (2023). Volatility and informativeness. \textit{Journal of Financial Economics}, \textit{147}(3), 550--572.}
+
+\footnotetext[8]{Li, W., Li, T., Jiang, D., \& Zhang, X. (2024). Bridging the information gap: How digitalization shapes stock price informativeness. \textit{Journal of Financial Stability}, \textit{71}, 101232; Ye, M., Zheng, M. Y., \& Zhu, W. (2023). The effect of tick size on managerial learning from stock prices. \textit{Journal of Accounting and Economics}, \textit{75}(1), 101515.}
+
+\footnotetext[9]{Dessaint, O., Foucault, T., \& Fr\'{e}sard, L. (2024). Does alternative data improve financial forecasting? The horizon effect. \textit{The Journal of Finance}, \textit{79}(3), 2237--2287.}
+
+\end{document}

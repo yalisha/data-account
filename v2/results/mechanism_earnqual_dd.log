@@ -1,0 +1,298 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/mac/computerscience/0做完了/15会计研究/v2/results/mechanism
+> _earnqual_dd.log
+  log type:  text
+ opened on:  20 Apr 2026, 16:22:23
+
+. 
+. * Merge EarnQual into v18 sample (CSV 已由 Python 产出)
+. use "/Users/mac/computerscience/0做完了/15会计研究/v1/data_stata/reg_sample_v
+> 18.dta", clear
+
+. display _newline "v18 样本 N = " _N
+
+v18 样本 N = 43735
+
+. 
+. preserve
+
+.     import delimited using "/Users/mac/computerscience/0做完了/15会计研究/v1/
+> data_parquet/earnings_quality_dd.csv", encoding("utf-8") clear
+(5 vars, 36,378 obs)
+
+.     rename stkcd Stkcd
+
+.     rename year year
+  (all newnames==oldnames)
+
+.     keep Stkcd year earnqual earnqualabs
+
+.     tempfile aq
+
+.     save `aq', replace
+(file /var/folders/1v/x_31wm790txgy940w5mgvhb80000gn/T//St33865.000002 not
+    found)
+file /var/folders/1v/x_31wm790txgy940w5mgvhb80000gn/T//St33865.000002 saved
+    as .dta format
+
+. restore
+
+. 
+. merge 1:1 Stkcd year using `aq', keep(master match) nogen
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         9,712
+        from master                     9,712  
+        from using                          0  
+
+    Matched                            34,023  
+    -----------------------------------------
+
+. display _newline "合并 EarnQual 后 N = " _N
+
+合并 EarnQual 后 N = 43735
+
+. count if !missing(earnqual)
+  25,314
+
+. count if !missing(earnqualabs)
+  34,023
+
+. 
+. * Winsorize 1%/99% (已在 Python 做过，但以防万一)
+. foreach v in earnqual earnqualabs {
+  2.     qui sum `v', detail
+  3.     local p1 = r(p1)
+  4.     local p99 = r(p99)
+  5.     replace `v' = `p1' if `v' < `p1' & !missing(`v')
+  6.     replace `v' = `p99' if `v' > `p99' & !missing(`v')
+  7. }
+(253 real changes made)
+(253 real changes made)
+(340 real changes made)
+(340 real changes made)
+
+. 
+. local ctrls "Size Lev ROA TobinQ Age Growth IndepRatio Dual Top1Share SOE CFO
+> "
+
+. 
+. * ============================================================
+. * EarnQual (rolling σ 版本，N ≈ 27,253)
+. * ============================================================
+. display _newline "=== EarnQual (rolling σ) = DU + X ==="
+
+=== EarnQual (rolling σ) = DU + X ===
+
+. reghdfe earnqual DU_kw `ctrls', absorb(Stkcd_num year_num) cluster(IndYear_nu
+> m)
+(dropped 290 singleton observations)
+(MWFE estimator converged in 6 iterations)
+
+HDFE Linear regression                            Number of obs   =     25,024
+Absorbing 2 HDFE groups                           F(  12,    519) =     117.05
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.6900
+                                                  Adj R-squared   =     0.6401
+                                                  Within R-sq.    =     0.1688
+Number of clusters (IndYear_num) =        520     Root MSE        =     0.0198
+
+                          (Std. err. adjusted for 520 clusters in IndYear_num)
+------------------------------------------------------------------------------
+             |               Robust
+    earnqual | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       DU_kw |   .0000615   .0002468     0.25   0.803    -.0004234    .0005464
+        Size |    -.00715   .0007743    -9.23   0.000    -.0086712   -.0056289
+         Lev |   .0065919   .0023983     2.75   0.006     .0018803    .0113035
+         ROA |  -.1199142   .0053197   -22.54   0.000     -.130365   -.1094635
+      TobinQ |   .0043284   .0003233    13.39   0.000     .0036932    .0049636
+         Age |   .0317665   .0018711    16.98   0.000     .0280906    .0354424
+      Growth |   .0019165   .0005032     3.81   0.000      .000928     .002905
+  IndepRatio |   .0065047   .0046496     1.40   0.162    -.0026296     .015639
+        Dual |   .0001227   .0005662     0.22   0.829    -.0009895    .0012349
+   Top1Share |  -.0002033   .0000363    -5.61   0.000    -.0002745   -.0001321
+         SOE |   .0042806   .0011063     3.87   0.000     .0021073    .0064539
+         CFO |   .0241913   .0031815     7.60   0.000      .017941    .0304416
+       _cons |   .1118965   .0162206     6.90   0.000     .0800303    .1437626
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+   Stkcd_num |      3445           0        3445     |
+    year_num |        10           1           9     |
+-----------------------------------------------------+
+
+. estimates store eq_kw
+
+. reghdfe earnqual DU_llm `ctrls', absorb(Stkcd_num year_num) cluster(IndYear_n
+> um)
+(dropped 290 singleton observations)
+(MWFE estimator converged in 6 iterations)
+
+HDFE Linear regression                            Number of obs   =     25,024
+Absorbing 2 HDFE groups                           F(  12,    519) =     116.53
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.6901
+                                                  Adj R-squared   =     0.6403
+                                                  Within R-sq.    =     0.1691
+Number of clusters (IndYear_num) =        520     Root MSE        =     0.0198
+
+                          (Std. err. adjusted for 520 clusters in IndYear_num)
+------------------------------------------------------------------------------
+             |               Robust
+    earnqual | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      DU_llm |   -.000571    .000223    -2.56   0.011    -.0010091   -.0001329
+        Size |  -.0070243   .0007747    -9.07   0.000    -.0085463   -.0055024
+         Lev |   .0066341   .0023944     2.77   0.006     .0019302    .0113381
+         ROA |  -.1198078   .0053119   -22.55   0.000    -.1302433   -.1093723
+      TobinQ |   .0042884   .0003264    13.14   0.000     .0036472    .0049297
+         Age |   .0317024   .0018758    16.90   0.000     .0280174    .0353875
+      Growth |   .0019199   .0005024     3.82   0.000     .0009329     .002907
+  IndepRatio |    .006326   .0046424     1.36   0.174    -.0027941    .0154461
+        Dual |   .0001365   .0005654     0.24   0.809    -.0009743    .0012472
+   Top1Share |  -.0002035   .0000363    -5.60   0.000    -.0002749   -.0001322
+         SOE |   .0042615   .0011118     3.83   0.000     .0020774    .0064457
+         CFO |   .0240152   .0031738     7.57   0.000     .0177801    .0302502
+       _cons |    .110179   .0162438     6.78   0.000     .0782674    .1420906
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+   Stkcd_num |      3445           0        3445     |
+    year_num |        10           1           9     |
+-----------------------------------------------------+
+
+. estimates store eq_llm
+
+. 
+. * ============================================================
+. * EarnQualAbs (|ε| 版本，N ≈ 36,378，覆盖更全)
+. * ============================================================
+. display _newline "=== EarnQualAbs (|ε|) = DU + X ==="
+
+=== EarnQualAbs (|ε|) = DU + X ===
+
+. reghdfe earnqualabs DU_kw `ctrls', absorb(Stkcd_num year_num) cluster(IndYear
+> _num)
+(dropped 421 singleton observations)
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =     33,602
+Absorbing 2 HDFE groups                           F(  12,    623) =     142.03
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.4761
+                                                  Adj R-squared   =     0.3998
+                                                  Within R-sq.    =     0.2725
+Number of clusters (IndYear_num) =        624     Root MSE        =     0.0311
+
+                          (Std. err. adjusted for 624 clusters in IndYear_num)
+------------------------------------------------------------------------------
+             |               Robust
+ earnqualabs | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       DU_kw |  -.0004168   .0002945    -1.42   0.157    -.0009951    .0001614
+        Size |   .0062617   .0007356     8.51   0.000     .0048172    .0077062
+         Lev |  -.0002588   .0025112    -0.10   0.918    -.0051903    .0046727
+         ROA |  -.3821741   .0105819   -36.12   0.000    -.4029546   -.3613936
+      TobinQ |   .0038724   .0003521    11.00   0.000     .0031809    .0045638
+         Age |  -.0085886   .0013323    -6.45   0.000     -.011205   -.0059722
+      Growth |   .0047509   .0008126     5.85   0.000     .0031552    .0063466
+  IndepRatio |  -.0023419   .0058592    -0.40   0.690    -.0138482    .0091643
+        Dual |   -.001449   .0006571    -2.21   0.028    -.0027394   -.0001586
+   Top1Share |  -.0001493   .0000369    -4.04   0.000    -.0002218   -.0000768
+         SOE |  -.0006697   .0013758    -0.49   0.627    -.0033715    .0020321
+         CFO |   .0495604   .0052339     9.47   0.000     .0392821    .0598386
+       _cons |  -.0790871   .0167697    -4.72   0.000    -.1120191    -.046155
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+   Stkcd_num |      4250           0        4250     |
+    year_num |        12           1          11     |
+-----------------------------------------------------+
+
+. estimates store eqa_kw
+
+. reghdfe earnqualabs DU_llm `ctrls', absorb(Stkcd_num year_num) cluster(IndYea
+> r_num)
+(dropped 421 singleton observations)
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =     33,602
+Absorbing 2 HDFE groups                           F(  12,    623) =     146.79
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.4762
+                                                  Adj R-squared   =     0.3999
+                                                  Within R-sq.    =     0.2727
+Number of clusters (IndYear_num) =        624     Root MSE        =     0.0311
+
+                          (Std. err. adjusted for 624 clusters in IndYear_num)
+------------------------------------------------------------------------------
+             |               Robust
+ earnqualabs | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      DU_llm |  -.0009287   .0002919    -3.18   0.002    -.0015019   -.0003555
+        Size |    .006364   .0007353     8.66   0.000     .0049201    .0078079
+         Lev |  -.0002074   .0025139    -0.08   0.934    -.0051443    .0047294
+         ROA |   -.381959   .0105743   -36.12   0.000    -.4027246   -.3611934
+      TobinQ |   .0038541   .0003532    10.91   0.000     .0031606    .0045477
+         Age |   -.008695   .0013258    -6.56   0.000    -.0112985   -.0060915
+      Growth |    .004767   .0008142     5.85   0.000     .0031681    .0063659
+  IndepRatio |  -.0024372   .0058629    -0.42   0.678    -.0139507    .0090763
+        Dual |  -.0014282   .0006567    -2.17   0.030    -.0027178   -.0001387
+   Top1Share |  -.0001485    .000037    -4.01   0.000    -.0002212   -.0000759
+         SOE |  -.0006781   .0013746    -0.49   0.622    -.0033775    .0020212
+         CFO |    .049416   .0052292     9.45   0.000     .0391469     .059685
+       _cons |  -.0804406   .0167646    -4.80   0.000    -.1133626   -.0475185
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+   Stkcd_num |      4250           0        4250     |
+    year_num |        12           1          11     |
+-----------------------------------------------------+
+
+. estimates store eqa_llm
+
+. 
+. * ============================================================
+. * 导出
+. * ============================================================
+. esttab eq_kw eq_llm eqa_kw eqa_llm ///
+>     using "/Users/mac/computerscience/0做完了/15会计研究/v2/results/mechanism
+> _earnqual_dd.csv", ///
+>     replace csv se r2 ar2 star(* 0.10 ** 0.05 *** 0.01) ///
+>     nogaps compress ///
+>     mtitles("EarnQual_KW" "EarnQual_LLM" "EarnQualAbs_KW" "EarnQualAbs_LLM") 
+> ///
+>     title("盈余质量 DD 2002 机制")
+(file
+    /Users/mac/computerscience/0做完了/15会计研究/v2/results/mechanism_earnqu
+    > al_dd.csv not found)
+(output written to /Users/mac/computerscience/0做完了/15会计研究/v2/results/mec
+> hanism_earnqual_dd.csv)
+
+. 
+. display _newline "=== 盈余质量 完成 ==="
+
+=== 盈余质量 完成 ===
+
+. log close
+      name:  <unnamed>
+       log:  /Users/mac/computerscience/0做完了/15会计研究/v2/results/mechanism
+> _earnqual_dd.log
+  log type:  text
+ closed on:  20 Apr 2026, 16:22:24
+-------------------------------------------------------------------------------

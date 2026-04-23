@@ -1,0 +1,141 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/mac/computerscience/0做完了/15会计研究/results/v16_integrat
+> ed/logs/h2c_washgap.log
+  log type:  text
+ opened on:  19 Apr 2026, 16:31:55
+
+. 
+. capture which reghdfe
+
+. if _rc {
+.     display as error "reghdfe not installed"
+.     exit 198
+. }
+
+. 
+. use "`base'/data_stata/reg_sample_v16_integrated.dta", clear
+
+. 
+. local controls "Size Lev ROA TobinQ Age Growth IndepRatio Dual Top1Share SOE 
+> CFO"
+
+. tempfile out
+
+. tempname memhold
+
+. 
+. postfile `memhold' str20 model str20 regressor double(coef se tstat pval) lon
+> g(N) double(r2) using `out', replace
+(file /var/folders/1v/x_31wm790txgy940w5mgvhb80000gn/T//St77857.000001 not
+    found)
+
+. 
+. quietly reghdfe PriceDelay WashGap_lag `controls', absorb(Stkcd_num year_num)
+>  cluster(IndYear_num)
+
+. foreach R in WashGap_lag {
+  2.     local b = _b[`R']
+  3.     local se = _se[`R']
+  4.     local t = `b' / `se'
+  5.     local p = 2 * ttail(e(df_r), abs(`t'))
+  6.     local n = e(N)
+  7.     local r2 = e(r2)
+  8.     post `memhold' ("washgap_direct") ("`R'") (`b') (`se') (`t') (`p') (`n
+> ') (`r2')
+  9. }
+
+. 
+. quietly reghdfe PriceDelay DU_kw_lag WashGap_lag `controls', absorb(Stkcd_num
+>  year_num) cluster(IndYear_num)
+
+. foreach R in DU_kw_lag WashGap_lag {
+  2.     local b = _b[`R']
+  3.     local se = _se[`R']
+  4.     local t = `b' / `se'
+  5.     local p = 2 * ttail(e(df_r), abs(`t'))
+  6.     local n = e(N)
+  7.     local r2 = e(r2)
+  8.     post `memhold' ("washgap_joint_kw") ("`R'") (`b') (`se') (`t') (`p') (
+> `n') (`r2')
+  9. }
+
+. 
+. quietly reghdfe PriceDelay DU_llm_lag WashGap_lag `controls', absorb(Stkcd_nu
+> m year_num) cluster(IndYear_num)
+
+. foreach R in DU_llm_lag WashGap_lag {
+  2.     local b = _b[`R']
+  3.     local se = _se[`R']
+  4.     local t = `b' / `se'
+  5.     local p = 2 * ttail(e(df_r), abs(`t'))
+  6.     local n = e(N)
+  7.     local r2 = e(r2)
+  8.     post `memhold' ("washgap_joint_llm") ("`R'") (`b') (`se') (`t') (`p') 
+> (`n') (`r2')
+  9. }
+
+. 
+. postclose `memhold'
+
+. 
+. use `out', clear
+
+. export delimited using "`base'/results/v16_integrated/h2c_washgap.csv", repla
+> ce
+(file
+    /Users/mac/computerscience/0做完了/15会计研究/results/v16_integrated/h2c_
+    > washgap.csv not found)
+file /Users/mac/computerscience/0做完了/15会计研究/results/v16_integrated/h2c_w
+> ashgap.csv saved
+
+. list, noobs abbreviate(20)
+
+  +-----------------------------------------------------------------------+
+  |             model |   regressor |       coef |        se |      tstat |
+  |    washgap_direct | WashGap_lag |  .00347285 | .00166134 |  2.0903837 |
+  |-----------------------------------------------------------------------|
+  |            pval        |           N        |               r2        |
+  |       .03684537        |       37294        |        .41739329        |
+  +-----------------------------------------------------------------------+
+
+  +-----------------------------------------------------------------------+
+  |             model |   regressor |       coef |        se |      tstat |
+  |  washgap_joint_kw |   DU_kw_lag | -.00448375 | .00095968 | -4.6721532 |
+  |-----------------------------------------------------------------------|
+  |            pval        |           N        |               r2        |
+  |       3.405e-06        |       37294        |        .41814324        |
+  +-----------------------------------------------------------------------+
+
+  +-----------------------------------------------------------------------+
+  |             model |   regressor |       coef |        se |      tstat |
+  |  washgap_joint_kw | WashGap_lag |   .0057543 | .00155926 |  3.6903963 |
+  |-----------------------------------------------------------------------|
+  |            pval        |           N        |               r2        |
+  |       .00023647        |       37294        |        .41814324        |
+  +-----------------------------------------------------------------------+
+
+  +-----------------------------------------------------------------------+
+  |             model |   regressor |       coef |        se |      tstat |
+  | washgap_joint_llm |  DU_llm_lag | -.00649998 | .00162341 | -4.0039186 |
+  |-----------------------------------------------------------------------|
+  |            pval        |           N        |               r2        |
+  |        .0000671        |       37294        |        .41789564        |
+  +-----------------------------------------------------------------------+
+
+  +-----------------------------------------------------------------------+
+  |             model |   regressor |       coef |        se |      tstat |
+  | washgap_joint_llm | WashGap_lag | -.00475403 |  .0029963 | -1.5866314 |
+  |-----------------------------------------------------------------------|
+  |            pval        |           N        |               r2        |
+  |       .11292476        |       37294        |        .41789564        |
+  +-----------------------------------------------------------------------+
+
+. 
+. log close
+      name:  <unnamed>
+       log:  /Users/mac/computerscience/0做完了/15会计研究/results/v16_integrat
+> ed/logs/h2c_washgap.log
+  log type:  text
+ closed on:  19 Apr 2026, 16:31:56
+-------------------------------------------------------------------------------

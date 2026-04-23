@@ -1,0 +1,541 @@
+-------------------------------------------------------------------------------
+      name:  text_log
+       log:  /Users/mac/computerscience/stata-mcp-folder/stata-mcp-log/fisher_t
+> est.log
+  log type:  text
+ opened on:   6 Mar 2026, 11:55:49
+
+.         log using "/Users/mac/computerscience/stata-mcp-folder/stata-mcp-log/
+> fisher_test.smcl", replace smcl name(smcl_log)
+(file
+    /Users/mac/computerscience/stata-mcp-folder/stata-mcp-log/fisher_test.smc
+    > l not found)
+-------------------------------------------------------------------------------
+      name:  smcl_log
+       log:  /Users/mac/computerscience/stata-mcp-folder/stata-mcp-log/fisher_t
+> est.smcl
+  log type:  smcl
+ opened on:   6 Mar 2026, 11:55:49
+
+.         do "/Users/mac/computerscience/stata-mcp-folder/stata-mcp-dofile/2026
+> 0306115439682113.do"
+
+. 
+. /*==============================================================
+>   Table 6 Panel A: 异质性分析 - Fisher组合检验
+>   方法: Freedman-Lane残差化 + 1000次置换检验
+>   参照朱康(2025)会计研究的做法
+> ==============================================================*/
+. 
+. clear all
+
+. set more off
+
+. set seed 20250306
+
+. 
+. * Load data
+. use "/Users/mac/computerscience/15会计研究/data_stata/reg_sample_het.dta", cl
+> ear
+
+. 
+. * Controls
+. global controls Size Lev ROA TobinQ Age Growth BoardSize IndepRatio ///
+>     Dual Top1Share SOE InstHold Amihud Analyst AuditType
+
+. 
+. * Quick summary
+. sum PriceDelay DU_kw SOE HighInfoEnv HighSA HighInstHold
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+  PriceDelay |     44,067    .1114528    .1228323    .004895   .6645464
+       DU_kw |     44,067    1.223185    1.862921          0   11.06432
+         SOE |     44,067     .328999     .469855          0          1
+ HighInfoEnv |     44,067    .5068419    .4999589          0          1
+      HighSA |     44,067    .5000113    .5000057          0          1
+-------------+---------------------------------------------------------
+HighInstHold |     44,067    .5000113    .5000057          0          1
+
+. 
+. /*--------------------------------------------------------------
+>   Step 1: Residualize Y and X using reghdfe (full sample)
+>   This absorbs Firm FE + Year FE + controls
+>   After this, each permutation only needs simple OLS
+> --------------------------------------------------------------*/
+. di _n "=== Step 1: Residualizing Y and X ==="
+
+=== Step 1: Residualizing Y and X ===
+
+. 
+. * Residualize PriceDelay
+. reghdfe PriceDelay $controls, absorb(Stkcd_num year_num) resid(resid_y)
+(dropped 224 singleton observations)
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =     43,843
+Absorbing 2 HDFE groups                           F(  15,  38862) =      75.62
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.4243
+                                                  Adj R-squared   =     0.3505
+                                                  Within R-sq.    =     0.0284
+                                                  Root MSE        =     0.0991
+
+------------------------------------------------------------------------------
+  PriceDelay | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        Size |    .019424   .0016483    11.78   0.000     .0161933    .0226547
+         Lev |   .0231255   .0052403     4.41   0.000     .0128544    .0333966
+         ROA |  -.0352292   .0111941    -3.15   0.002    -.0571699   -.0132886
+      TobinQ |   .0100405   .0006631    15.14   0.000     .0087409    .0113402
+         Age |  -.0276505   .0025822   -10.71   0.000    -.0327117   -.0225892
+      Growth |   .0101575   .0014811     6.86   0.000     .0072544    .0130605
+   BoardSize |  -.0139462   .0057797    -2.41   0.016    -.0252746   -.0026179
+  IndepRatio |  -.0341514   .0176546    -1.93   0.053    -.0687549    .0004521
+        Dual |  -.0018593   .0017136    -1.09   0.278    -.0052181    .0014995
+   Top1Share |  -.0001025   .0000946    -1.08   0.278    -.0002878    .0000828
+         SOE |   .0002906   .0034709     0.08   0.933    -.0065125    .0070936
+    InstHold |   .0002186   .0000664     3.29   0.001     .0000885    .0003487
+      Amihud |   .1487029    .014902     9.98   0.000     .1194947    .1779111
+     Analyst |    -.01036   .0006089   -17.01   0.000    -.0115535   -.0091665
+   AuditType |  -.0140884   .0031979    -4.41   0.000    -.0203564   -.0078204
+       _cons |  -.2284583   .0392558    -5.82   0.000    -.3054007   -.1515159
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+   Stkcd_num |      4953           0        4953     |
+    year_num |        14           1          13     |
+-----------------------------------------------------+
+
+. * Residualize DU_kw  
+. reghdfe DU_kw $controls, absorb(Stkcd_num year_num) resid(resid_x)
+(dropped 224 singleton observations)
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =     43,843
+Absorbing 2 HDFE groups                           F(  15,  38862) =      58.90
+                                                  Prob > F        =     0.0000
+                                                  R-squared       =     0.8286
+                                                  Adj R-squared   =     0.8066
+                                                  Within R-sq.    =     0.0222
+                                                  Root MSE        =     0.8175
+
+------------------------------------------------------------------------------
+       DU_kw | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        Size |   .1909246   .0136035    14.03   0.000     .1642614    .2175877
+         Lev |    .018586   .0432489     0.43   0.667    -.0661829    .1033548
+         ROA |  -.5036518   .0923862    -5.45   0.000    -.6847311   -.3225726
+      TobinQ |  -.0584288   .0054724   -10.68   0.000    -.0691549   -.0477028
+         Age |   .3238017   .0213116    15.19   0.000     .2820305    .3655728
+      Growth |  -.0208219   .0122238    -1.70   0.089    -.0447808    .0031371
+   BoardSize |   .0436485   .0477008     0.92   0.360    -.0498462    .1371432
+  IndepRatio |     -.3653   .1457061    -2.51   0.012    -.6508877   -.0797123
+        Dual |   .0109607   .0141429     0.77   0.438    -.0167598    .0386811
+   Top1Share |  -.0021881   .0007804    -2.80   0.005    -.0037176   -.0006586
+         SOE |  -.0249336   .0286458    -0.87   0.384    -.0810801     .031213
+    InstHold |   -.002936   .0005477    -5.36   0.000    -.0040095   -.0018624
+      Amihud |  -.5659476    .122988    -4.60   0.000    -.8070071   -.3248881
+     Analyst |   .0250595   .0050254     4.99   0.000     .0152096    .0349093
+   AuditType |   .0739682   .0263929     2.80   0.005     .0222375    .1256989
+       _cons |  -3.528336   .3239839   -10.89   0.000    -4.163353    -2.89332
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+   Stkcd_num |      4953           0        4953     |
+    year_num |        14           1          13     |
+-----------------------------------------------------+
+
+. 
+. di "Residualization done."
+Residualization done.
+
+. 
+. /*--------------------------------------------------------------
+>   Step 2: For each grouping dimension, run Fisher permutation test
+> --------------------------------------------------------------*/
+. 
+. * Define grouping dimensions to test
+. * We test 6 dimensions, pick the best 3-4
+. local dim_list "SOE HighInfoEnv HighSA HighInstHold HighSize HighAnalyst"
+
+. local dim_labels `" "产权性质" "信息环境(行业年度)" "融资约束(SA)" "机构持股"
+>  "企业规模" "分析师覆盖(全样本)" "'
+
+. 
+. * Store results
+. tempname results
+
+. postfile `results' str30 dimension double(b_high b_low diff_obs p_fisher n_hi
+> gh n_low) using "/Users/mac/computerscience/15会计研究/results/v9_tables/fish
+> er_test_results.dta", replace
+(file
+    /Users/mac/computerscience/15会计研究/results/v9_tables/fisher_test_resul
+    > ts.dta not found)
+
+. 
+. local nreps 1000
+
+. 
+. local i = 1
+
+. foreach dim of local dim_list {
+  2.     local label : word `i' of `dim_labels'
+  3.     di _n "=== Testing dimension: `dim' (`label') ==="
+  4.     
+.     * Observed coefficients from residual regression
+.     qui reg resid_y resid_x if `dim' == 1, nocons
+  5.     local b_high = _b[resid_x]
+  6.     local n_high = e(N)
+  7.     
+.     qui reg resid_y resid_x if `dim' == 0, nocons
+  8.     local b_low = _b[resid_x]
+  9.     local n_low = e(N)
+ 10.     
+.     local diff_obs = abs(`b_high' - `b_low')
+ 11.     
+.     di "  High group: b = " %9.6f `b_high' ", N = `n_high'"
+ 12.     di "  Low group:  b = " %9.6f `b_low' ", N = `n_low'"
+ 13.     di "  |Difference| = " %9.6f `diff_obs'
+ 14.     
+.     * Fisher permutation test
+.     * For firm-level groups (SOE), permute at firm level
+.     * For time-varying groups, permute at observation level
+.     
+.     * Create firm-level group indicator
+.     preserve
+ 15.     collapse (first) `dim', by(Stkcd_num)
+ 16.     rename `dim' orig_group
+ 17.     * Check if group is time-invariant (all same within firm)
+.     restore
+ 18.     preserve
+ 19.     bys Stkcd_num: egen sd_group = sd(`dim')
+ 20.     sum sd_group
+ 21.     local is_timevarying = (r(max) > 0.001)
+ 22.     restore
+ 23.     
+.     di "  Time-varying: `is_timevarying'"
+ 24.     
+.     * Permutation loop
+.     local pcount = 0
+ 25.     
+.     if `is_timevarying' == 0 {
+ 26.         * Time-invariant: permute at firm level
+.         preserve
+ 27.         collapse (first) `dim', by(Stkcd_num)
+ 28.         local n_firms = _N
+ 29.         local n_treated = 0
+ 30.         count if `dim' == 1
+ 31.         local n_treated = r(N)
+ 32.         tempfile firm_orig
+ 33.         save `firm_orig'
+ 34.         restore
+ 35.         
+.         forval rep = 1/`nreps' {
+ 36.             preserve
+ 37.             * Create permuted group at firm level
+.             merge m:1 Stkcd_num using `firm_orig', keepusing(`dim') nogen
+ 38.             
+.             * Generate random firm-level permutation
+.             tempfile obs_data
+ 39.             save `obs_data'
+ 40.             
+.             use `firm_orig', clear
+ 41.             gen _rand = runiform()
+ 42.             sort _rand
+ 43.             gen `dim'_perm = (_n <= `n_treated')
+ 44.             keep Stkcd_num `dim'_perm
+ 45.             tempfile perm_groups
+ 46.             save `perm_groups'
+ 47.             
+.             use `obs_data', clear
+ 48.             merge m:1 Stkcd_num using `perm_groups', nogen
+ 49.             
+.             qui reg resid_y resid_x if `dim'_perm == 1, nocons
+ 50.             local b1_perm = _b[resid_x]
+ 51.             qui reg resid_y resid_x if `dim'_perm == 0, nocons
+ 52.             local b0_perm = _b[resid_x]
+ 53.             local diff_perm = abs(`b1_perm' - `b0_perm')
+ 54.             
+.             if `diff_perm' >= `diff_obs' {
+ 55.                 local pcount = `pcount' + 1
+ 56.             }
+ 57.             restore
+ 58.         }
+ 59.     }
+ 60.     else {
+ 61.         * Time-varying: permute at observation level
+.         forval rep = 1/`nreps' {
+ 62.             preserve
+ 63.             local n_treated_obs = `n_high'
+ 64.             gen _rand = runiform()
+ 65.             sort _rand
+ 66.             gen `dim'_perm = (_n <= `n_treated_obs')
+ 67.             
+.             qui reg resid_y resid_x if `dim'_perm == 1, nocons
+ 68.             local b1_perm = _b[resid_x]
+ 69.             qui reg resid_y resid_x if `dim'_perm == 0, nocons
+ 70.             local b0_perm = _b[resid_x]
+ 71.             local diff_perm = abs(`b1_perm' - `b0_perm')
+ 72.             
+.             if `diff_perm' >= `diff_obs' {
+ 73.                 local pcount = `pcount' + 1
+ 74.             }
+ 75.             restore
+ 76.         }
+ 77.     }
+ 78.     
+.     local p_fisher = `pcount' / `nreps'
+ 79.     di "  Fisher p-value = `p_fisher' (`pcount'/`nreps')"
+ 80.     
+.     * Store results
+.     post `results' ("`dim'") (`b_high') (`b_low') (`diff_obs') (`p_fisher') (
+> `n_high') (`n_low')
+ 81.     
+.     local i = `i' + 1
+ 82. }
+
+=== Testing dimension: SOE (产权性质) ===
+  High group: b = -0.006074, N = 14459
+  Low group:  b = -0.003482, N = 29384
+  |Difference| =  0.002592
+(224 missing values generated)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    sd_group |     43,843    .0463704    .1398883          0   .7071068
+  Time-varying: 1
+  Fisher p-value = .02 (20/1000)
+
+=== Testing dimension: HighInfoEnv (信息环境(行业年度)) ===
+  High group: b = -0.004401, N = 22327
+  Low group:  b = -0.003901, N = 21516
+  |Difference| =  0.000500
+(224 missing values generated)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    sd_group |     43,843    .2496226    .2302873          0   .7071068
+  Time-varying: 1
+  Fisher p-value = .638 (638/1000)
+
+=== Testing dimension: HighSA (融资约束(SA)) ===
+  High group: b = -0.004276, N = 21940
+  Low group:  b = -0.004031, N = 21903
+  |Difference| =  0.000244
+(224 missing values generated)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    sd_group |     43,843    .2684828     .221845          0   .7071068
+  Time-varying: 1
+  Fisher p-value = .8100000000000001 (810/1000)
+
+=== Testing dimension: HighInstHold (机构持股) ===
+  High group: b = -0.005750, N = 21918
+  Low group:  b = -0.003272, N = 21925
+  |Difference| =  0.002478
+(224 missing values generated)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    sd_group |     43,843    .1401654    .2089228          0   .7071068
+  Time-varying: 1
+  Fisher p-value = .015 (15/1000)
+
+=== Testing dimension: HighSize (企业规模) ===
+  High group: b = -0.004136, N = 21947
+  Low group:  b = -0.004178, N = 21896
+  |Difference| =  0.000042
+(224 missing values generated)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    sd_group |     43,843    .2680993    .2220195          0   .7071068
+  Time-varying: 1
+  Fisher p-value = .967 (967/1000)
+
+=== Testing dimension: HighAnalyst (分析师覆盖(全样本)) ===
+  High group: b = -0.005138, N = 22039
+  Low group:  b = -0.003029, N = 21804
+  |Difference| =  0.002109
+(224 missing values generated)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    sd_group |     43,843    .2545586    .2333812          0   .7071068
+  Time-varying: 1
+  Fisher p-value = .07 (70/1000)
+
+. 
+. postclose `results'
+
+. 
+. /*--------------------------------------------------------------
+>   Step 3: Also run reghdfe subgroup regressions for actual coef/SE
+> --------------------------------------------------------------*/
+. di _n "=== Step 3: Subgroup reghdfe regressions ==="
+
+=== Step 3: Subgroup reghdfe regressions ===
+
+. 
+. foreach dim in SOE HighInfoEnv HighSA HighInstHold {
+  2.     di _n "--- `dim' ---"
+  3.     di "High group (`dim'==1):"
+  4.     qui reghdfe PriceDelay DU_kw $controls if `dim' == 1, ///
+>         absorb(Stkcd_num year_num) cluster(IndYear_num)
+  5.     di "  DU_kw: b=" %9.4f _b[DU_kw] " se=" %9.4f _se[DU_kw] ///
+>        " t=" %6.2f _b[DU_kw]/_se[DU_kw] " N=" e(N) " R2=" %6.3f e(r2)
+  6.     
+.     di "Low group (`dim'==0):"
+  7.     qui reghdfe PriceDelay DU_kw $controls if `dim' == 0, ///
+>         absorb(Stkcd_num year_num) cluster(IndYear_num)
+  8.     di "  DU_kw: b=" %9.4f _b[DU_kw] " se=" %9.4f _se[DU_kw] ///
+>        " t=" %6.2f _b[DU_kw]/_se[DU_kw] " N=" e(N) " R2=" %6.3f e(r2)
+  9. }
+
+--- SOE ---
+High group (SOE==1):
+  DU_kw: b=  -0.0060 se=   0.0012 t= -4.93 N=14412 R2= 0.418
+Low group (SOE==0):
+  DU_kw: b=  -0.0034 se=   0.0010 t= -3.45 N=29369 R2= 0.439
+
+--- HighInfoEnv ---
+High group (HighInfoEnv==1):
+  DU_kw: b=  -0.0048 se=   0.0010 t= -4.64 N=22122 R2= 0.438
+Low group (HighInfoEnv==0):
+  DU_kw: b=  -0.0040 se=   0.0011 t= -3.74 N=21102 R2= 0.475
+
+--- HighSA ---
+High group (HighSA==1):
+  DU_kw: b=  -0.0051 se=   0.0013 t= -4.03 N=21444 R2= 0.436
+Low group (HighSA==0):
+  DU_kw: b=  -0.0047 se=   0.0010 t= -4.54 N=21577 R2= 0.493
+
+--- HighInstHold ---
+High group (HighInstHold==1):
+  DU_kw: b=  -0.0059 se=   0.0012 t= -5.03 N=21752 R2= 0.440
+Low group (HighInstHold==0):
+  DU_kw: b=  -0.0032 se=   0.0010 t= -3.17 N=21734 R2= 0.447
+
+. 
+. /*--------------------------------------------------------------
+>   Step 4: Display summary
+> --------------------------------------------------------------*/
+. di _n "=========================================="
+
+==========================================
+
+. di "Fisher Permutation Test Results Summary"
+Fisher Permutation Test Results Summary
+
+. di "=========================================="
+==========================================
+
+. 
+. use "/Users/mac/computerscience/15会计研究/results/v9_tables/fisher_test_resu
+> lts.dta", clear
+
+. list, sep(0) noobs abbreviate(20)
+
+  +------------------------------------------------------------------------+
+  |    dimension |     b_high |      b_low |  diff_obs | p_fisher | n_high |
+  |          SOE | -.00607383 | -.00348202 | .00259182 |      .02 |  14459 |
+  |------------------------------------------------------------------------|
+  |                                 n_low                                  |
+  |                                 29384                                  |
+  +------------------------------------------------------------------------+
+
+  +------------------------------------------------------------------------+
+  |    dimension |     b_high |      b_low |  diff_obs | p_fisher | n_high |
+  |  HighInfoEnv | -.00440136 |  -.0039014 | .00049996 |     .638 |  22327 |
+  |------------------------------------------------------------------------|
+  |                                 n_low                                  |
+  |                                 21516                                  |
+  +------------------------------------------------------------------------+
+
+  +------------------------------------------------------------------------+
+  |    dimension |     b_high |      b_low |  diff_obs | p_fisher | n_high |
+  |       HighSA | -.00427558 | -.00403131 | .00024427 |      .81 |  21940 |
+  |------------------------------------------------------------------------|
+  |                                 n_low                                  |
+  |                                 21903                                  |
+  +------------------------------------------------------------------------+
+
+  +------------------------------------------------------------------------+
+  |    dimension |     b_high |      b_low |  diff_obs | p_fisher | n_high |
+  | HighInstHold | -.00575027 | -.00327222 | .00247804 |     .015 |  21918 |
+  |------------------------------------------------------------------------|
+  |                                 n_low                                  |
+  |                                 21925                                  |
+  +------------------------------------------------------------------------+
+
+  +------------------------------------------------------------------------+
+  |    dimension |     b_high |      b_low |  diff_obs | p_fisher | n_high |
+  |     HighSize | -.00413622 | -.00417798 | .00004177 |     .967 |  21947 |
+  |------------------------------------------------------------------------|
+  |                                 n_low                                  |
+  |                                 21896                                  |
+  +------------------------------------------------------------------------+
+
+  +------------------------------------------------------------------------+
+  |    dimension |     b_high |      b_low |  diff_obs | p_fisher | n_high |
+  |  HighAnalyst | -.00513791 |  -.0030288 | .00210911 |      .07 |  22039 |
+  |------------------------------------------------------------------------|
+  |                                 n_low                                  |
+  |                                 21804                                  |
+  +------------------------------------------------------------------------+
+
+. 
+. di _n "Significant at 10%:"
+
+Significant at 10%:
+
+. list if p_fisher < 0.10, sep(0) noobs abbreviate(20)
+
+  +------------------------------------------------------------------------+
+  |    dimension |     b_high |      b_low |  diff_obs | p_fisher | n_high |
+  |          SOE | -.00607383 | -.00348202 | .00259182 |      .02 |  14459 |
+  |------------------------------------------------------------------------|
+  |                                 n_low                                  |
+  |                                 29384                                  |
+  +------------------------------------------------------------------------+
+
+  +------------------------------------------------------------------------+
+  |    dimension |     b_high |      b_low |  diff_obs | p_fisher | n_high |
+  | HighInstHold | -.00575027 | -.00327222 | .00247804 |     .015 |  21918 |
+  |------------------------------------------------------------------------|
+  |                                 n_low                                  |
+  |                                 21925                                  |
+  +------------------------------------------------------------------------+
+
+  +------------------------------------------------------------------------+
+  |    dimension |     b_high |      b_low |  diff_obs | p_fisher | n_high |
+  |  HighAnalyst | -.00513791 |  -.0030288 | .00210911 |      .07 |  22039 |
+  |------------------------------------------------------------------------|
+  |                                 n_low                                  |
+  |                                 21804                                  |
+  +------------------------------------------------------------------------+
+
+. 
+end of do-file
+
+.         log close _all
+      name:  smcl_log
+       log:  /Users/mac/computerscience/stata-mcp-folder/stata-mcp-log/fisher_t
+> est.smcl
+  log type:  smcl
+ closed on:   6 Mar 2026, 11:57:05
+-------------------------------------------------------------------------------
+      name:  text_log
+       log:  /Users/mac/computerscience/stata-mcp-folder/stata-mcp-log/fisher_t
+> est.log
+  log type:  text
+ closed on:   6 Mar 2026, 11:57:05
+-------------------------------------------------------------------------------

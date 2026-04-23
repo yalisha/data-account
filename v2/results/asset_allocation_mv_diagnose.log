@@ -1,0 +1,240 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/mac/computerscience/0做完了/15会计研究/v2/results/asset_all
+> ocation_mv_diagnose.log
+  log type:  text
+ opened on:  22 Apr 2026, 23:07:55
+
+. 
+. display "=== Asset allocation MV Step 2 diagnose ==="
+=== Asset allocation MV Step 2 diagnose ===
+
+. display "Gate rules:"
+Gate rules:
+
+. display "1) pass: |t| >= 1.96 and sign direction matches expectation"
+1) pass: |t| >= 1.96 and sign direction matches expectation
+
+. display "2) marginal: 1.50 <= |t| < 1.96 and sign direction matches expectati
+> on"
+2) marginal: 1.50 <= |t| < 1.96 and sign direction matches expectation
+
+. display "3) fail: everything else"
+3) fail: everything else
+
+. display "Direction map used in this run:"
+Direction map used in this run:
+
+. display "   positive to PriceDelay: FinRatio_* and Fin_to_RD"
+   positive to PriceDelay: FinRatio_* and Fin_to_RD
+
+. display "   negative to PriceDelay: IntangibleRatio and DevOutlayRatio"
+   negative to PriceDelay: IntangibleRatio and DevOutlayRatio
+
+. 
+. use "/Users/mac/computerscience/0做完了/15会计研究/v1/data_stata/reg_sample_a
+> sset_mv.dta", clear
+
+. 
+. tsset Stkcd_num year_num
+
+Panel variable: Stkcd_num (unbalanced)
+ Time variable: year_num, 2011 to 2024, but with gaps
+         Delta: 1 unit
+
+. 
+. local ctrls "Size Lev ROA TobinQ Age Growth IndepRatio Dual Top1Share SOE CFO
+> "
+
+. local mvlist "FinRatio_narrow FinRatio_trading FinRatio_realEstate FinRatio_o
+> ther FinRatio_v4 IntangibleRatio DevOutlayRatio FinRatio_v4_delta FinRatio_v4
+> _vol3y Fin_to_RD"
+
+. 
+. foreach mv of local mvlist {
+  2.     capture drop `mv'_lag
+  3.     gen `mv'_lag = L.`mv'
+  4. }
+(6,112 missing values generated)
+(6,112 missing values generated)
+(6,112 missing values generated)
+(6,112 missing values generated)
+(6,112 missing values generated)
+(6,112 missing values generated)
+(6,112 missing values generated)
+(6,112 missing values generated)
+(9,278 missing values generated)
+(6,112 missing values generated)
+
+. 
+. tempfile step2
+
+. tempname posth
+
+. postfile `posth' str32 mv str8 expected_sign double coef se t_stat p_value N 
+> r2 str12 status using `step2', replace
+(file /var/folders/1v/x_31wm790txgy940w5mgvhb80000gn/T//St70632.000001 not
+    found)
+
+. 
+. foreach mv of local mvlist {
+  2.     local expected = "positive"
+  3.     if inlist("`mv'", "IntangibleRatio", "DevOutlayRatio") {
+  4.         local expected = "negative"
+  5.     }
+  6. 
+.     quietly count if !missing(`mv')
+  7.     local current_n = r(N)
+  8.     quietly count if !missing(`mv'_lag)
+  9.     local lag_n = r(N)
+ 10. 
+.     display _newline "=== Step 2 candidate: `mv' ==="
+ 11.     display "current non-missing = `current_n'; lag non-missing = `lag_n'"
+ 12.     quietly reghdfe PriceDelay `mv'_lag `ctrls', absorb(Stkcd_num year_num
+> ) cluster(IndYear_num)
+ 13. 
+.     local coef = _b[`mv'_lag]
+ 14.     local se = _se[`mv'_lag]
+ 15.     local tval = `coef' / `se'
+ 16.     local pval = 2 * ttail(e(df_r), abs(`tval'))
+ 17.     local nobs = e(N)
+ 18.     local r2 = e(r2)
+ 19.     local direction_ok = 0
+ 20. 
+.     if "`expected'" == "positive" & `coef' > 0 {
+ 21.         local direction_ok = 1
+ 22.     }
+ 23.     if "`expected'" == "negative" & `coef' < 0 {
+ 24.         local direction_ok = 1
+ 25.     }
+ 26. 
+.     local status = "fail"
+ 27.     if `direction_ok' == 1 & abs(`tval') >= 1.96 {
+ 28.         local status = "pass"
+ 29.     }
+ 30.     else if `direction_ok' == 1 & abs(`tval') >= 1.50 {
+ 31.         local status = "marginal"
+ 32.     }
+ 33. 
+.     display "coef = " %9.6f `coef' " ; se = " %9.6f `se' " ; t = " %9.3f `tva
+> l' " ; p = " %9.4f `pval'
+ 34.     display "expected sign = `expected' ; status = `status'"
+ 35. 
+.     post `posth' ("`mv'") ("`expected'") (`coef') (`se') (`tval') (`pval') (`
+> nobs') (`r2') ("`status'")
+ 36. }
+
+=== Step 2 candidate: FinRatio_narrow ===
+current non-missing = 43735; lag non-missing = 37623
+coef = -0.017283 ; se =  0.011723 ; t =    -1.474 ; p =    0.1407
+expected sign = positive ; status = fail
+
+=== Step 2 candidate: FinRatio_trading ===
+current non-missing = 43735; lag non-missing = 37623
+coef = -0.013893 ; se =  0.014392 ; t =    -0.965 ; p =    0.3346
+expected sign = positive ; status = fail
+
+=== Step 2 candidate: FinRatio_realEstate ===
+current non-missing = 43735; lag non-missing = 37623
+coef =  0.089421 ; se =  0.032642 ; t =     2.739 ; p =    0.0063
+expected sign = positive ; status = pass
+
+=== Step 2 candidate: FinRatio_other ===
+current non-missing = 43735; lag non-missing = 37623
+coef = -0.026462 ; se =  0.052817 ; t =    -0.501 ; p =    0.6165
+expected sign = positive ; status = fail
+
+=== Step 2 candidate: FinRatio_v4 ===
+current non-missing = 43735; lag non-missing = 37623
+coef = -0.005174 ; se =  0.010383 ; t =    -0.498 ; p =    0.6184
+expected sign = positive ; status = fail
+
+=== Step 2 candidate: IntangibleRatio ===
+current non-missing = 43735; lag non-missing = 37623
+coef =  0.006714 ; se =  0.023605 ; t =     0.284 ; p =    0.7762
+expected sign = negative ; status = fail
+
+=== Step 2 candidate: DevOutlayRatio ===
+current non-missing = 43735; lag non-missing = 37623
+coef =  0.225404 ; se =  0.243749 ; t =     0.925 ; p =    0.3553
+expected sign = negative ; status = fail
+
+=== Step 2 candidate: FinRatio_v4_delta ===
+current non-missing = 43735; lag non-missing = 37623
+coef = -0.003417 ; se =  0.012005 ; t =    -0.285 ; p =    0.7760
+expected sign = positive ; status = fail
+
+=== Step 2 candidate: FinRatio_v4_vol3y ===
+current non-missing = 40523; lag non-missing = 34457
+coef = -0.045514 ; se =  0.025505 ; t =    -1.785 ; p =    0.0747
+expected sign = positive ; status = fail
+
+=== Step 2 candidate: Fin_to_RD ===
+current non-missing = 43735; lag non-missing = 37623
+coef = -0.000005 ; se =  0.000011 ; t =    -0.435 ; p =    0.6633
+expected sign = positive ; status = fail
+
+. 
+. postclose `posth'
+
+. 
+. use `step2', clear
+
+. order mv expected_sign coef se t_stat p_value N r2 status
+
+. export delimited using "/Users/mac/computerscience/0做完了/15会计研究/v2/resu
+> lts/asset_allocation_mv_step2.csv", replace
+(file
+    /Users/mac/computerscience/0做完了/15会计研究/v2/results/asset_allocation
+    > _mv_step2.csv not found)
+file /Users/mac/computerscience/0做完了/15会计研究/v2/results/asset_allocation_
+> mv_step2.csv saved
+
+. save "/Users/mac/computerscience/0做完了/15会计研究/v2/results/asset_allocati
+> on_mv_step2.dta", replace
+(file
+    /Users/mac/computerscience/0做完了/15会计研究/v2/results/asset_allocation
+    > _mv_step2.dta not found)
+file
+    /Users/mac/computerscience/0做完了/15会计研究/v2/results/asset_allocation
+    > _mv_step2.dta saved
+
+. 
+. quietly count if inlist(status, "pass", "marginal")
+
+. local survivors = r(N)
+
+. display _newline "=== Step 2 survivors (pass + marginal) = `survivors' ==="
+
+=== Step 2 survivors (pass + marginal) = 1 ===
+
+. 
+. file open gatefh using "/Users/mac/computerscience/0做完了/15会计研究/v2/resu
+> lts/asset_allocation_mv_gate.txt", write replace
+(file
+    /Users/mac/computerscience/0做完了/15会计研究/v2/results/asset_allocation
+    > _mv_gate.txt not found)
+
+. file write gatefh "survivors=`survivors'" _n
+
+. if `survivors' == 0 {
+.     display as error "资产配置全部 MV Step 2 fail，机制路线确诊死亡，建议降级
+> "
+.     file write gatefh "message=资产配置全部 MV Step 2 fail，机制路线确诊死亡
+> ，建议降级" _n
+. }
+
+. else {
+.     file write gatefh "message=存在 pass/marginal 候选，可进入三步检验" _n
+. }
+
+. file close gatefh
+
+. 
+. log close
+      name:  <unnamed>
+       log:  /Users/mac/computerscience/0做完了/15会计研究/v2/results/asset_all
+> ocation_mv_diagnose.log
+  log type:  text
+ closed on:  22 Apr 2026, 23:07:57
+-------------------------------------------------------------------------------

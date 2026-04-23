@@ -1,0 +1,581 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/mac/computerscience/0做完了/15会计研究/v2/results/h2_asset_
+> allocation_lagged.log
+  log type:  text
+ opened on:  20 Apr 2026, 15:06:43
+
+. 
+. use "/Users/mac/computerscience/0做完了/15会计研究/v1/data_stata/reg_sample_i
+> v_v16.dta", clear
+
+. 
+. * Winsorize FinAsset 1%/99%
+. qui sum FinAsset, detail
+
+. local p1 = r(p1)
+
+. local p99 = r(p99)
+
+. replace FinAsset = `p1' if FinAsset < `p1' & !missing(FinAsset)
+(0 real changes made)
+
+. replace FinAsset = `p99' if FinAsset > `p99' & !missing(FinAsset)
+(437 real changes made)
+
+. 
+. * 设置面板结构构造滞后项
+. tsset Stkcd_num year_num
+
+Panel variable: Stkcd_num (unbalanced)
+ Time variable: year_num, 2011 to 2024, but with gaps
+         Delta: 1 unit
+
+. 
+. * 构造 DU 的一阶滞后
+. gen DU_kw_lag = L.DU_kw
+(6,112 missing values generated)
+
+. gen DU_kw_ln_lag = L.DU_kw_ln
+(6,112 missing values generated)
+
+. gen DU_llm_lag = L.DU_llm
+(6,112 missing values generated)
+
+. 
+. * 构造 FinAsset 的一阶滞后 (用于 STEP 2B)
+. gen FinAsset_lag = L.FinAsset
+(6,112 missing values generated)
+
+. 
+. * 检查：滞后变量描述
+. display _newline "=== 滞后变量描述统计 ==="
+
+=== 滞后变量描述统计 ===
+
+. sum DU_kw DU_kw_lag DU_llm DU_llm_lag FinAsset FinAsset_lag
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+       DU_kw |     43,735    1.219277    1.860655          0   11.06432
+   DU_kw_lag |     37,623    1.095264    1.757409          0   11.06432
+      DU_llm |     43,735    1.320537    1.118831          0   6.799056
+  DU_llm_lag |     37,623    1.225266    1.050617          0   6.799056
+    FinAsset |     43,735    .0515532    .0889158          0   .4637874
+-------------+---------------------------------------------------------
+FinAsset_lag |     37,623    .0492384    .0865926          0   .4637874
+
+. 
+. local ctrls "Size Lev ROA TobinQ Age Growth IndepRatio Dual Top1Share SOE CFO
+> "
+
+. 
+. * ============================================================
+. * STEP 0B: 基准对照 (lagged DU 版本 Delay 主效应)
+. * ============================================================
+. display _newline "=== STEP 0B: Baseline Delay = DU_{t-1} + X ==="
+
+=== STEP 0B: Baseline Delay = DU_{t-1} + X ===
+
+. reghdfe PriceDelay DU_kw_lag `ctrls', absorb(Stkcd_num year_num) cluster(IndY
+> ear_num)
+(dropped 329 singleton observations)
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =     37,294
+Absorbing 2 HDFE groups                           F(  12,    962) =      21.27
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.4179
+                                                  Adj R-squared   =     0.3352
+                                                  Within R-sq.    =     0.0181
+Number of clusters (IndYear_num) =        963     Root MSE        =     0.0964
+
+                          (Std. err. adjusted for 963 clusters in IndYear_num)
+------------------------------------------------------------------------------
+             |               Robust
+  PriceDelay | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+   DU_kw_lag |   -.003874   .0010011    -3.87   0.000    -.0058386   -.0019095
+        Size |   .0037549   .0026903     1.40   0.163    -.0015247    .0090344
+         Lev |   .0215931   .0067835     3.18   0.002      .008281    .0349052
+         ROA |  -.0689068   .0158413    -4.35   0.000    -.0999942   -.0378194
+      TobinQ |   .0129011     .00117    11.03   0.000      .010605    .0151972
+         Age |  -.0180586   .0055838    -3.23   0.001    -.0290165   -.0071007
+      Growth |   .0142498   .0021431     6.65   0.000      .010044    .0184555
+  IndepRatio |  -.0212692   .0158626    -1.34   0.180    -.0523985    .0098601
+        Dual |   .0000383   .0016955     0.02   0.982     -.003289    .0033656
+   Top1Share |   .0003263   .0001114     2.93   0.003     .0001077    .0005449
+         SOE |    .000443   .0040927     0.11   0.914    -.0075886    .0084747
+         CFO |   .0145938   .0122021     1.20   0.232     -.009352    .0385395
+       _cons |   .0304565   .0628195     0.48   0.628    -.0928225    .1537355
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+   Stkcd_num |      4616           0        4616     |
+    year_num |        13           1          12     |
+-----------------------------------------------------+
+
+. estimates store base_kw_lag
+
+. reghdfe PriceDelay DU_llm_lag `ctrls', absorb(Stkcd_num year_num) cluster(Ind
+> Year_num)
+(dropped 329 singleton observations)
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =     37,294
+Absorbing 2 HDFE groups                           F(  12,    962) =      22.56
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.4178
+                                                  Adj R-squared   =     0.3351
+                                                  Within R-sq.    =     0.0180
+Number of clusters (IndYear_num) =        963     Root MSE        =     0.0964
+
+                          (Std. err. adjusted for 963 clusters in IndYear_num)
+------------------------------------------------------------------------------
+             |               Robust
+  PriceDelay | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+  DU_llm_lag |  -.0045272   .0008524    -5.31   0.000       -.0062   -.0028545
+        Size |   .0038015   .0027038     1.41   0.160    -.0015046    .0091076
+         Lev |    .021626   .0067709     3.19   0.001     .0083386    .0349134
+         ROA |  -.0678936    .015795    -4.30   0.000    -.0988901    -.036897
+      TobinQ |   .0128963   .0011623    11.10   0.000     .0106153    .0151773
+         Age |  -.0191557   .0056495    -3.39   0.001    -.0302425   -.0080689
+      Growth |   .0143498   .0021487     6.68   0.000     .0101332    .0185664
+  IndepRatio |  -.0214398   .0158552    -1.35   0.177    -.0525545    .0096749
+        Dual |   .0000756   .0016964     0.04   0.964    -.0032536    .0034047
+   Top1Share |   .0003388   .0001114     3.04   0.002     .0001201    .0005575
+         SOE |   .0004512   .0040794     0.11   0.912    -.0075543    .0084566
+         CFO |   .0145922   .0122191     1.19   0.233    -.0093869    .0385713
+       _cons |   .0328116   .0632901     0.52   0.604    -.0913909    .1570142
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+   Stkcd_num |      4616           0        4616     |
+    year_num |        13           1          12     |
+-----------------------------------------------------+
+
+. estimates store base_llm_lag
+
+. 
+. * ============================================================
+. * STEP 1B: H2 滞后版 DU_{t-1} -> FinAsset_t
+. * 朱康 2025 范式的因果方向
+. * ============================================================
+. display _newline "=== STEP 1B: 滞后版 H2 FinAsset = DU_{t-1} + X ==="
+
+=== STEP 1B: 滞后版 H2 FinAsset = DU_{t-1} + X ===
+
+. reghdfe FinAsset DU_kw_lag `ctrls', absorb(Stkcd_num year_num) cluster(IndYea
+> r_num)
+(dropped 329 singleton observations)
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =     37,294
+Absorbing 2 HDFE groups                           F(  12,    962) =      38.44
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.6876
+                                                  Adj R-squared   =     0.6432
+                                                  Within R-sq.    =     0.0186
+Number of clusters (IndYear_num) =        963     Root MSE        =     0.0523
+
+                          (Std. err. adjusted for 963 clusters in IndYear_num)
+------------------------------------------------------------------------------
+             |               Robust
+    FinAsset | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+   DU_kw_lag |   .0008879   .0004108     2.16   0.031     .0000817    .0016941
+        Size |   -.005153   .0010806    -4.77   0.000    -.0072737   -.0030324
+         Lev |  -.0543045   .0039263   -13.83   0.000    -.0620096   -.0465993
+         ROA |  -.0136289   .0079464    -1.72   0.087    -.0292232    .0019653
+      TobinQ |   .0018195   .0005777     3.15   0.002     .0006858    .0029533
+         Age |   .0359743   .0025706    13.99   0.000     .0309296    .0410189
+      Growth |  -.0019554   .0010726    -1.82   0.069    -.0040603    .0001496
+  IndepRatio |  -.0111967   .0082387    -1.36   0.174    -.0273645    .0049712
+        Dual |  -.0004059   .0010583    -0.38   0.701    -.0024827    .0016709
+   Top1Share |   .0000865   .0000602     1.44   0.151    -.0000315    .0002046
+         SOE |  -.0013179   .0021879    -0.60   0.547    -.0056115    .0029757
+         CFO |  -.0128152   .0062996    -2.03   0.042    -.0251778   -.0004527
+       _cons |   .1085817   .0241792     4.49   0.000     .0611317    .1560317
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+   Stkcd_num |      4616           0        4616     |
+    year_num |        13           1          12     |
+-----------------------------------------------------+
+
+. estimates store h2_kw_lag
+
+. reghdfe FinAsset DU_llm_lag `ctrls', absorb(Stkcd_num year_num) cluster(IndYe
+> ar_num)
+(dropped 329 singleton observations)
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =     37,294
+Absorbing 2 HDFE groups                           F(  12,    962) =      38.23
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.6875
+                                                  Adj R-squared   =     0.6431
+                                                  Within R-sq.    =     0.0184
+Number of clusters (IndYear_num) =        963     Root MSE        =     0.0523
+
+                          (Std. err. adjusted for 963 clusters in IndYear_num)
+------------------------------------------------------------------------------
+             |               Robust
+    FinAsset | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+  DU_llm_lag |   8.31e-06   .0004829     0.02   0.986    -.0009393     .000956
+        Size |  -.0049827   .0010808    -4.61   0.000    -.0071037   -.0028616
+         Lev |  -.0542072    .003924   -13.81   0.000    -.0619078   -.0465067
+         ROA |  -.0141588   .0079858    -1.77   0.077    -.0298303    .0015127
+      TobinQ |    .001759   .0005768     3.05   0.002     .0006271    .0028909
+         Age |   .0363181   .0025536    14.22   0.000     .0313068    .0413294
+      Growth |   -.002039   .0010724    -1.90   0.058    -.0041435    .0000656
+  IndepRatio |  -.0114258     .00824    -1.39   0.166    -.0275962    .0047446
+        Dual |  -.0003837   .0010562    -0.36   0.716    -.0024565    .0016891
+   Top1Share |   .0000829   .0000602     1.38   0.169    -.0000352     .000201
+         SOE |  -.0013595   .0021888    -0.62   0.535    -.0056549    .0029359
+         CFO |  -.0129339   .0063042    -2.05   0.040    -.0253056   -.0005623
+       _cons |   .1052194   .0240966     4.37   0.000     .0579315    .1525072
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+   Stkcd_num |      4616           0        4616     |
+    year_num |        13           1          12     |
+-----------------------------------------------------+
+
+. estimates store h2_llm_lag
+
+. reghdfe FinAsset DU_kw_ln_lag `ctrls', absorb(Stkcd_num year_num) cluster(Ind
+> Year_num)
+(dropped 329 singleton observations)
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =     37,294
+Absorbing 2 HDFE groups                           F(  12,    962) =      38.31
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.6875
+                                                  Adj R-squared   =     0.6431
+                                                  Within R-sq.    =     0.0184
+Number of clusters (IndYear_num) =        963     Root MSE        =     0.0523
+
+                          (Std. err. adjusted for 963 clusters in IndYear_num)
+------------------------------------------------------------------------------
+             |               Robust
+    FinAsset | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+DU_kw_ln_lag |  -.0000952   .0005619    -0.17   0.865    -.0011979    .0010074
+        Size |  -.0049613   .0010807    -4.59   0.000    -.0070822   -.0028405
+         Lev |  -.0541991   .0039252   -13.81   0.000     -.061902   -.0464961
+         ROA |  -.0141825   .0079794    -1.78   0.076    -.0298414    .0014765
+      TobinQ |   .0017514   .0005823     3.01   0.003     .0006086    .0028942
+         Age |   .0363142   .0025568    14.20   0.000     .0312967    .0413317
+      Growth |  -.0020463   .0010704    -1.91   0.056    -.0041468    .0000542
+  IndepRatio |  -.0114366   .0082376    -1.39   0.165    -.0276022    .0047291
+        Dual |  -.0003823   .0010579    -0.36   0.718    -.0024583    .0016937
+   Top1Share |   .0000827   .0000602     1.37   0.169    -.0000353    .0002008
+         SOE |  -.0013694    .002187    -0.63   0.531    -.0056613    .0029224
+         CFO |  -.0129462   .0063055    -2.05   0.040    -.0253204    -.000572
+       _cons |   .1050129   .0240784     4.36   0.000     .0577606    .1522652
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+   Stkcd_num |      4616           0        4616     |
+    year_num |        13           1          12     |
+-----------------------------------------------------+
+
+. estimates store h2_kwln_lag
+
+. 
+. * ============================================================
+. * STEP 2B: 滞后版 FinAsset_{t-1} -> Delay_t
+. * 防止同期因果倒置
+. * ============================================================
+. display _newline "=== STEP 2B: 滞后版 Delay = FinAsset_{t-1} + X ==="
+
+=== STEP 2B: 滞后版 Delay = FinAsset_{t-1} + X ===
+
+. reghdfe PriceDelay FinAsset_lag `ctrls', absorb(Stkcd_num year_num) cluster(I
+> ndYear_num)
+(dropped 329 singleton observations)
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =     37,294
+Absorbing 2 HDFE groups                           F(  12,    962) =      19.36
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.4173
+                                                  Adj R-squared   =     0.3345
+                                                  Within R-sq.    =     0.0171
+Number of clusters (IndYear_num) =        963     Root MSE        =     0.0964
+
+                          (Std. err. adjusted for 963 clusters in IndYear_num)
+------------------------------------------------------------------------------
+             |               Robust
+  PriceDelay | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+FinAsset_lag |  -.0051816   .0103857    -0.50   0.618    -.0255629    .0151997
+        Size |   .0029766   .0027212     1.09   0.274    -.0023636    .0083168
+         Lev |   .0209457   .0068251     3.07   0.002      .007552    .0343394
+         ROA |  -.0666111   .0158713    -4.20   0.000    -.0977575   -.0354647
+      TobinQ |   .0131774    .001168    11.28   0.000     .0108852    .0154696
+         Age |   -.019349   .0056925    -3.40   0.001    -.0305202   -.0081778
+      Growth |   .0146304   .0021534     6.79   0.000     .0104045    .0188564
+  IndepRatio |  -.0202961   .0158995    -1.28   0.202    -.0514978    .0109056
+        Dual |  -.0000705   .0016956    -0.04   0.967     -.003398     .003257
+   Top1Share |    .000343   .0001118     3.07   0.002     .0001237    .0005624
+         SOE |   .0006039   .0040863     0.15   0.883    -.0074152    .0086231
+         CFO |   .0147977   .0122399     1.21   0.227    -.0092223    .0388178
+       _cons |   .0457253   .0637106     0.72   0.473    -.0793026    .1707532
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+   Stkcd_num |      4616           0        4616     |
+    year_num |        13           1          12     |
+-----------------------------------------------------+
+
+. estimates store fin_pd_lag
+
+. 
+. * ============================================================
+. * STEP 3B: 联合回归 (滞后 DU + 同期 FinAsset -> Delay)
+. * ============================================================
+. display _newline "=== STEP 3B: 联合滞后 Delay = DU_{t-1} + FinAsset + X ==="
+
+=== STEP 3B: 联合滞后 Delay = DU_{t-1} + FinAsset + X ===
+
+. reghdfe PriceDelay DU_kw_lag FinAsset `ctrls', absorb(Stkcd_num year_num) clu
+> ster(IndYear_num)
+(dropped 329 singleton observations)
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =     37,294
+Absorbing 2 HDFE groups                           F(  13,    962) =      19.64
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.4179
+                                                  Adj R-squared   =     0.3352
+                                                  Within R-sq.    =     0.0181
+Number of clusters (IndYear_num) =        963     Root MSE        =     0.0964
+
+                          (Std. err. adjusted for 963 clusters in IndYear_num)
+------------------------------------------------------------------------------
+             |               Robust
+  PriceDelay | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+   DU_kw_lag |  -.0038666   .0010002    -3.87   0.000    -.0058293   -.0019038
+    FinAsset |   -.008422   .0109838    -0.77   0.443    -.0299768    .0131329
+        Size |   .0037115    .002697     1.38   0.169    -.0015813    .0090042
+         Lev |   .0211358   .0068177     3.10   0.002     .0077564    .0345151
+         ROA |  -.0690216   .0158369    -4.36   0.000    -.1001005   -.0379427
+      TobinQ |   .0129164   .0011703    11.04   0.000     .0106197    .0152131
+         Age |  -.0177556   .0055865    -3.18   0.002    -.0287188   -.0067925
+      Growth |   .0142333   .0021428     6.64   0.000     .0100282    .0184384
+  IndepRatio |  -.0213635   .0158621    -1.35   0.178    -.0524917    .0097648
+        Dual |   .0000349   .0016944     0.02   0.984    -.0032903      .00336
+   Top1Share |    .000327   .0001114     2.93   0.003     .0001083    .0005456
+         SOE |   .0004319   .0040902     0.11   0.916    -.0075948    .0084587
+         CFO |   .0144859   .0122247     1.18   0.236    -.0095044    .0384761
+       _cons |    .031371   .0629525     0.50   0.618    -.0921691    .1549111
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+   Stkcd_num |      4616           0        4616     |
+    year_num |        13           1          12     |
+-----------------------------------------------------+
+
+. estimates store joint_kw_lag
+
+. reghdfe PriceDelay DU_llm_lag FinAsset `ctrls', absorb(Stkcd_num year_num) cl
+> uster(IndYear_num)
+(dropped 329 singleton observations)
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =     37,294
+Absorbing 2 HDFE groups                           F(  13,    962) =      20.80
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.4178
+                                                  Adj R-squared   =     0.3351
+                                                  Within R-sq.    =     0.0180
+Number of clusters (IndYear_num) =        963     Root MSE        =     0.0964
+
+                          (Std. err. adjusted for 963 clusters in IndYear_num)
+------------------------------------------------------------------------------
+             |               Robust
+  PriceDelay | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+  DU_llm_lag |  -.0045271   .0008523    -5.31   0.000    -.0061997   -.0028546
+    FinAsset |  -.0092054   .0110263    -0.83   0.404    -.0308437     .012433
+        Size |   .0037556   .0027104     1.39   0.166    -.0015632    .0090745
+         Lev |    .021127   .0068077     3.10   0.002     .0077673    .0344867
+         ROA |  -.0680239    .015791    -4.31   0.000    -.0990128   -.0370351
+      TobinQ |   .0129125   .0011626    11.11   0.000      .010631    .0151939
+         Age |  -.0188214   .0056471    -3.33   0.001    -.0299035   -.0077392
+      Growth |    .014331   .0021483     6.67   0.000     .0101151     .018547
+  IndepRatio |   -.021545   .0158557    -1.36   0.175    -.0526607    .0095708
+        Dual |    .000072   .0016952     0.04   0.966    -.0032546    .0033987
+   Top1Share |   .0003396   .0001115     3.05   0.002     .0001209    .0005584
+         SOE |   .0004386   .0040768     0.11   0.914    -.0075618    .0084391
+         CFO |   .0144731   .0122422     1.18   0.237    -.0095513    .0384976
+       _cons |   .0337802   .0634223     0.53   0.594    -.0906818    .1582422
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+   Stkcd_num |      4616           0        4616     |
+    year_num |        13           1          12     |
+-----------------------------------------------------+
+
+. estimates store joint_llm_lag
+
+. 
+. * STEP 3C: DU_{t-1} + FinAsset_{t-1} 都滞后 (最保守因果推断)
+. display _newline "=== STEP 3C: 全滞后 Delay = DU_{t-1} + FinAsset_{t-1} + X =
+> =="
+
+=== STEP 3C: 全滞后 Delay = DU_{t-1} + FinAsset_{t-1} + X ===
+
+. reghdfe PriceDelay DU_kw_lag FinAsset_lag `ctrls', absorb(Stkcd_num year_num)
+>  cluster(IndYear_num)
+(dropped 329 singleton observations)
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =     37,294
+Absorbing 2 HDFE groups                           F(  13,    962) =      19.68
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.4179
+                                                  Adj R-squared   =     0.3352
+                                                  Within R-sq.    =     0.0181
+Number of clusters (IndYear_num) =        963     Root MSE        =     0.0964
+
+                          (Std. err. adjusted for 963 clusters in IndYear_num)
+------------------------------------------------------------------------------
+             |               Robust
+  PriceDelay | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+   DU_kw_lag |  -.0038706   .0010007    -3.87   0.000    -.0058344   -.0019069
+FinAsset_lag |  -.0045204   .0103372    -0.44   0.662    -.0248064    .0157656
+        Size |   .0037293   .0026924     1.39   0.166    -.0015544     .009013
+         Lev |   .0214013   .0068027     3.15   0.002     .0080514    .0347512
+         ROA |  -.0689282   .0158389    -4.35   0.000     -.100011   -.0378454
+      TobinQ |   .0129102   .0011685    11.05   0.000      .010617    .0152033
+         Age |  -.0178741   .0055876    -3.20   0.001    -.0288393   -.0069089
+      Growth |    .014262   .0021453     6.65   0.000      .010052     .018472
+  IndepRatio |  -.0212998   .0158624    -1.34   0.180    -.0524288    .0098291
+        Dual |   .0000288   .0016969     0.02   0.986    -.0033012    .0033589
+   Top1Share |    .000327   .0001115     2.93   0.003     .0001081    .0005459
+         SOE |   .0004239   .0040948     0.10   0.918    -.0076119    .0084596
+         CFO |   .0143168   .0122197     1.17   0.242    -.0096635     .038297
+       _cons |   .0309049   .0628581     0.49   0.623      -.09245    .1542597
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+   Stkcd_num |      4616           0        4616     |
+    year_num |        13           1          12     |
+-----------------------------------------------------+
+
+. estimates store joint_kw_fullag
+
+. reghdfe PriceDelay DU_llm_lag FinAsset_lag `ctrls', absorb(Stkcd_num year_num
+> ) cluster(IndYear_num)
+(dropped 329 singleton observations)
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =     37,294
+Absorbing 2 HDFE groups                           F(  13,    962) =      20.84
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.4178
+                                                  Adj R-squared   =     0.3351
+                                                  Within R-sq.    =     0.0180
+Number of clusters (IndYear_num) =        963     Root MSE        =     0.0964
+
+                          (Std. err. adjusted for 963 clusters in IndYear_num)
+------------------------------------------------------------------------------
+             |               Robust
+  PriceDelay | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+  DU_llm_lag |  -.0045284   .0008524    -5.31   0.000    -.0062011   -.0028556
+FinAsset_lag |  -.0053241    .010357    -0.51   0.607    -.0256489    .0150008
+        Size |   .0037724   .0027061     1.39   0.164    -.0015381    .0090829
+         Lev |   .0214007   .0067919     3.15   0.002      .008072    .0347294
+         ROA |  -.0679215   .0157924    -4.30   0.000     -.098913   -.0369299
+      TobinQ |   .0129066   .0011609    11.12   0.000     .0106285    .0151848
+         Age |  -.0189368   .0056498    -3.35   0.001    -.0300241   -.0078494
+      Growth |   .0143638    .002151     6.68   0.000     .0101426     .018585
+  IndepRatio |  -.0214773   .0158552    -1.35   0.176     -.052592    .0096375
+        Dual |   .0000645   .0016977     0.04   0.970    -.0032672    .0033963
+   Top1Share |   .0003397   .0001116     3.04   0.002     .0001207    .0005587
+         SOE |   .0004283   .0040815     0.10   0.916    -.0075813     .008438
+         CFO |   .0142653   .0122379     1.17   0.244    -.0097509    .0382814
+       _cons |   .0333213   .0633319     0.53   0.599    -.0909632    .1576059
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+   Stkcd_num |      4616           0        4616     |
+    year_num |        13           1          12     |
+-----------------------------------------------------+
+
+. estimates store joint_llm_fullag
+
+. 
+. * ============================================================
+. * 导出
+. * ============================================================
+. esttab base_kw_lag base_llm_lag h2_kw_lag h2_llm_lag h2_kwln_lag ///
+>        fin_pd_lag joint_kw_lag joint_llm_lag joint_kw_fullag joint_llm_fullag
+>  ///
+>     using "/Users/mac/computerscience/0做完了/15会计研究/v2/results/h2_asset_
+> allocation_lagged.csv", ///
+>     replace csv se r2 ar2 star(* 0.10 ** 0.05 *** 0.01) ///
+>     nogaps compress ///
+>     mtitles("Base_PD_KW_lag" "Base_PD_LLM_lag" "H2_Fin_KW_lag" "H2_Fin_LLM_la
+> g" "H2_Fin_KWln_lag" ///
+>             "Fin_PD_lag" "Joint_KW_lag" "Joint_LLM_lag" "Joint_KW_fullag" "Jo
+> int_LLM_fullag") ///
+>     title("H2 资产配置机制 — 路径 B：滞后 DU/FinAsset 版本")
+(file
+    /Users/mac/computerscience/0做完了/15会计研究/v2/results/h2_asset_allocat
+    > ion_lagged.csv not found)
+(output written to /Users/mac/computerscience/0做完了/15会计研究/v2/results/h2_
+> asset_allocation_lagged.csv)
+
+. 
+. display _newline "=== 路径 B 全部完成 ==="
+
+=== 路径 B 全部完成 ===
+
+. 
+. log close
+      name:  <unnamed>
+       log:  /Users/mac/computerscience/0做完了/15会计研究/v2/results/h2_asset_
+> allocation_lagged.log
+  log type:  text
+ closed on:  20 Apr 2026, 15:06:45
+-------------------------------------------------------------------------------

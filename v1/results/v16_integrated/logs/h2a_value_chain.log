@@ -1,0 +1,116 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/mac/computerscience/0做完了/15会计研究/results/v16_integrat
+> ed/logs/h2a_value_chain.log
+  log type:  text
+ opened on:  19 Apr 2026, 16:20:35
+
+. 
+. capture which reghdfe
+
+. if _rc {
+.     display as error "reghdfe not installed"
+.     exit 198
+. }
+
+. 
+. use "`base'/data_stata/reg_sample_v16_integrated.dta", clear
+
+. 
+. local controls "Size Lev ROA TobinQ Age Growth IndepRatio Dual Top1Share SOE 
+> CFO"
+
+. tempfile out
+
+. tempname memhold
+
+. 
+. postfile `memhold' str20 model str20 regressor double(coef se tstat pval) lon
+> g(N) double(r2) using `out', replace
+(file /var/folders/1v/x_31wm790txgy940w5mgvhb80000gn/T//St67757.000001 not
+    found)
+
+. 
+. foreach V in DU_stock DU_dev DU_app DU_value DU_gov {
+  2.     quietly reghdfe PriceDelay `V'_lag `controls', absorb(Stkcd_num year_n
+> um) cluster(IndYear_num)
+  3.     local b = _b[`V'_lag]
+  4.     local se = _se[`V'_lag]
+  5.     local t = `b' / `se'
+  6.     local p = 2 * ttail(e(df_r), abs(`t'))
+  7.     local n = e(N)
+  8.     local r2 = e(r2)
+  9.     post `memhold' ("`V'") ("`V'_lag") (`b') (`se') (`t') (`p') (`n') (`r2
+> ')
+ 10.     display as text "`V'_lag: coef=" %9.4f `b' " t=" %6.2f `t' " N=" `n'
+ 11. }
+DU_stock_lag: coef=  -0.0124 t= -4.09 N=37294
+DU_dev_lag: coef=  -0.0048 t= -2.97 N=37294
+DU_app_lag: coef=  -0.0116 t= -4.46 N=37294
+DU_value_lag: coef=  -0.0617 t= -1.51 N=37294
+DU_gov_lag: coef=  -0.0427 t= -1.66 N=37294
+
+. 
+. postclose `memhold'
+
+. 
+. use `out', clear
+
+. export delimited using "`base'/results/v16_integrated/h2a_value_chain.csv", r
+> eplace
+(file
+    /Users/mac/computerscience/0做完了/15会计研究/results/v16_integrated/h2a_
+    > value_chain.csv not found)
+file /Users/mac/computerscience/0做完了/15会计研究/results/v16_integrated/h2a_v
+> alue_chain.csv saved
+
+. list, noobs abbreviate(20)
+
+  +---------------------------------------------------------------------------+
+  |    model |    regressor |       coef |        se |      tstat |      pval |
+  | DU_stock | DU_stock_lag | -.01235272 | .00301891 | -4.0917773 | .00004639 |
+  |---------------------------------------------------------------------------|
+  |                   N               |                      r2               |
+  |               37294               |               .41783771               |
+  +---------------------------------------------------------------------------+
+
+  +---------------------------------------------------------------------------+
+  |    model |    regressor |       coef |        se |      tstat |      pval |
+  |   DU_dev |   DU_dev_lag | -.00476855 | .00160545 | -2.9702343 | .00304965 |
+  |---------------------------------------------------------------------------|
+  |                   N               |                      r2               |
+  |               37294               |               .41764723               |
+  +---------------------------------------------------------------------------+
+
+  +---------------------------------------------------------------------------+
+  |    model |    regressor |       coef |        se |      tstat |      pval |
+  |   DU_app |   DU_app_lag | -.01162671 | .00260977 | -4.4550752 | 9.371e-06 |
+  |---------------------------------------------------------------------------|
+  |                   N               |                      r2               |
+  |               37294               |               .41758556               |
+  +---------------------------------------------------------------------------+
+
+  +---------------------------------------------------------------------------+
+  |    model |    regressor |       coef |        se |      tstat |      pval |
+  | DU_value | DU_value_lag | -.06167665 | .04096006 | -1.5057755 | .13245308 |
+  |---------------------------------------------------------------------------|
+  |                   N               |                      r2               |
+  |               37294               |               .41743835               |
+  +---------------------------------------------------------------------------+
+
+  +---------------------------------------------------------------------------+
+  |    model |    regressor |       coef |        se |      tstat |      pval |
+  |   DU_gov |   DU_gov_lag | -.04273197 | .02571807 | -1.6615547 |  .0969279 |
+  |---------------------------------------------------------------------------|
+  |                   N               |                      r2               |
+  |               37294               |               .41741597               |
+  +---------------------------------------------------------------------------+
+
+. 
+. log close
+      name:  <unnamed>
+       log:  /Users/mac/computerscience/0做完了/15会计研究/results/v16_integrat
+> ed/logs/h2a_value_chain.log
+  log type:  text
+ closed on:  19 Apr 2026, 16:20:36
+-------------------------------------------------------------------------------

@@ -1,0 +1,128 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/mac/computerscience/0做完了/15会计研究/results/v16_integrat
+> ed/logs/h3_downstream.log
+  log type:  text
+ opened on:  19 Apr 2026, 16:32:01
+
+. 
+. capture which reghdfe
+
+. if _rc {
+.     display as error "reghdfe not installed"
+.     exit 198
+. }
+
+. 
+. use "`base'/data_stata/reg_sample_v16_integrated.dta", clear
+
+. 
+. local controls "Size Lev ROA TobinQ Age Growth IndepRatio Dual Top1Share SOE 
+> CFO"
+
+. tempfile out
+
+. tempname memhold
+
+. 
+. postfile `memhold' str20 channel str12 treatment double(coef se tstat pval) l
+> ong(N) double(r2) using `out', replace
+(file /var/folders/1v/x_31wm790txgy940w5mgvhb80000gn/T//St77951.000001 not
+    found)
+
+. 
+. foreach Y in ForecastDisp CashFlowVol SCConc {
+  2.     foreach X in DU_kw DU_llm {
+  3.         quietly reghdfe `Y' `X' `controls', absorb(Stkcd_num year_num) clu
+> ster(IndYear_num)
+  4.         local b = _b[`X']
+  5.         local se = _se[`X']
+  6.         local t = `b' / `se'
+  7.         local p = 2 * ttail(e(df_r), abs(`t'))
+  8.         local n = e(N)
+  9.         local r2 = e(r2)
+ 10.         post `memhold' ("`Y'") ("`X'") (`b') (`se') (`t') (`p') (`n') (`r2
+> ')
+ 11.         display as text "`Y' / `X': coef=" %9.4f `b' " t=" %6.2f `t' " N="
+>  `n'
+ 12.     }
+ 13. }
+ForecastDisp / DU_kw: coef=  -0.0065 t= -4.08 N=22685
+ForecastDisp / DU_llm: coef=   0.0010 t=  0.57 N=22685
+CashFlowVol / DU_kw: coef=  -0.0005 t= -2.45 N=43721
+CashFlowVol / DU_llm: coef=  -0.0005 t= -2.05 N=43721
+SCConc / DU_kw: coef=  -0.2767 t= -4.00 N=42332
+SCConc / DU_llm: coef=  -0.4602 t= -6.77 N=42332
+
+. 
+. postclose `memhold'
+
+. 
+. use `out', clear
+
+. export delimited using "`base'/results/v16_integrated/h3_downstream.csv", rep
+> lace
+(file
+    /Users/mac/computerscience/0做完了/15会计研究/results/v16_integrated/h3_d
+    > ownstream.csv not found)
+file /Users/mac/computerscience/0做完了/15会计研究/results/v16_integrated/h3_do
+> wnstream.csv saved
+
+. list, noobs abbreviate(20)
+
+  +----------------------------------------------------------------+
+  |      channel | treatment |       coef |        se |      tstat |
+  | ForecastDisp |     DU_kw | -.00647584 | .00158661 | -4.0815651 |
+  |----------------------------------------------------------------|
+  |           pval       |          N       |             r2       |
+  |      .00004839       |      22685       |      .48953393       |
+  +----------------------------------------------------------------+
+
+  +----------------------------------------------------------------+
+  |      channel | treatment |       coef |        se |      tstat |
+  | ForecastDisp |    DU_llm |  .00096384 | .00170167 |  .56641032 |
+  |----------------------------------------------------------------|
+  |           pval       |          N       |             r2       |
+  |      .57124496       |      22685       |      .48902442       |
+  +----------------------------------------------------------------+
+
+  +----------------------------------------------------------------+
+  |      channel | treatment |       coef |        se |      tstat |
+  |  CashFlowVol |     DU_kw |  -.0004895 |  .0001999 | -2.4487116 |
+  |----------------------------------------------------------------|
+  |           pval       |          N       |             r2       |
+  |       .0145009       |      43721       |      .44745002       |
+  +----------------------------------------------------------------+
+
+  +----------------------------------------------------------------+
+  |      channel | treatment |       coef |        se |      tstat |
+  |  CashFlowVol |    DU_llm | -.00047663 | .00023303 | -2.0453376 |
+  |----------------------------------------------------------------|
+  |           pval       |          N       |             r2       |
+  |      .04107257       |      43721       |      .44741508       |
+  +----------------------------------------------------------------+
+
+  +----------------------------------------------------------------+
+  |      channel | treatment |       coef |        se |      tstat |
+  |       SCConc |     DU_kw | -.27672057 | .06910506 | -4.0043461 |
+  |----------------------------------------------------------------|
+  |           pval       |          N       |             r2       |
+  |      .00006662       |      42332       |      .76455589       |
+  +----------------------------------------------------------------+
+
+  +----------------------------------------------------------------+
+  |      channel | treatment |       coef |        se |      tstat |
+  |       SCConc |    DU_llm |   -.460227 | .06801736 | -6.7663165 |
+  |----------------------------------------------------------------|
+  |           pval       |          N       |             r2       |
+  |      2.205e-11       |      42332       |      .76470408       |
+  +----------------------------------------------------------------+
+
+. 
+. log close
+      name:  <unnamed>
+       log:  /Users/mac/computerscience/0做完了/15会计研究/results/v16_integrat
+> ed/logs/h3_downstream.log
+  log type:  text
+ closed on:  19 Apr 2026, 16:32:02
+-------------------------------------------------------------------------------

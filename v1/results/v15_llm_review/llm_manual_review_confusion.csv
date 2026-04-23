@@ -1,0 +1,9 @@
+﻿comparison,human_score,0,1,2,3
+human_vs_parent,0,8,24,21,3
+human_vs_parent,1,2,12,9,1
+human_vs_parent,2,3,10,18,0
+human_vs_parent,3,0,1,7,1
+human_vs_codex,0,40,3,13,0
+human_vs_codex,1,0,14,10,0
+human_vs_codex,2,0,3,15,13
+human_vs_codex,3,0,0,0,9

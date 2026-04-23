@@ -1,0 +1,29 @@
+\begin{table}[htbp]\centering
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\caption{Table 4: Robustness Tests (27 controls)}
+\begin{tabular}{l*{9}{c}}
+\toprule
+          &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)}&\multicolumn{1}{c}{(7)}&\multicolumn{1}{c}{(8)}&\multicolumn{1}{c}{(9)}\\
+          &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)}&\multicolumn{1}{c}{(7)}&\multicolumn{1}{c}{(8)}&\multicolumn{1}{c}{(9)}\\
+\midrule
+DU\_kw     &  -0.0029\sym{***}&  -0.0045\sym{***}&                  &  -0.0052\sym{***}&  -0.0046\sym{***}&  -0.0029\sym{**} &  -0.0040\sym{***}&  -0.0046\sym{***}&  -0.0050\sym{***}\\
+          & (0.0006)         & (0.0008)         &                  & (0.0010)         & (0.0009)         & (0.0013)         & (0.0009)         & (0.0012)         & (0.0011)         \\
+\addlinespace
+DU\_kw\_indadj&                  &                  &  -0.0020\sym{***}&                  &                  &                  &                  &                  &                  \\
+          &                  &                  & (0.0005)         &                  &                  &                  &                  &                  &                  \\
+\addlinespace
+DU\_kw\_lead&                  &                  &                  &                  &                  &                  &                  &                  &   0.0001         \\
+          &                  &                  &                  &                  &                  &                  &                  &                  & (0.0009)         \\
+\midrule
+Controls  &      YES         &      YES         &      YES         &      YES         &      YES         &      YES         &      YES         &      YES         &      YES         \\
+Firm FE   &      YES         &      YES         &      YES         &      YES         &      YES         &      YES         &      YES         &      YES         &      YES         \\
+Year FE   &       NO         &       NO         &      YES         &      YES         &      YES         &      YES         &      YES         &      YES         &      YES         \\
+Ind$\times FE&      YES         &       NO         &       NO         &       NO         &       NO         &       NO         &       NO         &       NO         &       NO         \\
+Prov$\times FE&       NO         &      YES         &       NO         &       NO         &       NO         &       NO         &       NO         &       NO         &       NO         \\
+$         &   43,656         &   43,719         &   43,721         &   38,812         &   40,613         &   18,744         &   34,780         &   43,721         &   38,467         \\
+^2$       &    0.472         &    0.429         &    0.418         &    0.428         &    0.419         &    0.412         &    0.432         &    0.419         &    0.428         \\
+\bottomrule
+\multicolumn{10}{l}{\footnotesize Standard errors in parentheses}\\
+\multicolumn{10}{l}{\footnotesize \sym{*} \(p<0.10\), \sym{**} \(p<0.05\), \sym{***} \(p<0.01\)}\\
+\end{tabular}
+\end{table}

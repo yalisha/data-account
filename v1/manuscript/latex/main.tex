@@ -1,0 +1,97 @@
+\documentclass[preprint,12pt]{elsarticle}
+
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{fvextra}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{pdflscape}
+\usepackage{xcolor}
+
+\setmainfont{Times New Roman}
+\setsansfont{Helvetica}
+\setmonofont{Menlo}
+\setCJKmainfont[AutoFakeBold=3,AutoFakeSlant=.2]{Noto Serif CJK SC}
+\setCJKsansfont[AutoFakeBold=3]{Noto Sans CJK SC}
+\setCJKmonofont{Sarasa Mono SC}
+
+\hypersetup{
+  unicode=true,
+  colorlinks=true,
+  linkcolor=blue!50!black,
+  citecolor=blue!50!black,
+  urlcolor=blue!50!black
+}
+
+\journal{}
+
+\setlength{\LTleft}{0pt}
+\setlength{\LTright}{0pt}
+\setlength{\LTpre}{6pt}
+\setlength{\LTpost}{6pt}
+\setlength{\tabcolsep}{4pt}
+\setlength{\emergencystretch}{4em}
+\renewcommand{\arraystretch}{1.05}
+\sloppy
+
+\providecommand{\tightlist}{}
+\DefineVerbatimEnvironment{verbatim}{Verbatim}{breaklines=true,breakanywhere=true,fontsize=\small}
+\AtBeginEnvironment{longtable}{\footnotesize}
+\newsavebox{\pandocbox}
+\newcommand{\pandocbounded}[1]{%
+  \sbox{\pandocbox}{#1}%
+  \ifdim\wd\pandocbox>\linewidth
+    \resizebox{\linewidth}{!}{\usebox{\pandocbox}}%
+  \else
+    \usebox{\pandocbox}%
+  \fi
+}
+
+\begin{document}
+
+\begin{frontmatter}
+
+\title{数据要素利用与资本市场定价效率\\
+\large 基于年报文本分析与大语言模型语义评分的证据}
+
+\author{匿名作者}
+
+\begin{abstract}
+年报中的数据要素利用信息是观察企业数字实践如何进入资本市场价值发现的重要窗口。本文基于2011至2024年沪深A股上市公司年报全文，利用关键词文本分析与大语言模型语义评分构建双测度体系，考察年报中的数据要素利用信息对资本市场定价效率的影响。其中，DU\_kw刻画年报中的数据要素利用信息广度，是本文的基准处理变量；DU\_llm及其长度标准化版本DU\_llm\_lenstd刻画语义深度，用于检验深度信息是否支持同方向结论。进一步地，本文基于五维关键词词典和年报章节信息构造了数据利用链条完整度、闭环式表述和MD\&A章节限定等增强测度，以检验测度能否从泛化数字叙事进一步推进到更接近数据资源实际使用的口径。研究发现，年报中的数据要素利用信息显著降低股价延迟。该结论在滞后规格、工具变量、双重机器学习、Oster界检验、Heckman两阶段法和安慰剂检验下保持稳定，多种识别练习支持因果解释。构念边界检验显示，在控制年报篇幅和剔除八个最泛化的数字叙事词后，核心关系仍然成立；但与GenericNarr的联合回归表明，相关披露与更宽泛的数字叙事仍存在交叠，因此对概念独立性的表述应保持审慎。增强测度检验进一步表明，更完整的数据利用链条、闭环式表述以及MD\&A中的相关披露同样与更低的股价延迟相关，但这些增强指标在与DU\_kw或GenericNarr联合进入时通常不能稳定替代基准处理变量，因此更适合作为支持性证据而非替换口径。机制检验表明，年报中的数据要素利用信息与更低的现金流波动和更低的供应链集中度稳健相关，并在分析师预测分歧维度上呈现补充性证据。扩展分析进一步显示，关键词广度与语义深度的错配会加剧股价延迟，而语义深度在与关键词广度同时进入时仍保留额外解释力。研究结论有助于理解年报中的数据要素利用信息的资本市场价值，并为完善相关披露与估值指引提供经验证据。
+\end{abstract}
+
+\begin{highlights}
+\item 基于上市公司年报全文，构建关键词频率与大语言模型语义评分的双测度体系，并进一步报告闭环度、MD\&A限定和长度标准化语义深度等增强测度。
+\item 年报中的数据要素利用信息显著降低股价延迟；滞后规格、工具变量、双重机器学习与多项辅助识别练习均支持这一结论。
+\item 更完整的数据利用链条、闭环式表述以及MD\&A中的相关披露同样与更低股价延迟相关，但这些增强口径更适合作为支持性证据而非替换基准处理变量。
+\item 机制结果显示，年报中的数据要素利用信息与更低的现金流波动和更低的供应链集中度稳健相关，并在分析师预测分歧维度上呈现补充性证据。
+\item 构念边界检验表明，核心关系在篇幅控制和去泛化词口径下仍然成立，但与更宽泛数字叙事的边界并非完全分离，概念独立性应作审慎表述。
+\end{highlights}
+
+\begin{keyword}
+数据要素利用 \sep 资本市场定价效率 \sep 股价延迟 \sep 年报文本分析 \sep 大语言模型
+\end{keyword}
+
+\end{frontmatter}
+
+\input{sections/01_introduction.tex}
+\input{sections/02_theory.tex}
+\input{sections/03_design.tex}
+\input{sections/04_results.tex}
+\input{sections/05_further_analysis.tex}
+\input{sections/06_heterogeneity.tex}
+\input{sections/07_conclusion.tex}
+
+\clearpage
+\input{sections/09_references.tex}
+
+\clearpage
+\input{sections/appendix.tex}
+
+\end{document}

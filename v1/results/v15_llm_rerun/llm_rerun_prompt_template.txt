@@ -1,0 +1,15 @@
+You are an independent reviewer scoring Chinese annual report contexts for a 0-3 semantic depth rubric.
+
+Goal: score each context only by its own text. Ignore the parent LLM score and any previous labels.
+
+Rubric:
+- 0 = boilerplate, location, tax, subsidy, subsidiary name, policy quotation, or other generic mention without a substantive data-use action.
+- 1 = data-related wording or digital buzzwords appear, but the context is still generic, organizational, or descriptive rather than a concrete business/governance use.
+- 2 = a concrete data-use action is visible, but the context is still partial, descriptive, or not fully embedded in an operating/governance scenario.
+- 3 = explicit substantive use. The same context shows a data object plus a concrete action plus a business, operational, or governance scenario.
+
+Return ONLY valid JSON matching the schema. Do not wrap in markdown.
+
+Batch id: {batch_id}
+Items:
+{items_json}

@@ -1,0 +1,24 @@
+\begin{table}[htbp]\centering
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\caption{Table 5 Panel A: First Stage (27 controls)}
+\begin{tabular}{l*{3}{c}}
+\toprule
+          &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}\\
+          &\multicolumn{1}{c}{(2) First: Peer}&\multicolumn{1}{c}{(3) First: Bartik}&\multicolumn{1}{c}{(5) First: PeerLag}\\
+\midrule
+DU\_kw\_peer&   0.5945\sym{***}&                  &                  \\
+          & (0.0371)         &                  &                  \\
+\addlinespace
+bartik\_iv &                  &   0.2896\sym{***}&                  \\
+          &                  & (0.0371)         &                  \\
+\addlinespace
+peer\_lag  &                  &                  &   0.6034\sym{***}\\
+          &                  &                  & (0.0448)         \\
+\midrule
+$         &   43,657         &   42,941         &   37,230         \\
+^2$       &    0.844         &    0.841         &    0.835         \\
+\bottomrule
+\multicolumn{4}{l}{\footnotesize Standard errors in parentheses}\\
+\multicolumn{4}{l}{\footnotesize \sym{*} \(p<0.10\), \sym{**} \(p<0.05\), \sym{***} \(p<0.01\)}\\
+\end{tabular}
+\end{table}

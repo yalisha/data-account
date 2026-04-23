@@ -1,0 +1,44 @@
+{
+  "type": "object",
+  "required": [
+    "batch_id",
+    "results"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "batch_id": {
+      "type": "string"
+    },
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "sample_id",
+          "score",
+          "reason",
+          "confidence"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "sample_id": {
+            "type": "string"
+          },
+          "score": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 3
+          },
+          "reason": {
+            "type": "string"
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          }
+        }
+      }
+    }
+  }
+}

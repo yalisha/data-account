@@ -1,0 +1,296 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/mac/computerscience/0做完了/15会计研究/v2/results/mechanism
+> _comparability.log
+  log type:  text
+ opened on:  20 Apr 2026, 16:24:28
+
+. 
+. use "/Users/mac/computerscience/0做完了/15会计研究/v1/data_stata/reg_sample_v
+> 18.dta", clear
+
+. display _newline "v18 样本 N = " _N
+
+v18 样本 N = 43735
+
+. 
+. preserve
+
+.     import delimited using "/Users/mac/computerscience/0做完了/15会计研究/v1/
+> data_parquet/accounting_comparability.csv", encoding("utf-8") clear
+(4 vars, 26,004 obs)
+
+.     rename stkcd Stkcd
+
+.     rename year year
+  (all newnames==oldnames)
+
+.     keep Stkcd year comparability_med comparability_top4
+
+.     tempfile comp
+
+.     save `comp', replace
+(file /var/folders/1v/x_31wm790txgy940w5mgvhb80000gn/T//St36375.000002 not
+    found)
+file /var/folders/1v/x_31wm790txgy940w5mgvhb80000gn/T//St36375.000002 saved
+    as .dta format
+
+. restore
+
+. 
+. merge 1:1 Stkcd year using `comp', keep(master match) nogen
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                        19,620
+        from master                    19,620  
+        from using                          0  
+
+    Matched                            24,115  
+    -----------------------------------------
+
+. display _newline "合并 Comparability 后 N = " _N
+
+合并 Comparability 后 N = 43735
+
+. count if !missing(comparability_med)
+  24,115
+
+. count if !missing(comparability_top4)
+  24,115
+
+. 
+. * Winsorize (Python 已做，以防万一)
+. foreach v in comparability_med comparability_top4 {
+  2.     qui sum `v', detail
+  3.     local p1 = r(p1)
+  4.     local p99 = r(p99)
+  5.     replace `v' = `p1' if `v' < `p1' & !missing(`v')
+  6.     replace `v' = `p99' if `v' > `p99' & !missing(`v')
+  7. }
+(241 real changes made)
+(241 real changes made)
+(241 real changes made)
+(241 real changes made)
+
+. 
+. local ctrls "Size Lev ROA TobinQ Age Growth IndepRatio Dual Top1Share SOE CFO
+> "
+
+. 
+. * ============================================================
+. * Comparability (Ind2 中位数版本)
+. * ============================================================
+. display _newline "=== Comparability_med (Ind2 中位数) = DU + X ==="
+
+=== Comparability_med (Ind2 中位数) = DU + X ===
+
+. reghdfe comparability_med DU_kw `ctrls', absorb(Stkcd_num year_num) cluster(I
+> ndYear_num)
+(dropped 256 singleton observations)
+(MWFE estimator converged in 6 iterations)
+
+HDFE Linear regression                            Number of obs   =     23,859
+Absorbing 2 HDFE groups                           F(  12,    604) =     114.35
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.6543
+                                                  Adj R-squared   =     0.5959
+                                                  Within R-sq.    =     0.2038
+Number of clusters (IndYear_num) =        605     Root MSE        =     0.0207
+
+                          (Std. err. adjusted for 605 clusters in IndYear_num)
+------------------------------------------------------------------------------
+             |               Robust
+comparabil~d | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       DU_kw |   .0004449   .0002275     1.96   0.051    -1.75e-06    .0008916
+        Size |   .0019231   .0007615     2.53   0.012     .0004276    .0034186
+         Lev |  -.0214314   .0026108    -8.21   0.000    -.0265587    -.016304
+         ROA |   .1547937   .0068303    22.66   0.000     .1413795    .1682078
+      TobinQ |  -.0075596   .0003984   -18.98   0.000     -.008342   -.0067772
+         Age |  -.0126584   .0025318    -5.00   0.000    -.0176307   -.0076861
+      Growth |  -.0009869   .0005466    -1.81   0.071    -.0020604    .0000865
+  IndepRatio |  -.0065764   .0047939    -1.37   0.171    -.0159912    .0028384
+        Dual |   .0005002   .0006134     0.82   0.415    -.0007045    .0017048
+   Top1Share |   .0001526   .0000386     3.95   0.000     .0000768    .0002285
+         SOE |  -.0020901   .0012426    -1.68   0.093    -.0045304    .0003502
+         CFO |  -.0303933   .0038415    -7.91   0.000    -.0379376   -.0228491
+       _cons |  -.0369342    .016887    -2.19   0.029    -.0700986   -.0037698
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+   Stkcd_num |      3425           0        3425     |
+    year_num |        10           1           9     |
+-----------------------------------------------------+
+
+. estimates store cm_kw
+
+. reghdfe comparability_med DU_llm `ctrls', absorb(Stkcd_num year_num) cluster(
+> IndYear_num)
+(dropped 256 singleton observations)
+(MWFE estimator converged in 6 iterations)
+
+HDFE Linear regression                            Number of obs   =     23,859
+Absorbing 2 HDFE groups                           F(  12,    604) =     115.57
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.6544
+                                                  Adj R-squared   =     0.5960
+                                                  Within R-sq.    =     0.2039
+Number of clusters (IndYear_num) =        605     Root MSE        =     0.0207
+
+                          (Std. err. adjusted for 605 clusters in IndYear_num)
+------------------------------------------------------------------------------
+             |               Robust
+comparabil~d | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      DU_llm |   .0005894   .0002205     2.67   0.008     .0001564    .0010224
+        Size |    .001888   .0007589     2.49   0.013     .0003976    .0033783
+         Lev |  -.0215645   .0026116    -8.26   0.000    -.0266935   -.0164356
+         ROA |   .1545817   .0068278    22.64   0.000     .1411726    .1679908
+      TobinQ |  -.0075376   .0003969   -18.99   0.000    -.0083171   -.0067582
+         Age |   -.012146   .0025287    -4.80   0.000    -.0171122   -.0071798
+      Growth |  -.0009966   .0005471    -1.82   0.069     -.002071    .0000779
+  IndepRatio |   -.006489   .0047944    -1.35   0.176    -.0159046    .0029267
+        Dual |   .0004867   .0006142     0.79   0.428    -.0007196     .001693
+   Top1Share |   .0001519   .0000385     3.94   0.000     .0000762    .0002276
+         SOE |  -.0021131   .0012403    -1.70   0.089    -.0045489    .0003227
+         CFO |  -.0303139   .0038448    -7.88   0.000    -.0378648   -.0227631
+       _cons |  -.0377421   .0168531    -2.24   0.025    -.0708399   -.0046442
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+   Stkcd_num |      3425           0        3425     |
+    year_num |        10           1           9     |
+-----------------------------------------------------+
+
+. estimates store cm_llm
+
+. 
+. * ============================================================
+. * Comparability (Top-4 均值版本 - 朱康/袁蓉丽同口径)
+. * ============================================================
+. display _newline "=== Comparability_top4 (Top-4 均值) = DU + X ==="
+
+=== Comparability_top4 (Top-4 均值) = DU + X ===
+
+. reghdfe comparability_top4 DU_kw `ctrls', absorb(Stkcd_num year_num) cluster(
+> IndYear_num)
+(dropped 256 singleton observations)
+(MWFE estimator converged in 6 iterations)
+
+HDFE Linear regression                            Number of obs   =     23,859
+Absorbing 2 HDFE groups                           F(  12,    604) =      31.23
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.6282
+                                                  Adj R-squared   =     0.5654
+                                                  Within R-sq.    =     0.0914
+Number of clusters (IndYear_num) =        605     Root MSE        =     0.0084
+
+                          (Std. err. adjusted for 605 clusters in IndYear_num)
+------------------------------------------------------------------------------
+             |               Robust
+comparabil~4 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       DU_kw |    .000185   .0000825     2.24   0.025      .000023    .0003471
+        Size |   -.000085   .0002699    -0.32   0.753    -.0006151    .0004451
+         Lev |  -.0025577   .0010756    -2.38   0.018      -.00467   -.0004454
+         ROA |   .0456843   .0032272    14.16   0.000     .0393463    .0520222
+      TobinQ |  -.0015351   .0001551    -9.90   0.000    -.0018396   -.0012305
+         Age |  -.0002816   .0011313    -0.25   0.804    -.0025033    .0019402
+      Growth |  -.0003845   .0002201    -1.75   0.081    -.0008168    .0000478
+  IndepRatio |  -.0032295   .0021288    -1.52   0.130    -.0074103    .0009513
+        Dual |   .0000286   .0002478     0.12   0.908     -.000458    .0005152
+   Top1Share |   .0000255   .0000155     1.65   0.100    -4.93e-06     .000056
+         SOE |   .0006899   .0004517     1.53   0.127    -.0001971     .001577
+         CFO |   -.008187   .0015799    -5.18   0.000    -.0112898   -.0050842
+       _cons |  -.0008615   .0065055    -0.13   0.895    -.0136377    .0119147
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+   Stkcd_num |      3425           0        3425     |
+    year_num |        10           1           9     |
+-----------------------------------------------------+
+
+. estimates store ct_kw
+
+. reghdfe comparability_top4 DU_llm `ctrls', absorb(Stkcd_num year_num) cluster
+> (IndYear_num)
+(dropped 256 singleton observations)
+(MWFE estimator converged in 6 iterations)
+
+HDFE Linear regression                            Number of obs   =     23,859
+Absorbing 2 HDFE groups                           F(  12,    604) =      30.30
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.6281
+                                                  Adj R-squared   =     0.5653
+                                                  Within R-sq.    =     0.0912
+Number of clusters (IndYear_num) =        605     Root MSE        =     0.0084
+
+                          (Std. err. adjusted for 605 clusters in IndYear_num)
+------------------------------------------------------------------------------
+             |               Robust
+comparabil~4 | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      DU_llm |   .0000296   .0000813     0.36   0.716      -.00013    .0001892
+        Size |   -.000064   .0002691    -0.24   0.812    -.0005926    .0004645
+         Lev |  -.0025817   .0010779    -2.40   0.017    -.0046987   -.0004648
+         ROA |   .0456758   .0032306    14.14   0.000     .0393312    .0520204
+      TobinQ |  -.0015403   .0001553    -9.92   0.000    -.0018454   -.0012352
+         Age |  -.0001623   .0011273    -0.14   0.886    -.0023762    .0020515
+      Growth |  -.0003874   .0002205    -1.76   0.079    -.0008204    .0000457
+  IndepRatio |   -.003237   .0021312    -1.52   0.129    -.0074225    .0009485
+        Dual |   .0000259   .0002477     0.10   0.917    -.0004605    .0005123
+   Top1Share |   .0000256   .0000155     1.65   0.099    -4.88e-06    .0000561
+         SOE |    .000678   .0004514     1.50   0.134    -.0002085    .0015644
+         CFO |  -.0082242     .00158    -5.21   0.000    -.0113272   -.0051212
+       _cons |  -.0014171   .0065161    -0.22   0.828    -.0142142    .0113799
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+   Stkcd_num |      3425           0        3425     |
+    year_num |        10           1           9     |
+-----------------------------------------------------+
+
+. estimates store ct_llm
+
+. 
+. * ============================================================
+. * 导出
+. * ============================================================
+. esttab cm_kw cm_llm ct_kw ct_llm ///
+>     using "/Users/mac/computerscience/0做完了/15会计研究/v2/results/mechanism
+> _comparability.csv", ///
+>     replace csv se r2 ar2 star(* 0.10 ** 0.05 *** 0.01) ///
+>     nogaps compress ///
+>     mtitles("Comp_med_KW" "Comp_med_LLM" "Comp_top4_KW" "Comp_top4_LLM") ///
+>     title("会计信息可比性 De Franco 2011 机制")
+(file
+    /Users/mac/computerscience/0做完了/15会计研究/v2/results/mechanism_compar
+    > ability.csv not found)
+(output written to /Users/mac/computerscience/0做完了/15会计研究/v2/results/mec
+> hanism_comparability.csv)
+
+. 
+. display _newline "=== 可比性 完成 ==="
+
+=== 可比性 完成 ===
+
+. log close
+      name:  <unnamed>
+       log:  /Users/mac/computerscience/0做完了/15会计研究/v2/results/mechanism
+> _comparability.log
+  log type:  text
+ closed on:  20 Apr 2026, 16:24:29
+-------------------------------------------------------------------------------

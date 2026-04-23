@@ -1,0 +1,303 @@
+\section{四、实证检验}\label{ux56dbux5b9eux8bc1ux68c0ux9a8c}
+
+\subsection{（一）描述性统计}\label{ux4e00ux63cfux8ff0ux6027ux7edfux8ba1}
+
+表4报告了主要变量的描述性统计结果（见表4）。样本包含43,735个企业-年份观测。股价延迟均值为0.112，中位数为0.068，多数企业的信息融入效率较高。DU\_kw均值为1.219，标准差为1.861，企业间差异较大。DU\_llm均值为1.321，标准差为1.119。其余控制变量的分布均在合理范围内。
+
+\textbf{表4 变量的描述性统计}
+
+{\def\LTcaptype{} % do not increment counter
+\begin{longtable}[]{@{}lllllll@{}}
+\toprule\noalign{}
+变量 & N & 均值 & 标准差 & 最小值 & 中位数 & 最大值 \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+PriceDelay & 43,735 & 0.112 & 0.123 & 0.005 & 0.068 & 0.665 \\
+SYNCH & 43,677 & -0.505 & 0.834 & -2.954 & -0.449 & 1.229 \\
+DU\_kw & 43,735 & 1.219 & 1.861 & 0.000 & 0.572 & 11.064 \\
+DU\_llm & 43,735 & 1.321 & 1.119 & 0.000 & 1.086 & 6.799 \\
+Size & 43,735 & 22.597 & 0.971 & 20.948 & 22.435 & 25.608 \\
+Lev & 43,735 & 0.425 & 0.207 & 0.055 & 0.417 & 0.916 \\
+ROA & 43,735 & 0.030 & 0.067 & -0.280 & 0.033 & 0.191 \\
+TobinQ & 43,735 & 2.005 & 1.283 & 0.829 & 1.590 & 8.451 \\
+Age & 43,735 & 2.159 & 0.733 & 0.693 & 2.303 & 3.219 \\
+Growth & 43,735 & 0.134 & 0.369 & -0.591 & 0.083 & 2.157 \\
+IndepRatio & 43,735 & 0.378 & 0.054 & 0.333 & 0.364 & 0.571 \\
+Dual & 43,735 & 0.297 & 0.457 & 0.000 & 0.000 & 1.000 \\
+Top1Share & 43,735 & 33.420 & 14.822 & 8.126 & 31.000 & 74.000 \\
+SOE & 43,735 & 0.329 & 0.470 & 0.000 & 0.000 & 1.000 \\
+CFO & 43,735 & 0.046 & 0.068 & -0.161 & 0.045 & 0.239 \\
+\end{longtable}
+}
+
+LLM语义评分中，得分2及以上（实质利用）的企业-年份观测占46.8\%，得分3（深度利用）仅占5.4\%。
+
+\subsection{（二）基准回归结果}\label{ux4e8cux57faux51c6ux56deux5f52ux7ed3ux679c}
+
+表5报告了数据要素利用对股价延迟的OLS基准回归结果（见表5）。模型(1)(2)使用基准处理变量DU\_kw，模型(3)(4)使用语义增强指标DU\_llm，模型(5)使用LLM二值化指标。所有模型均控制企业和年份固定效应，聚类标准误设在行业×年份层面。
+
+\textbf{表5 基准回归检验}
+
+{\def\LTcaptype{} % do not increment counter
+\begin{longtable}[]{@{}llllll@{}}
+\toprule\noalign{}
+& (1) & (2) & (3) & (4) & (5) \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+变量 & PriceDelay & PriceDelay & PriceDelay & PriceDelay & PriceDelay \\
+DU\_kw & -0.0052*** & -0.0046*** & & & \\
+& (0.0010) & (0.0009) & & & \\
+DU\_llm & & & -0.0037*** & -0.0036*** & \\
+& & & (0.0008) & (0.0008) & \\
+llm\_binary & & & & & -0.0033*** \\
+& & & & & (0.0013) \\
+Size & & 0.0063*** & & 0.0060** & 0.0055** \\
+& & (0.0024) & & (0.0024) & (0.0024) \\
+Lev & & 0.0225*** & & 0.0228*** & 0.0225*** \\
+& & (0.0063) & & (0.0063) & (0.0063) \\
+ROA & & -0.0634*** & & -0.0612*** & -0.0614*** \\
+& & (0.0147) & & (0.0147) & (0.0147) \\
+TobinQ & & 0.0116*** & & 0.0117*** & 0.0119*** \\
+& & (0.0011) & & (0.0011) & (0.0011) \\
+Age & & -0.0331*** & & -0.0346*** & -0.0348*** \\
+& & (0.0038) & & (0.0039) & (0.0039) \\
+Growth & & 0.0129*** & & 0.0130*** & 0.0130*** \\
+& & (0.0020) & & (0.0020) & (0.0020) \\
+IndepRatio & & -0.0159 & & -0.0149 & -0.0142 \\
+& & (0.0155) & & (0.0155) & (0.0155) \\
+Dual & & -0.0021 & & -0.0021 & -0.0021 \\
+& & (0.0016) & & (0.0016) & (0.0016) \\
+Top1Share & & 0.0000 & & 0.0000 & 0.0000 \\
+& & (0.0001) & & (0.0001) & (0.0001) \\
+SOE & & 0.0051 & & 0.0052 & 0.0053 \\
+& & (0.0040) & & (0.0040) & (0.0040) \\
+CFO & & 0.0047 & & 0.0051 & 0.0055 \\
+& & (0.0111) & & (0.0111) & (0.0111) \\
+Firm FE & YES & YES & YES & YES & YES \\
+Year FE & YES & YES & YES & YES & YES \\
+N & 43,721 & 43,721 & 43,721 & 43,721 & 43,721 \\
+R² & 0.409 & 0.419 & 0.408 & 0.418 & 0.418 \\
+\end{longtable}
+}
+
+以加入全部控制变量的模型(2)为基准，DU\_kw每增加一个标准差1.861，股价延迟预期下降约7.7\%。模型(4)中DU\_llm的系数为-0.0036，经济意义同样显著。模型(5)中llm\_binary的系数为-0.0033（t=-2.61），表明即便将语义深度简化为二分类变量，其与股价延迟之间的负向关系仍然显著。两套测度在PriceDelay上的结果方向一致，其中DU\_kw作为基准处理变量承担主识别角色，DU\_llm提供语义层面的并行验证。
+
+以SYNCH为辅助指标时，DU\_kw系数为+0.0189（t=3.88），DU\_llm系数为+0.0176（t=3.98），均显著为正，说明收益率中由市场和行业共同因素解释的比例提高。由于SYNCH的经济含义不同于PriceDelay，本文仅将其视为辅助结果，而不据此单独验证H1。
+
+\subsection{（三）构念边界与测度补强}\label{ux4e09ux6784ux5ff5ux8fb9ux754cux4e0eux6d4bux5ea6ux8865ux5f3a}
+
+构念边界与测度补强检验的核心问题是：本文捕捉到的究竟是更贴近数据利用的信息，还是更宽泛的数字叙事强度。为此，依次采用篇幅控制、去泛化词口径、长度标准化语义深度和GenericNarr联合回归进行检验。
+
+\textbf{表6 构念边界与测度补强}
+
+\begin{landscape}
+\begingroup
+\setlength{\tabcolsep}{3pt}
+\scriptsize
+{\def\LTcaptype{} % do not increment counter
+\begin{longtable}[]{@{}>{\raggedright\arraybackslash}p{3.0cm}*{7}{>{\centering\arraybackslash}p{2.0cm}}@{}}
+\toprule\noalign{}
+& (1) & (2) & (3) & (4) & (5) & (6) & (7) \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+模型 & DUkw+Total & DUkw+MDA & DUllm+Total & Lenstd+Total & DUkw+Narr & ResidDU & StrictDU \\
+因变量 & PriceDelay & PriceDelay & PriceDelay & PriceDelay & PriceDelay & PriceDelay & PriceDelay \\
+DU\_kw\_lag & -0.0038*** & -0.0039*** & & & -0.0027 & & \\
+& (0.0010) & (0.0010) & & & (0.0021) & & \\
+DU\_llm\_lag & & & -0.0042*** & & & & \\
+& & & (0.0009) & & & & \\
+DU\_llm\_lenstd\_lag & & & & -0.0184*** & & & \\
+& & & & (0.0032) & & & \\
+ln\_total\_chars\_lag & -0.0171*** & & -0.0150** & -0.0165*** & & & \\
+& (0.0060) & & (0.0060) & (0.0059) & & & \\
+ln\_mda\_chars\_lag & & 0.0003 & & & & & \\
+& & (0.0003) & & & & & \\
+GenericNarr\_lag & & & & & -0.0017 & & \\
+& & & & & (0.0023) & & \\
+DU\_kw\_resid\_lag & & & & & & -0.0027 & \\
+& & & & & & (0.0021) & \\
+DU\_kw\_strict\_lag & & & & & & & -0.0077*** \\
+& & & & & & & (0.0029) \\
+控制变量 & YES & YES & YES & YES & YES & YES & YES \\
+Firm FE & YES & YES & YES & YES & YES & YES & YES \\
+Year FE & YES & YES & YES & YES & YES & YES & YES \\
+N & 37,294 & 37,294 & 37,294 & 37,294 & 37,294 & 37,294 & 37,294 \\
+\end{longtable}
+}
+\endgroup
+\end{landscape}
+
+表6显示，首先，在控制年报总字数和MD\&A字数后，DU\_kw\_lag的系数分别为-0.0038（t=-3.80）和-0.0039（t=-3.89），仍在1\%水平上显著为负，说明主结果并非单纯由披露篇幅更长的企业驱动。其次，DU\_llm\_lag在控制总字数后仍显著为负，长度标准化后的DU\_llm\_lenstd\_lag系数进一步扩大至-0.0184（t=-5.80），表明语义深度在控制篇幅污染后仍保留定价信息。
+
+但更严格的构念边界检验并未支持``数据要素利用''与一般数字叙事完全分离的强主张。在DU\_kw\_lag与GenericNarr\_lag同时进入时，两者系数均不显著；FE口径下的VIF约为7.6，说明二者存在较强重叠。进一步将DU\_kw\_lag中可被GenericNarr解释的部分剔除后，残差项DU\_kw\_resid\_lag不再显著。这意味着本文更稳妥的表述应是：当前指标较一般数字叙事更贴近``数据资源实际利用''，但并不能被理解为与更宽泛数字化叙事完全正交的纯净构念。
+
+与此同时，去泛化词后的DU\_kw\_strict\_lag系数为-0.0077（t=-2.61），仍在1\%水平上显著为负，说明核心关系并不完全依赖``数字化转型、人工智能、大数据''等高频泛化词。综合篇幅控制、长度标准化语义深度与去泛化词结果，本文认为主结论具备较强的测度稳健性；但对其概念独立性的表述仍需保持审慎。
+
+仅有边界检验还不足以说明测度是否真正朝``数据要素利用''推进。本文进一步利用现有五维词典和章节特征构造增强口径，包括规则识别的实质利用指标DUevent、链条完整度指标DUchain\_count、闭环式表述指标DUclosedloop、窄口径核心强度指标DUcore以及MD\&A章节限定指标DUkw\_mda。表6A报告了这些增强口径在统一滞后规格下的结果。
+
+\textbf{表6A 增强测度与章节限定口径检验}
+
+\begin{landscape}
+\begingroup
+\setlength{\tabcolsep}{3pt}
+\scriptsize
+{\def\LTcaptype{} % do not increment counter
+\begin{longtable}[]{@{}>{\raggedright\arraybackslash}p{3.2cm}*{6}{>{\centering\arraybackslash}p{2.3cm}}@{}}
+\toprule\noalign{}
+& (1) & (2) & (3) & (4) & (5) & (6) \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+模型 & DUevent & DUchain & DUclosed & DUcore & DUkw\_mda & DUclosed+Narr \\
+因变量 & PriceDelay & PriceDelay & PriceDelay & PriceDelay & PriceDelay & PriceDelay \\
+DUevent\_lag & -0.0023 & & & & & \\
+& (0.0016) & & & & & \\
+DUchain\_count\_lag & & -0.0018** & & & & \\
+& & (0.0009) & & & & \\
+DUclosedloop\_lag & & & -0.0083*** & & & -0.0051* \\
+& & & (0.0030) & & & (0.0029) \\
+DUcore\_lag & & & & -0.0095*** & & \\
+& & & & (0.0027) & & \\
+DUkw\_mda\_lag & & & & & -0.0006*** & \\
+& & & & & (0.0002) & \\
+GenericNarr\_lag & & & & & & -0.0046*** \\
+& & & & & & (0.0012) \\
+控制变量 & YES & YES & YES & YES & YES & YES \\
+Firm FE & YES & YES & YES & YES & YES & YES \\
+Year FE & YES & YES & YES & YES & YES & YES \\
+N & 37,294 & 37,294 & 37,294 & 37,294 & 37,294 & 37,294 \\
+\end{longtable}
+}
+\endgroup
+\end{landscape}
+
+表6A显示，增强测度中并非所有口径都能提供同等强度的支持。首先，规则识别的DUevent\_lag系数为-0.0023（t=-1.51），方向为负但统计上不显著，说明在当前归档特征表条件下，单纯依赖rule-based实质利用计数尚不足以替代基准广度指标。其次，DUchain\_count\_lag的系数为-0.0018（t=-2.13），DUclosedloop\_lag的系数为-0.0083（t=-2.74），均显著为负，说明越完整、越接近``数据资源---加工应用---治理/价值实现''闭环的数据利用表述，与更快的价格发现相关。再次，DUcore\_lag和DUkw\_mda\_lag也分别显著为负，表明更窄的经营/治理口径以及经营讨论章节中的数据利用披露同样具有定价含量。
+
+但这些增强测度并未形成足以替代DU\_kw的新主指标。附加联合回归结果表明，DUchain\_count、DUcore和DUkw\_mda在与DU\_kw或GenericNarr同时进入后大多不再稳健；相较之下，DUclosedloop在与GenericNarr联合回归时仍保持-0.0051的负系数（t=-1.77），但仅达到10\%水平。基于这一证据，本文对构念升级采取更克制的写法：本文不能宣称已经从根本上摆脱了宽泛数字叙事的共线性问题，但可以更有把握地说明，资本市场对``更完整、更嵌入''的数据利用表述确实给出了方向一致的积极反应。
+
+\subsection{（四）时间顺序与内生性识别}\label{ux56dbux65f6ux95f4ux987aux5e8fux4e0eux5185ux751fux6027ux8bc6ux522b}
+
+基准回归中的内生性风险主要来自两个方面。其一，信息环境较好的企业可能同时呈现高数据利用和低股价延迟，构成遗漏变量偏差。其二，定价效率较高的企业可能更有动力披露数据利用信息，形成反向因果。为增强时间顺序的清晰性，本文首先报告滞后规格，并在此基础上结合工具变量、Oster界检验、Heckman两阶段法和安慰剂检验进行识别。
+
+\textbf{表7 时间顺序与内生性识别}
+
+\begin{landscape}
+\begingroup
+\setlength{\tabcolsep}{3pt}
+\scriptsize
+{\def\LTcaptype{} % do not increment counter
+\begin{longtable}[]{@{}>{\raggedright\arraybackslash}p{3.0cm}*{5}{>{\centering\arraybackslash}p{2.55cm}}@{}}
+\toprule\noalign{}
+& (1) & (2) & (3) & (4) & (5) \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+模型 & OLS & Lag OLS & Lag IV & IV1:Peer & IV2:Dig×Year \\
+DU\_kw & -0.0046*** & -0.0039*** & -0.0163*** & -0.0143*** & -0.0352*** \\
+& (0.0009) & (0.0010) & (0.0053) & (0.0047) & (0.0114) \\
+First-stage F & & & 177.8 & 251.3 & 72.7 \\
+控制变量 & YES & YES & YES & YES & YES \\
+Firm FE & YES & YES & YES & YES & YES \\
+Year FE & YES & YES & YES & YES & YES \\
+N & 43,695 & 37,278 & 37,198 & 43,612 & 43,695 \\
+\end{longtable}
+}
+\endgroup
+\end{landscape}
+
+表7显示，以滞后一期的DU\_kw解释当期PriceDelay后，OLS系数为-0.0039（t=-3.90），方向和显著性与同期规格一致；使用滞后跨省peer作为IV时，系数为-0.0163（t=-3.10），一阶段F=177.8，说明在更清晰的时间顺序下，数据要素利用与更低股价延迟之间的关系依然成立。同期两套工具变量的估计也均显著为负，且一阶段统计量远超弱工具变量常用临界值，表明行业技术扩散与地理基础设施供给两类外生变异均支持基准结论。Durbin-Wu-Hausman检验在三个IV规格下均拒绝外生性假设（p值分别为0.015、0.005和0.006），意味着将内生性问题纳入考虑是必要的。
+
+采用Oster（2019）提出的δ界检验方法评估遗漏变量的潜在影响。以Rmax=1.3R²为基准，δ*=96.3；以更保守的Rmax=2R²-R²\_short为基准，δ*=7.5。两个δ*均远超临界值1，意味着若要使DU\_kw的系数降为零，遗漏变量对因变量的解释能力需要达到已纳入控制变量的96倍，或在更保守口径下达到7.5倍，这在经验上不太可能。
+
+Heckman两阶段法进一步检验了大量零值可能带来的样本选择偏差。约23\%的企业-年份观测中DU\_kw=0。第一阶段以Probit模型估计企业年报出现数据要素相关表述的概率，第二阶段在DU\_kw\textgreater0的子样本中加入逆米尔斯比IMR控制选择偏差。结果显示，DU\_kw的系数为-0.0040（t=-4.39），与基准回归几乎一致；IMR的系数为-0.123（t=-6.23），在1\%水平上显著，说明样本选择偏差存在，但控制之后核心结论不变。
+
+安慰剂检验则从反向因果角度进行检验。如果数据要素利用对股价延迟的影响确实不是伪回归，那么\(t+1\)期的DU\_kw不应影响\(t\)期的PriceDelay。将DU\_\{i,t\}和DU\_\{i,t+1\}同时纳入回归后，当期系数为-0.0050（t=-4.64），未来期系数为0.0001（t=0.11），完全不显著。未来期DU对当期定价效率没有解释力，与反向因果的预测不符。综合滞后规格、工具变量、Oster界检验、Heckman修正和安慰剂检验，本文认为多种识别练习共同支持数据要素利用降低股价延迟的因果解释。
+
+\subsection{（五）双重机器学习估计}\label{ux4e94ux53ccux91cdux673aux5668ux5b66ux4e60ux4f30ux8ba1}
+
+为放松线性函数形式假定，采用Chernozhukov等（2018）的双重机器学习（DML）框架重新估计处理效应，以LightGBM为第一阶段学习器，Mundlak（1978）均值替代法处理企业固定效应，控制变量扩展至27个。
+
+\textbf{表8 DML-PLR回归结果}
+
+{\def\LTcaptype{} % do not increment counter
+\begin{longtable}[]{@{}lllllll@{}}
+\toprule\noalign{}
+& Y=PriceDelay & & & Y=SYNCH & & \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+处理变量D & 系数 & 标准误 & t值 & 系数 & 标准误 & t值 \\
+DU\_kw & -0.0029*** & (0.0004) & {[}-6.50{]} & +0.0277*** & (0.0029) & {[}9.65{]} \\
+DU\_kw\_ln & -0.0040*** & (0.0006) & {[}-7.19{]} & & & \\
+DU\_sub\_ln & -0.0039*** & (0.0005) & {[}-7.21{]} & & & \\
+DU\_llm & -0.0042*** & (0.0007) & {[}-6.35{]} & +0.0326*** & (0.0041) & {[}7.98{]} \\
+llm\_binary & -0.0042*** & (0.0012) & {[}-3.46{]} & +0.0435*** & (0.0075) & {[}5.80{]} \\
+控制变量+CRE & YES & & & YES & & \\
+N & 35,666 & & & 35,614 & & \\
+\end{longtable}
+}
+
+表8显示，DU\_kw的DML系数为-0.0029（t=-6.50），DU\_llm的系数为-0.0042（t=-6.35），均在1\%水平上显著为负，说明在放松线性函数形式并引入更高维控制后，核心结果依然稳健。SYNCH列的结果同样为正，但仍仅作为辅助信息报告，而不承担主结论验证职责。DML样本约35,700，因27个控制变量对完整观测的要求高于OLS样本，样本量有所下降，但估计方向与基准回归保持一致。
+
+\subsection{（六）稳健性检验}\label{ux516dux7a33ux5065ux6027ux68c0ux9a8c}
+
+表9报告了多维度的稳健性检验结果（见表9）。
+
+（1）替换固定效应。在保留企业固定效应的基础上，以行业×年份联合固定效应替代单独年份固定效应，以吸收同一行业在特定年份面临的共同冲击，DU\_kw系数为-0.0029（t=-4.91），结论不变。
+
+（2）调整样本范围。剔除末期年份（2024年）后系数为-0.0052（t=-5.43），排除了样本末端效应的干扰。剔除证监会行业分类中的信息技术业后系数为-0.0046（t=-5.29），排除了结论由数据密集型行业驱动的可能。
+
+（3）滞后控制变量。以\(t-1\)期控制变量替代同期变量，缓解控制变量与处理变量的同期内生性，系数为-0.0040（t=-4.38）。
+
+（4）倾向得分匹配（Rosenbaum和Rubin，1983）。以DU\_kw高于行业-年份中位数为处理组，Logit模型估计倾向得分，采用最近邻1:1匹配（卡尺0.05）。图1展示了匹配前后处理组与对照组的倾向得分核密度分布，匹配后两组分布趋于一致，协变量平衡良好。匹配样本上系数为-0.0039（t=-4.61），与基准估计方向和大小一致。
+
+\textbf{图1 匹配前后核密度曲线}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.78\linewidth]{results/v16_tables/psm_density.png}
+\end{figure}
+
+（5）双向聚类标准误（Cameron等，2011）。将聚类层级从行业×年份扩展至企业和年份双向聚类，以应对企业层面和时间层面的双重相关性，系数为-0.0046（t=-3.81），标准误增大但结论不变。
+
+（6）替换自变量。以实质利用指标DU\_sub\_ln替代DU\_kw，系数为-0.0042（t=-5.49），表明结论不依赖于特定的变量构造方式。
+
+\textbf{表9 稳健性检验}
+
+\begin{landscape}
+\begingroup
+\setlength{\tabcolsep}{3pt}
+\scriptsize
+{\def\LTcaptype{} % do not increment counter
+\begin{longtable}[]{@{}>{\raggedright\arraybackslash}p{3.0cm}*{7}{>{\centering\arraybackslash}p{2.05cm}}@{}}
+\toprule\noalign{}
+& (1)FE & (2)尾年 & (3)IT & (4)滞后 & (5)PSM & (6)双聚类 & (7)替换 \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+& 行业×年FE & 剔除2024 & 剔除IT & 滞后控制 & 倾向匹配 & 双向聚类 & DU\_sub\_ln \\
+变量 & PriceDelay & PriceDelay & PriceDelay & PriceDelay & PriceDelay & PriceDelay & PriceDelay \\
+DU\_kw & -0.0029*** & -0.0052*** & -0.0046*** & -0.0040*** & -0.0039*** & -0.0046*** & \\
+(DU\_sub\_ln) & & & & & & & -0.0042*** \\
+& (0.0006) & (0.0010) & (0.0009) & (0.0009) & (0.0008) & (0.0012) & (0.0008) \\
+控制变量 & YES & YES & YES & YES & YES & YES & YES \\
+Firm FE & YES & YES & YES & YES & YES & YES & YES \\
+Year FE & NO & YES & YES & YES & YES & YES & YES \\
+Ind×Year FE & YES & NO & NO & NO & NO & NO & NO \\
+N & 43,656 & 38,812 & 40,613 & 37,294 & 35,929 & 43,721 & 43,721 \\
+\end{longtable}
+}
+\endgroup
+\end{landscape}
+
+此外，以SYNCH替代PriceDelay时，DU\_kw的OLS系数为+0.0189（t=3.88），与基准回归中的辅助指标结果一致，即数据要素利用提高了收益率中由市场和行业共同因素解释的比例。由于该指标的经济含义不同于PriceDelay，本文对其解释保持审慎。总体而言，上述稳健性检验与前文识别结果共同表明，数据要素利用与更低股价延迟之间的负向关系并不依赖于特定模型设定或样本处理方式。

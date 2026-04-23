@@ -1,0 +1,235 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/mac/computerscience/0做完了/15会计研究/v2/results/y_alterna
+> tives_diagnose.log
+  log type:  text
+ opened on:  23 Apr 2026, 12:45:08
+
+. 
+. display "=== Candidate Y Step 1 diagnose ==="
+=== Candidate Y Step 1 diagnose ===
+
+. display "Gate rules:"
+Gate rules:
+
+. display "1) pass: |t| >= 1.96 and sign direction matches expectation"
+1) pass: |t| >= 1.96 and sign direction matches expectation
+
+. display "2) marginal: 1.50 <= |t| < 1.96 and sign direction matches expectati
+> on"
+2) marginal: 1.50 <= |t| < 1.96 and sign direction matches expectation
+
+. display "3) fail: everything else"
+3) fail: everything else
+
+. display "Operational note: Turnover_year keeps expected_sign = positive for g
+> ating,"
+Operational note: Turnover_year keeps expected_sign = positive for gating,
+
+. display "even though the literature review will mark its theory sign as mixed
+> ."
+even though the literature review will mark its theory sign as mixed.
+
+. 
+. capture which reghdfe
+
+. if _rc {
+.     display as error "reghdfe not installed"
+.     exit 199
+. }
+
+. 
+. use "/Users/mac/computerscience/0做完了/15会计研究/v1/data_stata/reg_sample_y
+> _alt.dta", clear
+
+. 
+. sort Stkcd_num year_num
+
+. tsset Stkcd_num year_num
+
+Panel variable: Stkcd_num (unbalanced)
+ Time variable: year_num, 2011 to 2024, but with gaps
+         Delta: 1 unit
+
+. 
+. local ctrls "Size Lev ROA TobinQ Age Growth IndepRatio Dual Top1Share SOE CFO
+> "
+
+. local ylist "Amihud_year Turnover_year ZeroRet_ratio SPI NCSKEW DUVOL CS_Spre
+> ad"
+
+. 
+. foreach du in DU_kw DU_llm {
+  2.     capture drop `du'_lag
+  3.     gen `du'_lag = L.`du'
+  4. }
+(6,112 missing values generated)
+(6,112 missing values generated)
+
+. 
+. tempfile step1
+
+. tempname posth
+
+. postfile `posth' str24 y_name str8 du_measure str12 expected_sign ///
+>     double coef se t_stat p_value N str12 status str18 baseline_direction_mat
+> ch ///
+>     using `step1', replace
+(file /var/folders/1v/x_31wm790txgy940w5mgvhb80000gn/T//St54186.000001 not
+    found)
+
+. 
+. foreach du in DU_kw DU_llm {
+  2.     local dulag = "`du'_lag"
+  3. 
+.     quietly count if !missing(PriceDelay, `dulag')
+  4.     if r(N) == 0 {
+  5.         post `posth' ("PriceDelay") ("`du'") ("negative") (.) (.) (.) (.) 
+> (0) ("unavailable") ("baseline")
+  6.         local price_sign_`du' = 0
+  7.     }
+  8.     else {
+  9.         quietly reghdfe PriceDelay `dulag' `ctrls', absorb(Stkcd_num year_
+> num) cluster(IndYear_num)
+ 10.         local coef = _b[`dulag']
+ 11.         local se = _se[`dulag']
+ 12.         local tval = `coef' / `se'
+ 13.         local pval = 2 * ttail(e(df_r), abs(`tval'))
+ 14.         local price_sign_`du' = 0
+ 15.         if `coef' > 0 local price_sign_`du' = 1
+ 16.         if `coef' < 0 local price_sign_`du' = -1
+ 17.         local status = "fail"
+ 18.         if `coef' < 0 & abs(`tval') >= 1.96 local status = "pass"
+ 19.         else if `coef' < 0 & abs(`tval') >= 1.50 local status = "marginal"
+ 20.         post `posth' ("PriceDelay") ("`du'") ("negative") (`coef') (`se') 
+> (`tval') (`pval') (e(N)) ("`status'") ("baseline")
+ 21.     }
+ 22. 
+.     quietly count if !missing(SYNCH, `dulag')
+ 23.     if r(N) == 0 {
+ 24.         post `posth' ("SYNCH") ("`du'") ("positive") (.) (.) (.) (.) (0) (
+> "unavailable") ("baseline")
+ 25.     }
+ 26.     else {
+ 27.         quietly reghdfe SYNCH `dulag' `ctrls', absorb(Stkcd_num year_num) 
+> cluster(IndYear_num)
+ 28.         local coef = _b[`dulag']
+ 29.         local se = _se[`dulag']
+ 30.         local tval = `coef' / `se'
+ 31.         local pval = 2 * ttail(e(df_r), abs(`tval'))
+ 32.         local status = "fail"
+ 33.         if `coef' > 0 & abs(`tval') >= 1.96 local status = "pass"
+ 34.         else if `coef' > 0 & abs(`tval') >= 1.50 local status = "marginal"
+ 35.         post `posth' ("SYNCH") ("`du'") ("positive") (`coef') (`se') (`tva
+> l') (`pval') (e(N)) ("`status'") ("baseline")
+ 36.     }
+ 37. }
+
+. 
+. foreach y of local ylist {
+  2.     local expected = "negative"
+  3.     if inlist("`y'", "Turnover_year", "SPI") {
+  4.         local expected = "positive"
+  5.     }
+  6. 
+.     foreach du in DU_kw DU_llm {
+  7.         local dulag = "`du'_lag"
+  8.         local baseline_match = "mismatch"
+  9. 
+.         quietly count if !missing(`y', `dulag')
+ 10.         if r(N) == 0 {
+ 11.             post `posth' ("`y'") ("`du'") ("`expected'") (.) (.) (.) (.) (
+> 0) ("unavailable") ("unavailable")
+ 12.             continue
+ 13.         }
+ 14. 
+.         capture noisily quietly reghdfe `y' `dulag' `ctrls', absorb(Stkcd_num
+>  year_num) cluster(IndYear_num)
+ 15.         if _rc {
+ 16.             post `posth' ("`y'") ("`du'") ("`expected'") (.) (.) (.) (.) (
+> 0) ("unavailable") ("unavailable")
+ 17.             continue
+ 18.         }
+ 19. 
+.         local coef = _b[`dulag']
+ 20.         local se = _se[`dulag']
+ 21.         local tval = `coef' / `se'
+ 22.         local pval = 2 * ttail(e(df_r), abs(`tval'))
+ 23. 
+.         local direction_ok = 0
+ 24.         if "`expected'" == "positive" & `coef' > 0 local direction_ok = 1
+ 25.         if "`expected'" == "negative" & `coef' < 0 local direction_ok = 1
+ 26. 
+.         local coef_sign = 0
+ 27.         if `coef' > 0 local coef_sign = 1
+ 28.         if `coef' < 0 local coef_sign = -1
+ 29. 
+.         if `price_sign_`du'' == 0 {
+ 30.             local baseline_match = "zero_baseline"
+ 31.         }
+ 32.         else if `coef_sign' == `price_sign_`du'' {
+ 33.             local baseline_match = "match_delay"
+ 34.         }
+ 35.         else {
+ 36.             local baseline_match = "mismatch"
+ 37.         }
+ 38. 
+.         local status = "fail"
+ 39.         if `direction_ok' == 1 & abs(`tval') >= 1.96 local status = "pass"
+ 40.         else if `direction_ok' == 1 & abs(`tval') >= 1.50 local status = "
+> marginal"
+ 41. 
+.         post `posth' ("`y'") ("`du'") ("`expected'") (`coef') (`se') (`tval')
+>  (`pval') (e(N)) ("`status'") ("`baseline_match'")
+ 42.     }
+ 43. }
+
+. 
+. postclose `posth'
+
+. 
+. use `step1', clear
+
+. order y_name du_measure expected_sign coef se t_stat p_value N status baselin
+> e_direction_match
+
+. export delimited using "/Users/mac/computerscience/0做完了/15会计研究/v2/resu
+> lts/y_alternatives_step1.csv", replace
+(file
+    /Users/mac/computerscience/0做完了/15会计研究/v2/results/y_alternatives_s
+    > tep1.csv not found)
+file /Users/mac/computerscience/0做完了/15会计研究/v2/results/y_alternatives_st
+> ep1.csv saved
+
+. save "/Users/mac/computerscience/0做完了/15会计研究/v2/results/y_alternatives
+> _step1.dta", replace
+(file
+    /Users/mac/computerscience/0做完了/15会计研究/v2/results/y_alternatives_s
+    > tep1.dta not found)
+file
+    /Users/mac/computerscience/0做完了/15会计研究/v2/results/y_alternatives_s
+    > tep1.dta saved
+
+. 
+. display _newline "=== Step 1 summary by status ==="
+
+=== Step 1 summary by status ===
+
+. tab status
+
+      status |      Freq.     Percent        Cum.
+-------------+-----------------------------------
+        fail |          7       38.89       38.89
+        pass |          9       50.00       88.89
+ unavailable |          2       11.11      100.00
+-------------+-----------------------------------
+       Total |         18      100.00
+
+. 
+. log close
+      name:  <unnamed>
+       log:  /Users/mac/computerscience/0做完了/15会计研究/v2/results/y_alterna
+> tives_diagnose.log
+  log type:  text
+ closed on:  23 Apr 2026, 12:45:11
+-------------------------------------------------------------------------------

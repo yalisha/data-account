@@ -1,0 +1,2 @@
+survivors=1
+message=存在 pass/marginal 候选，可进入三步检验

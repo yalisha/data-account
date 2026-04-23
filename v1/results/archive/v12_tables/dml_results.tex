@@ -1,0 +1,23 @@
+\begin{table}[htbp]
+\centering
+\caption{双重机器学习稳健性检验：DU\_kw对PriceDelay的影响}
+\label{tab:dml}
+\begin{tabular}{lccc}
+\toprule
+ & (1) OLS & (2) OLS-Ext & (3) DML-CRE \\
+ & 15个控制变量 & 28个控制变量 & CRE+Lasso+RF \\
+\midrule
+DU\_kw & $-0.0034$  & $-0.0026$  & $-0.0035^{***}$ \\
+ & $(0.0010)$  & $(0.0010)$  & $(0.0003)$ \\
+\midrule
+控制变量 & 15个 & 28个 & 28个+CRE均值 \\
+企业FE & \checkmark & \checkmark & Mundlak \\
+年份FE & \checkmark & \checkmark & 虚拟变量 \\
+标准误 & 行业$\times$年份聚类 & 行业$\times$年份聚类 & HC稳健 \\
+学习器 & -- & -- & Lasso+RF \\
+N & 40,135 & 40,135 & 40,135 \\
+\bottomrule
+\multicolumn{4}{l}{\footnotesize 注：DML采用5折交叉拟合，3次重复，CRE (Mundlak) 处理个体效应。} \\
+\multicolumn{4}{l}{\footnotesize ***、**、* 分别表示1\%、5\%、10\%显著水平。} \\
+\end{tabular}
+\end{table}

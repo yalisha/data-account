@@ -1,0 +1,100 @@
+{
+  "meta": {
+    "version": "v15",
+    "date": "2026-03-20",
+    "description": "全渠道机制检验: 10渠道 x OLS/DML x 同期/滞后, 27控制变量",
+    "method_ols": "pyfixest Firm+Year FE, 行业x年份聚类SE",
+    "method_dml": "DoubleML PLR + CRE (Mundlak), Lasso+RF, 5fold x 3rep",
+    "controls": 27,
+    "script": "scripts/run_mechanism_all_channels.py"
+  },
+  "robust_channels": {
+    "summary": "OLS和DML方向一致且至少同期显著的渠道",
+    "channels": ["ForecastDisp", "Analyst", "RetAutoCorr", "InvestIneff"],
+    "ForecastDisp": {
+      "cn_name": "分析师预测分歧",
+      "source": "Diether et al. (2002)",
+      "theory": "数据利用降低分析师之间的预测分歧, 减少信息不确定性, 改善定价效率",
+      "tier": 1,
+      "ols_concurrent":  {"coef": -0.010016, "se": 0.002144, "t": -4.67, "p": 0.0000, "sig": "***", "N": 25149, "R2": 0.694},
+      "ols_lagged":      {"coef": -0.006194, "se": 0.002006, "t": -3.09, "p": 0.0021, "sig": "***", "N": 21449, "R2": 0.709},
+      "dml_concurrent":  {"coef": -0.012612, "se": 0.001146, "t": -11.01, "p": 0.0000, "sig": "***", "N": 25695},
+      "dml_lagged":      {"coef": -0.012560, "se": 0.001272, "t": -9.88,  "p": 0.0000, "sig": "***", "N": 22034}
+    },
+    "Analyst": {
+      "cn_name": "分析师覆盖",
+      "source": "Zhang (2006)",
+      "theory": "数据利用吸引更多分析师跟踪, 信息传导加速, 定价效率提升",
+      "tier": 1,
+      "ols_concurrent":  {"coef": 0.022916, "se": 0.007822, "t": 2.93, "p": 0.0035, "sig": "***", "N": 38786, "R2": 0.810},
+      "ols_lagged":      {"coef": 0.029435, "se": 0.007566, "t": 3.89, "p": 0.0001, "sig": "***", "N": 33572, "R2": 0.833},
+      "dml_concurrent":  {"coef": 0.021881, "se": 0.003601, "t": 6.08, "p": 0.0000, "sig": "***", "N": 39030},
+      "dml_lagged":      {"coef": 0.029066, "se": 0.004054, "t": 7.17, "p": 0.0000, "sig": "***", "N": 33919}
+    },
+    "RetAutoCorr": {
+      "cn_name": "收益率自相关",
+      "source": "Chordia et al. (2008)",
+      "theory": "数据利用加速信息融入价格, 降低收益率自相关, 反映市场微观结构改善",
+      "tier": 2,
+      "ols_concurrent":  {"coef": -0.002195, "se": 0.000607, "t": -3.62, "p": 0.0003, "sig": "***", "N": 38786, "R2": 0.414},
+      "ols_lagged":      {"coef": -0.000730, "se": 0.000671, "t": -1.09, "p": 0.2766, "sig": "",    "N": 33572, "R2": 0.346},
+      "dml_concurrent":  {"coef": -0.001855, "se": 0.000268, "t": -6.93, "p": 0.0000, "sig": "***", "N": 39030},
+      "dml_lagged":      {"coef": -0.001193, "se": 0.000313, "t": -3.81, "p": 0.0001, "sig": "***", "N": 33919}
+    },
+    "InvestIneff": {
+      "cn_name": "投资效率偏离",
+      "source": "Richardson (2006)",
+      "theory": "数据利用改善投资决策效率, 降低过度投资和投资不足, 企业可预测性提高",
+      "tier": 2,
+      "ols_concurrent":  {"coef": -0.001096, "se": 0.000468, "t": -2.34, "p": 0.0196, "sig": "**",  "N": 33283, "R2": 0.295},
+      "ols_lagged":      {"coef": -0.000174, "se": 0.000474, "t": -0.37, "p": 0.7132, "sig": "",    "N": 31583, "R2": 0.296},
+      "dml_concurrent":  {"coef": -0.000709, "se": 0.000222, "t": -3.20, "p": 0.0014, "sig": "***", "N": 33640},
+      "dml_lagged":      {"coef": -0.000578, "se": 0.000234, "t": -2.47, "p": 0.0136, "sig": "**",  "N": 31945}
+    }
+  },
+  "rejected_channels": {
+    "summary": "OLS和DML结论不一致或方向错误的渠道",
+    "absDA": {
+      "cn_name": "盈余管理程度",
+      "source": "Kothari et al. (2005)",
+      "reason": "OLS边际显著(t=-1.94*), DML下完全不显著(t=-0.39), 证据脆弱",
+      "ols_concurrent":  {"coef": -0.000971, "t": -1.94, "sig": "*"},
+      "dml_concurrent":  {"coef": -0.000167, "t": -0.39, "sig": ""}
+    },
+    "AuditFee": {
+      "cn_name": "审计费用(对数)",
+      "source": "DeFond and Zhang (2014)",
+      "reason": "OLS完全不显著(t=0.03); DML显著但方向为负(t=-3.24***), 与理论预期矛盾",
+      "ols_concurrent":  {"coef": 0.000050, "t": 0.03, "sig": ""},
+      "dml_concurrent":  {"coef": -0.004098, "t": -3.24, "sig": "***"}
+    },
+    "InstHold": {
+      "cn_name": "机构持股比例",
+      "source": "Buss and Sundaresan (2023)",
+      "reason": "OLS方向反(预期+实际-); DML完全不显著(t=-0.20)",
+      "ols_concurrent":  {"coef": -0.110968, "t": -2.12, "sig": "**"},
+      "dml_concurrent":  {"coef": -0.008800, "t": -0.20, "sig": ""}
+    },
+    "Turnover": {
+      "cn_name": "换手率",
+      "source": "Chordia et al. (2008)",
+      "reason": "OLS同期正(t=2.03**), DML同期负(t=-2.72***), 方向完全相反, 不稳健",
+      "ols_concurrent":  {"coef": 0.186970, "t": 2.03, "sig": "**"},
+      "dml_concurrent":  {"coef": -0.133243, "t": -2.72, "sig": "***"}
+    },
+    "RetVol": {
+      "cn_name": "收益波动率",
+      "source": "Zhang (2006)",
+      "reason": "OLS同期不显著; DML方向为正(t=9.78***), 即数据利用增加波动率, 与预期矛盾",
+      "ols_concurrent":  {"coef": -0.000062, "t": -1.41, "sig": ""},
+      "dml_concurrent":  {"coef": 0.000159, "t": 9.78, "sig": "***"}
+    },
+    "Amihud": {
+      "cn_name": "非流动性",
+      "source": "Amihud (2002)",
+      "reason": "OLS同期不显著(t=-1.20); DML同期方向反(t=+1.70*), 仅滞后一致(OLS t=-3.73***, DML t=-2.23**), 不够稳健",
+      "ols_concurrent":  {"coef": -0.000416, "t": -1.20, "sig": ""},
+      "dml_concurrent":  {"coef": 0.000194, "t": 1.70, "sig": "*"}
+    }
+  }
+}

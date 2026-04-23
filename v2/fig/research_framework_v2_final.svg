@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 1050" font-family="PingFang SC, Helvetica, Arial, sans-serif">
+  <!-- ===================== 样式定义 ===================== -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#333"/>
+    </marker>
+    <marker id="arrow-orange" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#C65911"/>
+    </marker>
+    <marker id="arrow-gray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#9a9a9a"/>
+    </marker>
+  </defs>
+
+  <!-- ===================== 顶部标题与政策背景 ===================== -->
+  <rect x="0" y="0" width="1500" height="80" fill="#1F4E79"/>
+  <text x="750" y="34" font-size="22" font-weight="700" fill="#fff" text-anchor="middle">研究框架：数据要素利用披露与股价定价效率</text>
+  <text x="750" y="62" font-size="13" fill="#d9e2ec" text-anchor="middle">政策情境 | 2019 数据作为第五生产要素 · 2022 数据二十条 · 2024 CAS 数据资源相关会计处理暂行规定</text>
+
+  <!-- ===================== Row 1: X 测度层 ===================== -->
+  <text x="40" y="120" font-size="14" font-weight="700" fill="#1F4E79">① 披露测度（第三章 · 方法论核心）</text>
+
+  <!-- 双测度 -->
+  <rect x="40" y="135" width="260" height="120" rx="8" fill="#E8F0FE" stroke="#1F4E79" stroke-width="1.8"/>
+  <text x="170" y="158" font-size="13" font-weight="700" fill="#1F4E79" text-anchor="middle">双测度（本文方法论首创）</text>
+  <line x1="60" y1="168" x2="280" y2="168" stroke="#1F4E79" stroke-dasharray="3,3" opacity="0.5"/>
+  <text x="60" y="188" font-size="12" fill="#333">DU_kw：关键词频率</text>
+  <text x="80" y="204" font-size="11" fill="#555">Word2Vec 扩展 + 否定剔除</text>
+  <text x="60" y="224" font-size="12" fill="#333">DU_llm：LLM 语义加权</text>
+  <text x="80" y="240" font-size="11" fill="#555">Claude Haiku 0–3 评分</text>
+
+  <!-- 价值链 5 维 -->
+  <rect x="320" y="135" width="260" height="120" rx="8" fill="#E8F0FE" stroke="#1F4E79" stroke-width="1.8"/>
+  <text x="450" y="158" font-size="13" font-weight="700" fill="#1F4E79" text-anchor="middle">价值链五环节分解</text>
+  <line x1="340" y1="168" x2="560" y2="168" stroke="#1F4E79" stroke-dasharray="3,3" opacity="0.5"/>
+  <text x="340" y="188" font-size="12" fill="#333">资源 · 开发 · 应用 · 价值化 · 治理</text>
+  <text x="340" y="210" font-size="11" fill="#C65911">app −0.01163***</text>
+  <text x="340" y="226" font-size="11" fill="#C65911">dev −0.00477***</text>
+  <text x="340" y="242" font-size="11" fill="#C65911">stock −0.01235***</text>
+
+  <!-- 质量 5 维 -->
+  <rect x="600" y="135" width="260" height="120" rx="8" fill="#E8F0FE" stroke="#1F4E79" stroke-width="1.8"/>
+  <text x="730" y="158" font-size="13" font-weight="700" fill="#1F4E79" text-anchor="middle">语义质量多指标（5 维）</text>
+  <line x1="620" y1="168" x2="840" y2="168" stroke="#1F4E79" stroke-dasharray="3,3" opacity="0.5"/>
+  <text x="620" y="186" font-size="11" fill="#333">DUclosedloop 闭环披露</text>
+  <text x="620" y="202" font-size="11" fill="#333">DUcore 核心业务嵌入</text>
+  <text x="620" y="218" font-size="11" fill="#333">DUchain_count 链条完整</text>
+  <text x="620" y="234" font-size="11" fill="#333">DUkw_mda MD&amp;A 嵌入</text>
+  <text x="620" y="250" font-size="11" fill="#333">DU_llm_lenstd 语义×密度</text>
+
+  <!-- WashGap 反向 -->
+  <rect x="880" y="135" width="260" height="120" rx="8" fill="#FFF4E6" stroke="#C65911" stroke-width="2.2"/>
+  <text x="1010" y="158" font-size="13" font-weight="700" fill="#C65911" text-anchor="middle">WashGap 反向测度（独家）</text>
+  <line x1="900" y1="168" x2="1120" y2="168" stroke="#C65911" stroke-dasharray="3,3" opacity="0.5"/>
+  <text x="900" y="188" font-size="11" fill="#333">winsorize(z(DU_kw) − z(DU_llm_lenstd))</text>
+  <text x="900" y="208" font-size="12" fill="#333">概念堆砌型披露加剧延迟</text>
+  <text x="900" y="230" font-size="13" font-weight="700" fill="#C65911">WashGap → Delay：+0.00347**</text>
+  <text x="900" y="248" font-size="10" fill="#C65911" font-style="italic">单测度文献无法检验</text>
+
+  <!-- 样本数据块 -->
+  <rect x="1160" y="135" width="300" height="120" rx="8" fill="#F4F4F4" stroke="#666" stroke-width="1.5"/>
+  <text x="1310" y="158" font-size="13" font-weight="700" fill="#333" text-anchor="middle">样本与识别</text>
+  <line x1="1180" y1="168" x2="1440" y2="168" stroke="#666" stroke-dasharray="3,3" opacity="0.5"/>
+  <text x="1180" y="186" font-size="11" fill="#333">A 股非金融非 ST · 2011–2024</text>
+  <text x="1180" y="202" font-size="11" fill="#333">N = 43,735（主）/ 37,294（lagged）</text>
+  <text x="1180" y="222" font-size="11" fill="#333">DML-PLR + 双 IV：</text>
+  <text x="1180" y="236" font-size="10" fill="#555">IV1 同行业跨省 peer (F=251.3)</text>
+  <text x="1180" y="250" font-size="10" fill="#555">IV2 省级数字化×year (F=72.7)</text>
+
+  <!-- ===================== Row 2: 理论锚 ===================== -->
+  <text x="40" y="295" font-size="14" font-weight="700" fill="#1F4E79">② 理论锚点（第二章）</text>
+
+  <rect x="40" y="310" width="700" height="90" rx="8" fill="#2E5E9C" stroke="#14345B" stroke-width="1.8"/>
+  <text x="390" y="335" font-size="15" font-weight="700" fill="#fff" text-anchor="middle">主理论：数据要素作为生产要素的价值释放</text>
+  <text x="60" y="359" font-size="11" fill="#E8F0FE">· Jones &amp; Tonetti (2020, AER)：数据的非竞争性与经济学含义</text>
+  <text x="60" y="375" font-size="11" fill="#E8F0FE">· Crouzet, Eberly, Eisfeldt, Papanikolaou (2022, JEP)：无形资本估值偏差</text>
+  <text x="60" y="391" font-size="11" fill="#E8F0FE">· Brynjolfsson-Hitt-Kim (2011) · Farboodi-Veldkamp (2021) · Tambe (2014, MS)</text>
+
+  <rect x="760" y="310" width="400" height="90" rx="8" fill="#F4F4F4" stroke="#666" stroke-width="1.5"/>
+  <text x="960" y="335" font-size="13" font-weight="700" fill="#333" text-anchor="middle">下位机制理论（估值不确定性压缩）</text>
+  <text x="780" y="359" font-size="11" fill="#555">· Merton (1987, JF)：投资者识别成本</text>
+  <text x="780" y="375" font-size="11" fill="#555">· Akerlof (1970) · Verrecchia (2001, JAE)</text>
+  <text x="780" y="391" font-size="11" fill="#555">· Blankespoor et al. (2020, JAE)：披露处理成本</text>
+
+  <rect x="1180" y="310" width="280" height="90" rx="8" fill="#F9ECEC" stroke="#9A3324" stroke-width="1.5"/>
+  <text x="1320" y="333" font-size="12" font-weight="700" fill="#9A3324" text-anchor="middle">直接竞品已占位 H1 主链</text>
+  <text x="1200" y="355" font-size="11" fill="#333">Sun &amp; Du (2024, IRFA)：data assets</text>
+  <text x="1200" y="371" font-size="11" fill="#333">disclosure → SYNCH ↓</text>
+  <text x="1200" y="387" font-size="11" fill="#333">李世刚等 (2025, 中国工业经济)</text>
+
+  <!-- ===================== 中间过渡箭头 ===================== -->
+  <line x1="170" y1="255" x2="170" y2="310" stroke="#1F4E79" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="450" y1="255" x2="450" y2="310" stroke="#1F4E79" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="730" y1="255" x2="730" y2="310" stroke="#1F4E79" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="1010" y1="255" x2="1010" y2="310" stroke="#C65911" stroke-width="2" marker-end="url(#arrow-orange)"/>
+
+  <!-- ===================== 假说锚 H1/H2/H3 ===================== -->
+  <text x="40" y="440" font-size="14" font-weight="700" fill="#1F4E79">③ 假说与机制定位（第二章 · 第六章）</text>
+
+  <!-- H1 主效应 -->
+  <rect x="40" y="455" width="260" height="80" rx="8" fill="#E8F0FE" stroke="#1F4E79" stroke-width="1.8"/>
+  <text x="170" y="477" font-size="13" font-weight="700" fill="#1F4E79" text-anchor="middle">H1 · 主效应</text>
+  <text x="170" y="497" font-size="11" fill="#333" text-anchor="middle">披露 → 股价延迟 ↓</text>
+  <text x="170" y="515" font-size="12" font-weight="700" fill="#C65911" text-anchor="middle">DU_kw −0.0046*** / DU_llm −0.0042***</text>
+  <text x="170" y="531" font-size="10" fill="#555" text-anchor="middle">IV1 −0.0143*** · IV2 −0.0352***</text>
+
+  <!-- H2 经营侧 -->
+  <rect x="320" y="455" width="540" height="260" rx="10" fill="#FFF4E6" stroke="#C65911" stroke-width="2.5"/>
+  <text x="590" y="478" font-size="14" font-weight="700" fill="#C65911" text-anchor="middle">H2 · 经营侧机制定位（本文理论贡献）</text>
+  <text x="590" y="496" font-size="11" fill="#555" text-anchor="middle">数据要素真实嵌入生产函数 → 经营不确定性 ↓ → 估值不确定性 ↓</text>
+
+  <rect x="340" y="510" width="245" height="90" rx="6" fill="#fff" stroke="#C65911" stroke-width="1.5"/>
+  <text x="462" y="530" font-size="12" font-weight="700" fill="#C65911" text-anchor="middle">基本面稳定</text>
+  <text x="462" y="548" font-size="11" fill="#333" text-anchor="middle">CashFlowVol（3yr sd(CFO/TA)）</text>
+  <text x="462" y="566" font-size="11" font-weight="700" fill="#333" text-anchor="middle">DU_kw −0.00049** · DU_llm −0.00048**</text>
+  <text x="462" y="585" font-size="10" fill="#555" text-anchor="middle">Epstein-Schneider (2008, JF) ambiguity</text>
+
+  <rect x="595" y="510" width="245" height="90" rx="6" fill="#fff" stroke="#C65911" stroke-width="1.5"/>
+  <text x="717" y="530" font-size="12" font-weight="700" fill="#C65911" text-anchor="middle">供应链优化</text>
+  <text x="717" y="548" font-size="11" fill="#333" text-anchor="middle">SCConc 供应链集中度</text>
+  <text x="717" y="566" font-size="11" font-weight="700" fill="#333" text-anchor="middle">DU_kw −0.277*** · DU_llm −0.460***</text>
+  <text x="717" y="585" font-size="10" fill="#555" text-anchor="middle">Cen (2016, RF) · Ellis (2012, JAR)</text>
+
+  <rect x="340" y="615" width="500" height="42" rx="6" fill="#FDF7F1" stroke="#C65911" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="590" y="634" font-size="11" font-weight="700" fill="#9A3324" text-anchor="middle">机制稳健性辅助：Comparability（De Franco 2011）</text>
+  <text x="590" y="650" font-size="10" fill="#555" text-anchor="middle">DU_llm +0.000589*** (p=0.008)：信息侧弱证据，不入主机制框架</text>
+
+  <text x="590" y="685" font-size="11" font-weight="700" fill="#C65911" text-anchor="middle">理论锚点：Jones-Tonetti 2020 + Crouzet 2022 + Brynjolfsson-Hitt-Kim 2011</text>
+  <text x="590" y="702" font-size="10" fill="#555" text-anchor="middle">江艇 (2022) consistent-with 范式，不 claim 严格 mediation</text>
+
+  <!-- 对照：竞品信息侧（灰） -->
+  <rect x="880" y="455" width="580" height="260" rx="10" fill="#F4F4F4" stroke="#9a9a9a" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <text x="1170" y="478" font-size="13" font-weight="700" fill="#666" text-anchor="middle">信息侧路径（既有文献已占位 · 对照写作）</text>
+  <text x="1170" y="496" font-size="11" fill="#888" text-anchor="middle">披露 → 信息不对称 ↓ → 投资者结构变化 → 定价效率 ↑</text>
+
+  <rect x="900" y="510" width="260" height="90" rx="6" fill="#fff" stroke="#9a9a9a" stroke-width="1"/>
+  <text x="1030" y="530" font-size="12" font-weight="700" fill="#666" text-anchor="middle">Sun &amp; Du (2024, IRFA)</text>
+  <text x="1030" y="549" font-size="11" fill="#888" text-anchor="middle">信息不对称 ↓</text>
+  <text x="1030" y="567" font-size="11" fill="#888" text-anchor="middle">长期机构投资者 ↑</text>
+  <text x="1030" y="585" font-size="11" fill="#888" text-anchor="middle">融资约束 ↓</text>
+
+  <rect x="1175" y="510" width="265" height="90" rx="6" fill="#fff" stroke="#9a9a9a" stroke-width="1"/>
+  <text x="1307" y="530" font-size="12" font-weight="700" fill="#666" text-anchor="middle">李世刚等 (2025, 中国工业经济)</text>
+  <text x="1307" y="549" font-size="11" fill="#888" text-anchor="middle">信息供给 ↑</text>
+  <text x="1307" y="567" font-size="11" fill="#888" text-anchor="middle">信息扩散 ↑</text>
+  <text x="1307" y="585" font-size="11" fill="#888" text-anchor="middle">信息融入 ↑</text>
+
+  <text x="1170" y="627" font-size="11" fill="#666" text-anchor="middle" font-style="italic">理论锚点：Signaling theory + 信息效率假说</text>
+  <text x="1170" y="651" font-size="12" font-weight="700" fill="#9A3324" text-anchor="middle">→ 本文机制定位的差异化立足点：</text>
+  <text x="1170" y="671" font-size="11" fill="#333" text-anchor="middle">数据要素首先是「生产要素」而非信息品，</text>
+  <text x="1170" y="689" font-size="11" fill="#333" text-anchor="middle">其披露的经济后果应首先经由「生产函数重塑」实现</text>
+
+  <!-- 箭头从 H1 向下到 Y -->
+  <line x1="170" y1="535" x2="170" y2="770" stroke="#C65911" stroke-width="2" marker-end="url(#arrow-orange)"/>
+  <line x1="590" y1="715" x2="590" y2="770" stroke="#C65911" stroke-width="2" marker-end="url(#arrow-orange)"/>
+
+  <!-- ===================== Row 4: Y 结果层 ===================== -->
+  <text x="40" y="755" font-size="14" font-weight="700" fill="#1F4E79">④ 结果变量（第五章）</text>
+
+  <rect x="40" y="775" width="540" height="100" rx="10" fill="#2E5E9C" stroke="#14345B" stroke-width="2"/>
+  <text x="310" y="800" font-size="14" font-weight="700" fill="#fff" text-anchor="middle">主因变量：PriceDelay ↓（股价定价效率）</text>
+  <text x="310" y="822" font-size="11" fill="#d9e2ec" text-anchor="middle">Hou &amp; Moskowitz (2005, RFS) 构造</text>
+  <text x="310" y="842" font-size="11" fill="#fff" text-anchor="middle">挂「定价效率」主叙事，上主回归表</text>
+  <text x="310" y="862" font-size="10" fill="#d9e2ec" text-anchor="middle">对应贡献：H1 主效应 + 测度内部结构（价值链/质量）异质性</text>
+
+  <rect x="600" y="775" width="860" height="100" rx="10" fill="#E8F0FE" stroke="#1F4E79" stroke-width="1.8" stroke-dasharray="6,3"/>
+  <text x="1030" y="798" font-size="13" font-weight="700" fill="#1F4E79" text-anchor="middle">补充指标：SYNCH（信息含量结构 · 理论读法讨论段，不上主表）</text>
+  <text x="620" y="820" font-size="11" fill="#333">· 我们结果：DU_kw +0.02765*** · DU_llm +0.03259***（方向与 Sun-Du / 李世刚相反）</text>
+  <text x="620" y="838" font-size="11" fill="#333">· 采 Chen, Zhang, Jiang, Meng, Sun (2021, A&amp;F) public vs private info 框架：</text>
+  <text x="620" y="856" font-size="11" fill="#333">  披露强化 public info 进价渠道，SYNCH ↑ 是信息结构调整，不等于定价效率恶化</text>
+  <text x="620" y="872" font-size="10" fill="#555" font-style="italic">  诚实脚注 Li-Liu-Pursiainen (2022) MiFID II · Hu-Zhao-Zhang (2019) caveat</text>
+
+  <!-- ===================== 底部：异质性 · 独家发现 ===================== -->
+  <text x="40" y="912" font-size="14" font-weight="700" fill="#1F4E79">⑤ 异质性与独家发现（第七章 + 第五章 5.5.3）</text>
+
+  <!-- 异质性 -->
+  <rect x="40" y="930" width="720" height="105" rx="8" fill="#F4F4F4" stroke="#666" stroke-width="1.5"/>
+  <text x="400" y="951" font-size="13" font-weight="700" fill="#333" text-anchor="middle">异质性四维（统一框架：原始不确定性 / 信息摩擦 / 外部信息价值）</text>
+  <line x1="60" y1="960" x2="740" y2="960" stroke="#666" stroke-dasharray="3,3" opacity="0.5"/>
+  <text x="60" y="980" font-size="11" fill="#333">· Post2020：高 −0.0022 / 低 −0.0060*** · Fisher P=0.004</text>
+  <text x="60" y="996" font-size="11" fill="#333">· DigEconCore / HighTech：非核心 / 非高科技组效应更强（P=0.052 / 0.040）</text>
+  <text x="400" y="980" font-size="11" fill="#333">· SA 融资约束：高 SA 组 DU_llm 效应更强 · P=0.004</text>
+  <text x="400" y="996" font-size="11" fill="#333">· InstHold：高机构持股组效应放大</text>
+  <text x="400" y="1020" font-size="10" fill="#555" font-style="italic" text-anchor="middle">四维相对 v18 已汰换掉 SOE / ShNum / Analyst 三个常规维度，保留政策与市场摩擦两条硬线</text>
+
+  <!-- 独家发现 WashGap -->
+  <rect x="780" y="930" width="680" height="105" rx="8" fill="#FFF4E6" stroke="#C65911" stroke-width="2.2"/>
+  <text x="1120" y="951" font-size="13" font-weight="700" fill="#C65911" text-anchor="middle">独家发现 · WashGap 反向效应（贡献三）</text>
+  <line x1="800" y1="960" x2="1440" y2="960" stroke="#C65911" stroke-dasharray="3,3" opacity="0.5"/>
+  <text x="800" y="980" font-size="11" fill="#333">· Direct：WashGap → PriceDelay　+0.00347** (t = 2.09)</text>
+  <text x="800" y="996" font-size="11" fill="#333">· Joint with DU_kw：两者均显著 · 独立效应干净</text>
+  <text x="800" y="1012" font-size="11" fill="#333">· 概念堆砌型披露（广度远超深度）反而加剧定价延迟</text>
+  <text x="1120" y="1028" font-size="11" font-weight="700" fill="#C65911" text-anchor="middle">→ 为「披露质量 &gt; 披露数量」命题提供实证基础；单测度文献不可检验</text>
+
+  <!-- 连接独家发现箭头 -->
+  <line x1="1010" y1="255" x2="1120" y2="925" stroke="#C65911" stroke-width="1.3" stroke-dasharray="4,3" opacity="0.6"/>
+</svg>

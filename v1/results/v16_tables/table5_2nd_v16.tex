@@ -1,0 +1,29 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{5}{c}}
+\toprule
+          &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}\\
+          &\multicolumn{1}{c}{(1) OLS}&\multicolumn{1}{c}{(2) IV1}&\multicolumn{1}{c}{(3) IV2}&\multicolumn{1}{c}{(4) LagOLS}&\multicolumn{1}{c}{(5) LagIV}\\
+\midrule
+DU\_kw     &  -0.0046\sym{***}&                  &                  &                  &                  \\
+          & (0.0009)         &                  &                  &                  &                  \\
+\addlinespace
+DU\_kw\_hat1&                  &  -0.0143\sym{***}&                  &                  &                  \\
+          &                  & (0.0047)         &                  &                  &                  \\
+\addlinespace
+DU\_kw\_hat2&                  &                  &  -0.0352\sym{***}&                  &                  \\
+          &                  &                  & (0.0114)         &                  &                  \\
+\addlinespace
+DU\_kw\_lag &                  &                  &                  &  -0.0039\sym{***}&                  \\
+          &                  &                  &                  & (0.0010)         &                  \\
+\addlinespace
+DUlag\_hat &                  &                  &                  &                  &  -0.0163\sym{***}\\
+          &                  &                  &                  &                  & (0.0053)         \\
+\midrule
+$         &   43,695         &   43,612         &   43,695         &   37,278         &   37,198         \\
+^2$       &   0.4188         &   0.4190         &   0.4182         &   0.4180         &   0.4190         \\
+\bottomrule
+\multicolumn{6}{l}{\footnotesize Standard errors in parentheses}\\
+\multicolumn{6}{l}{\footnotesize \sym{*} \(p<0.10\), \sym{**} \(p<0.05\), \sym{***} \(p<0.01\)}\\
+\end{tabular}
+}

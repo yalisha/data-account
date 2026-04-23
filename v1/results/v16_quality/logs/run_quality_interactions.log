@@ -1,0 +1,220 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/mac/computerscience/0做完了/15会计研究/results/v16_quality/
+> logs/run_quality_interactions.log
+  log type:  text
+ opened on:  19 Apr 2026, 15:56:58
+
+. 
+. capture which reghdfe
+
+. if _rc {
+.     display as error "reghdfe not installed"
+.     exit 198
+. }
+
+. 
+. use "`base'/data_stata/reg_sample_v16_quality.dta", clear
+
+. 
+. local controls "Size Lev ROA TobinQ Age Growth IndepRatio Dual Top1Share SOE 
+> CFO"
+
+. 
+. tempfile kw_out llm_out
+
+. tempname kw_hold llm_hold
+
+. 
+. postfile `kw_hold' str20 quality str12 treatment double(coef se tstat pval) l
+> ong(N) double(r2) using `kw_out', replace
+(file /var/folders/1v/x_31wm790txgy940w5mgvhb80000gn/T//St47657.000001 not
+    found)
+
+. scalar max_abs_t_kw = 0
+
+. 
+. foreach Q in Quality_sub_z Quality_mda_z Quality_subden_z BroadShallow_cont_z
+>  WashGap_z {
+  2.     capture drop DUxQ
+  3.     gen double DUxQ = DU_kw * `Q'
+  4.     quietly reghdfe PriceDelay DU_kw `Q' DUxQ `controls', absorb(Stkcd_num
+>  year_num) cluster(IndYear_num)
+  5.     local b = _b[DUxQ]
+  6.     local se = _se[DUxQ]
+  7.     local t = `b' / `se'
+  8.     local p = 2 * ttail(e(df_r), abs(`t'))
+  9.     local n = e(N)
+ 10.     local r2 = e(r2)
+ 11.     if abs(`t') > max_abs_t_kw {
+ 12.         scalar max_abs_t_kw = abs(`t')
+ 13.     }
+ 14.     post `kw_hold' ("`Q'") ("DU_kw") (`b') (`se') (`t') (`p') (`n') (`r2')
+ 15.     display as text "`Q' / DU_kw: coef=" %9.4f `b' " t=" %6.2f `t' " N=" `
+> n'
+ 16.     drop DUxQ
+ 17. }
+Quality_sub_z / DU_kw: coef=  -0.0009 t= -0.85 N=43721
+Quality_mda_z / DU_kw: coef=   0.0011 t=  1.51 N=43721
+Quality_subden_z / DU_kw: coef=   0.0002 t=  0.78 N=43721
+BroadShallow_cont_z / DU_kw: coef=   0.0003 t=  1.15 N=43721
+WashGap_z / DU_kw: coef=  -0.0007 t= -0.89 N=43721
+
+. postclose `kw_hold'
+
+. 
+. use `kw_out', clear
+
+. export delimited using "`base'/results/v16_quality/quality_interactions.csv",
+>  replace
+file /Users/mac/computerscience/0做完了/15会计研究/results/v16_quality/quality_
+> interactions.csv saved
+
+. list, noobs abbreviate(20)
+
+  +----------------------------------------------------------------------+
+  |             quality | treatment |       coef |        se |     tstat |
+  |       Quality_sub_z |     DU_kw | -.00087412 | .00102887 | -.8495854 |
+  |----------------------------------------------------------------------|
+  |            pval        |           N        |              r2        |
+  |       .39575097        |       43721        |        .4186037        |
+  +----------------------------------------------------------------------+
+
+  +----------------------------------------------------------------------+
+  |             quality | treatment |       coef |        se |     tstat |
+  |       Quality_mda_z |     DU_kw |  .00108133 | .00071823 | 1.5055375 |
+  |----------------------------------------------------------------------|
+  |            pval        |           N        |              r2        |
+  |       .13248929        |       43721        |       .41863304        |
+  +----------------------------------------------------------------------+
+
+  +----------------------------------------------------------------------+
+  |             quality | treatment |       coef |        se |     tstat |
+  |    Quality_subden_z |     DU_kw |  .00024251 | .00030938 | .78385931 |
+  |----------------------------------------------------------------------|
+  |            pval        |           N        |              r2        |
+  |       .43330098        |       43721        |       .41860399        |
+  +----------------------------------------------------------------------+
+
+  +----------------------------------------------------------------------+
+  |             quality | treatment |       coef |        se |     tstat |
+  | BroadShallow_cont_z |     DU_kw |  .00026431 |  .0002307 | 1.1456763 |
+  |----------------------------------------------------------------------|
+  |            pval        |           N        |              r2        |
+  |       .25219243        |       43721        |       .41858162        |
+  +----------------------------------------------------------------------+
+
+  +----------------------------------------------------------------------+
+  |             quality | treatment |       coef |        se |     tstat |
+  |           WashGap_z |     DU_kw | -.00066445 | .00074483 |   -.89209 |
+  |----------------------------------------------------------------------|
+  |            pval        |           N        |              r2        |
+  |       .37255085        |       43721        |       .41856298        |
+  +----------------------------------------------------------------------+
+
+. 
+. use "`base'/data_stata/reg_sample_v16_quality.dta", clear
+
+. 
+. postfile `llm_hold' str20 quality str12 treatment double(coef se tstat pval) 
+> long(N) double(r2) using `llm_out', replace
+(file /var/folders/1v/x_31wm790txgy940w5mgvhb80000gn/T//St47657.000002 not
+    found)
+
+. scalar max_abs_t_llm = 0
+
+. 
+. foreach Q in Quality_sub_z Quality_mda_z Quality_subden_z BroadShallow_cont_z
+>  WashGap_z {
+  2.     capture drop DUxQ
+  3.     gen double DUxQ = DU_llm * `Q'
+  4.     quietly reghdfe PriceDelay DU_llm `Q' DUxQ `controls', absorb(Stkcd_nu
+> m year_num) cluster(IndYear_num)
+  5.     local b = _b[DUxQ]
+  6.     local se = _se[DUxQ]
+  7.     local t = `b' / `se'
+  8.     local p = 2 * ttail(e(df_r), abs(`t'))
+  9.     local n = e(N)
+ 10.     local r2 = e(r2)
+ 11.     if abs(`t') > max_abs_t_llm {
+ 12.         scalar max_abs_t_llm = abs(`t')
+ 13.     }
+ 14.     post `llm_hold' ("`Q'") ("DU_llm") (`b') (`se') (`t') (`p') (`n') (`r2
+> ')
+ 15.     display as text "`Q' / DU_llm: coef=" %9.4f `b' " t=" %6.2f `t' " N=" 
+> `n'
+ 16.     drop DUxQ
+ 17. }
+Quality_sub_z / DU_llm: coef=  -0.0012 t= -1.44 N=43721
+Quality_mda_z / DU_llm: coef=   0.0000 t=  0.01 N=43721
+Quality_subden_z / DU_llm: coef=   0.0004 t=  0.70 N=43721
+BroadShallow_cont_z / DU_llm: coef=  -0.0001 t= -0.14 N=43721
+WashGap_z / DU_llm: coef=   0.0007 t=  1.04 N=43721
+
+. postclose `llm_hold'
+
+. 
+. use `llm_out', clear
+
+. export delimited using "`base'/results/v16_quality/quality_interactions_llm.c
+> sv", replace
+file /Users/mac/computerscience/0做完了/15会计研究/results/v16_quality/quality_
+> interactions_llm.csv saved
+
+. list, noobs abbreviate(20)
+
+  +-----------------------------------------------------------------------+
+  |             quality | treatment |       coef |        se |      tstat |
+  |       Quality_sub_z |    DU_llm | -.00120292 | .00083686 | -1.4374245 |
+  |-----------------------------------------------------------------------|
+  |            pval        |           N        |               r2        |
+  |       .15089792        |       43721        |          .418106        |
+  +-----------------------------------------------------------------------+
+
+  +-----------------------------------------------------------------------+
+  |             quality | treatment |       coef |        se |      tstat |
+  |       Quality_mda_z |    DU_llm |  .00001305 | .00088307 |  .01477986 |
+  |-----------------------------------------------------------------------|
+  |            pval        |           N        |               r2        |
+  |       .98821064        |       43721        |        .41805674        |
+  +-----------------------------------------------------------------------+
+
+  +-----------------------------------------------------------------------+
+  |             quality | treatment |       coef |        se |      tstat |
+  |    Quality_subden_z |    DU_llm |   .0004325 | .00061683 |  .70116861 |
+  |-----------------------------------------------------------------------|
+  |            pval        |           N        |               r2        |
+  |        .4833545        |       43721        |        .41831421        |
+  +-----------------------------------------------------------------------+
+
+  +-----------------------------------------------------------------------+
+  |             quality | treatment |       coef |        se |      tstat |
+  | BroadShallow_cont_z |    DU_llm | -.00007497 | .00055478 | -.13513742 |
+  |-----------------------------------------------------------------------|
+  |            pval        |           N        |               r2        |
+  |       .89252935        |       43721        |        .41812189        |
+  +-----------------------------------------------------------------------+
+
+  +-----------------------------------------------------------------------+
+  |             quality | treatment |       coef |        se |      tstat |
+  |           WashGap_z |    DU_llm |  .00071278 | .00068335 |  1.0430697 |
+  |-----------------------------------------------------------------------|
+  |            pval        |           N        |               r2        |
+  |       .29715817        |       43721        |        .41808293        |
+  +-----------------------------------------------------------------------+
+
+. 
+. display as text "Max |t| DU_kw block  = " %6.3f scalar(max_abs_t_kw)
+Max |t| DU_kw block  =  1.506
+
+. display as text "Max |t| DU_llm block = " %6.3f scalar(max_abs_t_llm)
+Max |t| DU_llm block =  1.437
+
+. 
+. log close
+      name:  <unnamed>
+       log:  /Users/mac/computerscience/0做完了/15会计研究/results/v16_quality/
+> logs/run_quality_interactions.log
+  log type:  text
+ closed on:  19 Apr 2026, 15:57:00
+-------------------------------------------------------------------------------

@@ -1,0 +1,313 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/mac/computerscience/0做完了/15会计研究/results/v16_integrat
+> ed/logs/h2b_quality.log
+  log type:  text
+ opened on:  19 Apr 2026, 16:32:52
+
+. 
+. capture which reghdfe
+
+. if _rc {
+.     display as error "reghdfe not installed"
+.     exit 198
+. }
+
+. 
+. local controls "Size Lev ROA TobinQ Age Growth IndepRatio Dual Top1Share SOE 
+> CFO"
+
+. 
+. use "`base'/data_stata/reg_sample_v16_integrated.dta", clear
+
+. 
+. tempfile direct_out joint_out
+
+. tempname direct_hold joint_hold
+
+. 
+. postfile `direct_hold' str20 model str20 regressor double(coef se tstat pval)
+>  long(N) double(r2) using `direct_out', replace
+(file /var/folders/1v/x_31wm790txgy940w5mgvhb80000gn/T//St78770.000001 not
+    found)
+
+. 
+. quietly reghdfe PriceDelay DU_llm_lenstd_lag `controls', absorb(Stkcd_num yea
+> r_num) cluster(IndYear_num)
+
+. local b = _b[DU_llm_lenstd_lag]
+
+. local se = _se[DU_llm_lenstd_lag]
+
+. local t = `b' / `se'
+
+. local p = 2 * ttail(e(df_r), abs(`t'))
+
+. local n = e(N)
+
+. local r2 = e(r2)
+
+. post `direct_hold' ("direct_DU_llm_lenstd") ("DU_llm_lenstd_lag") (`b') (`se'
+> ) (`t') (`p') (`n') (`r2')
+
+. display as text "Direct DU_llm_lenstd_lag: coef=" %9.4f `b' " t=" %6.2f `t' "
+>  N=" `n'
+Direct DU_llm_lenstd_lag: coef=  -0.0188 t= -5.94 N=37294
+
+. postclose `direct_hold'
+
+. 
+. tempfile direct_patch
+
+. use `direct_out', clear
+
+. save `direct_patch', replace
+(file /var/folders/1v/x_31wm790txgy940w5mgvhb80000gn/T//St78770.000003 not
+    found)
+file /var/folders/1v/x_31wm790txgy940w5mgvhb80000gn/T//St78770.000003 saved
+    as .dta format
+
+. capture confirm file "`base'/results/v16_integrated/h2b_quality_direct.csv"
+
+. if !_rc {
+.     import delimited using "`base'/results/v16_integrated/h2b_quality_direct.
+> csv", clear varnames(1)
+(encoding automatically selected: ISO-8859-1)
+(9 vars, 5 obs)
+.     drop if regressor == "DU_llm_lenstd_lag"
+(1 observation deleted)
+.     append using `direct_patch'
+(variable regressor was str17, now str20 to accommodate using data's values)
+(variable coef was float, now double to accommodate using data's values)
+(variable se was float, now double to accommodate using data's values)
+(variable tstat was float, now double to accommodate using data's values)
+(variable pval was float, now double to accommodate using data's values)
+(variable r2 was float, now double to accommodate using data's values)
+.     capture confirm variable n
+.     if !_rc {
+.         replace N = n if missing(N)
+(4 real changes made)
+.         drop n
+.     }
+. }
+
+. else {
+.     use `direct_patch', clear
+. }
+
+. sort model regressor
+
+. export delimited using "`base'/results/v16_integrated/h2b_quality_direct.csv"
+> , replace
+file /Users/mac/computerscience/0做完了/15会计研究/results/v16_integrated/h2b_q
+> uality_direct.csv saved
+
+. list, noobs abbreviate(20)
+
+  +-----------------------------------------------------------------+
+  |                model |         regressor |      coef |       se |
+  | direct_DU_llm_lenstd | DU_llm_lenstd_lag | -.0187908 |  .003161 |
+  |-----------------------------------------------------------------|
+  |      tstat   |       pval   |         r2   |   v9   |       N   |
+  |   -5.94454   |   3.87e-09   |   .4181104   |    .   |   37294   |
+  +-----------------------------------------------------------------+
+
+  +-----------------------------------------------------------------+
+  |                model |         regressor |      coef |       se |
+  | direct_DUchain_count | DUchain_count_lag |  -.001825 | .0008584 |
+  |-----------------------------------------------------------------|
+  |      tstat   |       pval   |         r2   |   v9   |       N   |
+  |  -2.125896   |   .0337661   |   .4173854   |    .   |   37294   |
+  +-----------------------------------------------------------------+
+
+  +-----------------------------------------------------------------+
+  |                model |         regressor |      coef |       se |
+  |  direct_DUclosedloop |  DUclosedloop_lag | -.0082763 | .0030177 |
+  |-----------------------------------------------------------------|
+  |      tstat   |       pval   |         r2   |   v9   |       N   |
+  |  -2.742605   |   .0062086   |   .4174877   |    .   |   37294   |
+  +-----------------------------------------------------------------+
+
+  +-----------------------------------------------------------------+
+  |                model |         regressor |      coef |       se |
+  |        direct_DUcore |        DUcore_lag | -.0094557 |   .00273 |
+  |-----------------------------------------------------------------|
+  |      tstat   |       pval   |         r2   |   v9   |       N   |
+  |  -3.463634   |   .0005564   |   .4175789   |    .   |   37294   |
+  +-----------------------------------------------------------------+
+
+  +-----------------------------------------------------------------+
+  |                model |         regressor |      coef |       se |
+  |      direct_DUkw_mda |      DUkw_mda_lag | -.0005612 | .0001901 |
+  |-----------------------------------------------------------------|
+  |      tstat   |       pval   |         r2   |   v9   |       N   |
+  |   -2.95221   |   .0032317   |   .4176517   |    .   |   37294   |
+  +-----------------------------------------------------------------+
+
+. 
+. use "`base'/data_stata/reg_sample_v16_integrated.dta", clear
+
+. postfile `joint_hold' str24 model str20 regressor double(coef se tstat pval) 
+> long(N) double(r2) using `joint_out', replace
+(file /var/folders/1v/x_31wm790txgy940w5mgvhb80000gn/T//St78770.000002 not
+    found)
+
+. 
+. quietly reghdfe PriceDelay DU_kw_lag DU_llm_lenstd_lag `controls', absorb(Stk
+> cd_num year_num) cluster(IndYear_num)
+
+. foreach R in DU_kw_lag DU_llm_lenstd_lag {
+  2.     local b = _b[`R']
+  3.     local se = _se[`R']
+  4.     local t = `b' / `se'
+  5.     local p = 2 * ttail(e(df_r), abs(`t'))
+  6.     local n = e(N)
+  7.     local r2 = e(r2)
+  8.     post `joint_hold' ("joint_dukw_lenstd") ("`R'") (`b') (`se') (`t') (`p
+> ') (`n') (`r2')
+  9. }
+
+. display as text "Joint DU_kw_lag + DU_llm_lenstd_lag complete"
+Joint DU_kw_lag + DU_llm_lenstd_lag complete
+
+. 
+. postclose `joint_hold'
+
+. 
+. tempfile joint_patch
+
+. use `joint_out', clear
+
+. save `joint_patch', replace
+(file /var/folders/1v/x_31wm790txgy940w5mgvhb80000gn/T//St78770.000004 not
+    found)
+file /var/folders/1v/x_31wm790txgy940w5mgvhb80000gn/T//St78770.000004 saved
+    as .dta format
+
+. capture confirm file "`base'/results/v16_integrated/h2b_quality_joint.csv"
+
+. if !_rc {
+.     import delimited using "`base'/results/v16_integrated/h2b_quality_joint.c
+> sv", clear varnames(1)
+(encoding automatically selected: ISO-8859-1)
+(9 vars, 12 obs)
+.     drop if model == "joint_dukw_lenstd"
+(2 observations deleted)
+.     drop if model == "joint_dullm_lenstd"
+(2 observations deleted)
+.     append using `joint_patch'
+(variable regressor was str17, now str20 to accommodate using data's values)
+(variable coef was float, now double to accommodate using data's values)
+(variable se was float, now double to accommodate using data's values)
+(variable tstat was float, now double to accommodate using data's values)
+(variable pval was float, now double to accommodate using data's values)
+(variable r2 was float, now double to accommodate using data's values)
+.     capture confirm variable n
+.     if !_rc {
+.         replace N = n if missing(N)
+(8 real changes made)
+.         drop n
+.     }
+. }
+
+. else {
+.     use `joint_patch', clear
+. }
+
+. sort model regressor
+
+. export delimited using "`base'/results/v16_integrated/h2b_quality_joint.csv",
+>  replace
+file /Users/mac/computerscience/0做完了/15会计研究/results/v16_integrated/h2b_q
+> uality_joint.csv saved
+
+. list, noobs abbreviate(24)
+
+  +---------------------------------------------------------------------+
+  |                    model |         regressor |      coef |       se |
+  | joint_dukw_DUchain_count |         DU_kw_lag | -.0037385 | .0010359 |
+  |----------------------------------------------+----------------------|
+  |       tstat   |       pval   |         r2    |   v9    |       N    |
+  |   -3.608938   |   .0003233   |   .4178949    |    .    |   37294    |
+  +---------------------------------------------------------------------+
+
+  +---------------------------------------------------------------------+
+  |                    model |         regressor |      coef |       se |
+  | joint_dukw_DUchain_count | DUchain_count_lag | -.0005929 | .0008914 |
+  |----------------------------------------------+----------------------|
+  |       tstat   |       pval   |         r2    |   v9    |       N    |
+  |   -.6651378   |   .5061218   |   .4178949    |    .    |   37294    |
+  +---------------------------------------------------------------------+
+
+  +---------------------------------------------------------------------+
+  |                    model |         regressor |      coef |       se |
+  |  joint_dukw_DUclosedloop |         DU_kw_lag | -.0035266 |  .000985 |
+  |----------------------------------------------+----------------------|
+  |       tstat   |       pval   |         r2    |   v9    |       N    |
+  |   -3.580204   |   .0003605   |   .4179325    |    .    |   37294    |
+  +---------------------------------------------------------------------+
+
+  +---------------------------------------------------------------------+
+  |                    model |         regressor |      coef |       se |
+  |  joint_dukw_DUclosedloop |  DUclosedloop_lag | -.0042583 | .0028227 |
+  |----------------------------------------------+----------------------|
+  |       tstat   |       pval   |         r2    |   v9    |       N    |
+  |   -1.508599   |   .1317297   |   .4179325    |    .    |   37294    |
+  +---------------------------------------------------------------------+
+
+  +---------------------------------------------------------------------+
+  |                    model |         regressor |      coef |       se |
+  |        joint_dukw_DUcore |         DU_kw_lag | -.0036382 | .0011541 |
+  |----------------------------------------------+----------------------|
+  |       tstat   |       pval   |         r2    |   v9    |       N    |
+  |   -3.152502   |   .0016689   |   .4178892    |    .    |   37294    |
+  +---------------------------------------------------------------------+
+
+  +---------------------------------------------------------------------+
+  |                    model |         regressor |      coef |       se |
+  |        joint_dukw_DUcore |        DUcore_lag | -.0013037 | .0028244 |
+  |----------------------------------------------+----------------------|
+  |       tstat   |       pval   |         r2    |   v9    |       N    |
+  |   -.4615903   |   .6444795   |   .4178892    |    .    |   37294    |
+  +---------------------------------------------------------------------+
+
+  +---------------------------------------------------------------------+
+  |                    model |         regressor |      coef |       se |
+  |      joint_dukw_DUkw_mda |         DU_kw_lag | -.0046266 | .0018257 |
+  |----------------------------------------------+----------------------|
+  |       tstat   |       pval   |         r2    |   v9    |       N    |
+  |   -2.534123   |   .0114306   |   .4178951    |    .    |   37294    |
+  +---------------------------------------------------------------------+
+
+  +---------------------------------------------------------------------+
+  |                    model |         regressor |      coef |       se |
+  |      joint_dukw_DUkw_mda |      DUkw_mda_lag |  .0001663 | .0003451 |
+  |----------------------------------------------+----------------------|
+  |       tstat   |       pval   |         r2    |   v9    |       N    |
+  |    .4818533   |   .6300197   |   .4178951    |    .    |   37294    |
+  +---------------------------------------------------------------------+
+
+  +---------------------------------------------------------------------+
+  |                    model |         regressor |      coef |       se |
+  |        joint_dukw_lenstd |         DU_kw_lag | -.0015514 | .0012285 |
+  |----------------------------------------------+----------------------|
+  |       tstat   |       pval   |         r2    |   v9    |       N    |
+  |   -1.262784   |   .2069728   |   .4181642    |    .    |   37294    |
+  +---------------------------------------------------------------------+
+
+  +---------------------------------------------------------------------+
+  |                    model |         regressor |      coef |       se |
+  |        joint_dukw_lenstd | DU_llm_lenstd_lag |  -.014573 |  .003879 |
+  |----------------------------------------------+----------------------|
+  |       tstat   |       pval   |         r2    |   v9    |       N    |
+  |   -3.756899   |   .0001824   |   .4181642    |    .    |   37294    |
+  +---------------------------------------------------------------------+
+
+. 
+. log close
+      name:  <unnamed>
+       log:  /Users/mac/computerscience/0做完了/15会计研究/results/v16_integrat
+> ed/logs/h2b_quality.log
+  log type:  text
+ closed on:  19 Apr 2026, 16:32:53
+-------------------------------------------------------------------------------

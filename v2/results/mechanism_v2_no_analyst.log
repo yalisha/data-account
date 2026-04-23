@@ -1,0 +1,503 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/mac/computerscience/0做完了/15会计研究/v2/results/mechanism
+> _v2_no_analyst.log
+  log type:  text
+ opened on:  20 Apr 2026, 15:26:05
+
+. 
+. use "/Users/mac/computerscience/0做完了/15会计研究/v1/data_stata/reg_sample_v
+> 18.dta", clear
+
+. 
+. * 描述性：确认机制变量分布
+. display _newline "=== 机制变量描述 ==="
+
+=== 机制变量描述 ===
+
+. sum CashFlowVol SCConc Amihud, detail
+
+                         CashFlowVol
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%     .0021588       .0021588
+ 5%       .00632       .0021588
+10%     .0098167       .0021588       Obs              43,735
+25%     .0183092       .0021588       Sum of wgt.      43,735
+
+50%     .0329174                      Mean           .0432251
+                        Largest       Std. dev.      .0366723
+75%     .0561571       .2021619
+90%     .0887891       .2021619       Variance       .0013449
+95%     .1164387       .2021619       Skewness       1.899284
+99%     .2021619       .2021619       Kurtosis       7.424333
+
+                           SCConc
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%         3.48           3.48
+ 5%         8.09           3.48
+10%        11.81           3.48       Obs              42,352
+25%        19.19           3.48       Sum of wgt.      42,352
+
+50%        29.61                      Mean           32.11937
+                        Largest       Std. dev.      17.16121
+75%        42.64        81.1349
+90%        56.24        81.1349       Variance       294.5071
+95%        64.75        81.1349       Skewness       .6552211
+99%      81.1349        81.1349       Kurtosis       3.001075
+
+                           Amihud
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%     .0018291       .0001866
+ 5%     .0049069       .0002011
+10%     .0078771       .0002034       Obs              43,735
+25%     .0160748       .0002087       Sum of wgt.      43,735
+
+50%     .0315494                      Mean           .0587361
+                        Largest       Std. dev.      .3212463
+75%     .0576307       16.51199
+90%     .0977219       18.21195       Variance       .1031992
+95%     .1340503       20.01317       Skewness       41.36689
+99%     .2944171       26.94945       Kurtosis       2356.758
+
+. 
+. * Amihud 分布偏态大，对数化
+. gen lnAmihud = ln(1 + Amihud)
+
+. sum lnAmihud
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    lnAmihud |     43,735    .0483012    .0959406   .0001866   3.330397
+
+. 
+. * winsorize 机制变量 1%/99%
+. foreach v in CashFlowVol SCConc Amihud lnAmihud {
+  2.     qui sum `v', detail
+  3.     local p1 = r(p1)
+  4.     local p99 = r(p99)
+  5.     replace `v' = `p1' if `v' < `p1' & !missing(`v')
+  6.     replace `v' = `p99' if `v' > `p99' & !missing(`v')
+  7.     display "`v' winsorize [" `p1' ", " `p99' "]"
+  8. }
+(438 real changes made)
+(0 real changes made)
+CashFlowVol winsorize [.00215884, .20216195]
+(0 real changes made)
+(0 real changes made)
+SCConc winsorize [3.48, 81.1349]
+(438 real changes made)
+(437 real changes made)
+Amihud winsorize [.00182908, .29441713]
+(437 real changes made)
+(437 real changes made)
+lnAmihud winsorize [.00182741, .25806051]
+
+. 
+. local ctrls "Size Lev ROA TobinQ Age Growth IndepRatio Dual Top1Share SOE CFO
+> "
+
+. 
+. * ============================================================
+. * MECH 1: CashFlowVol (基本面不确定性)
+. * ============================================================
+. display _newline "=== MECH 1: CashFlowVol = DU + X ==="
+
+=== MECH 1: CashFlowVol = DU + X ===
+
+. reghdfe CashFlowVol DU_kw `ctrls', absorb(Stkcd_num year_num) cluster(IndYear
+> _num)
+(dropped 14 singleton observations)
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =     43,721
+Absorbing 2 HDFE groups                           F(  12,   1041) =      11.23
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.4475
+                                                  Adj R-squared   =     0.3765
+                                                  Within R-sq.    =     0.0056
+Number of clusters (IndYear_num) =      1,042     Root MSE        =     0.0289
+
+                        (Std. err. adjusted for 1,042 clusters in IndYear_num)
+------------------------------------------------------------------------------
+             |               Robust
+ CashFlowVol | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       DU_kw |  -.0004895   .0001999    -2.45   0.015    -.0008818   -.0000972
+        Size |   .0004705   .0005477     0.86   0.390    -.0006042    .0015452
+         Lev |   .0037308   .0021093     1.77   0.077    -.0004081    .0078697
+         ROA |   .0023964   .0048303     0.50   0.620    -.0070818    .0118747
+      TobinQ |   .0017652   .0002862     6.17   0.000     .0012036    .0023268
+         Age |    .004053    .000946     4.28   0.000     .0021968    .0059092
+      Growth |   .0014059   .0006588     2.13   0.033     .0001132    .0026987
+  IndepRatio |   .0192597   .0046528     4.14   0.000     .0101297    .0283897
+        Dual |  -.0001748   .0005787    -0.30   0.763    -.0013105    .0009608
+   Top1Share |   .0000794   .0000285     2.79   0.005     .0000235    .0001354
+         SOE |  -.0007762   .0011378    -0.68   0.495     -.003009    .0014565
+         CFO |  -.0047577   .0058459    -0.81   0.416    -.0162287    .0067134
+       _cons |   .0096367   .0121766     0.79   0.429    -.0142567    .0335301
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+   Stkcd_num |      4950           0        4950     |
+    year_num |        14           1          13     |
+-----------------------------------------------------+
+
+. estimates store cfv_kw
+
+. reghdfe CashFlowVol DU_llm `ctrls', absorb(Stkcd_num year_num) cluster(IndYea
+> r_num)
+(dropped 14 singleton observations)
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =     43,721
+Absorbing 2 HDFE groups                           F(  12,   1041) =      10.65
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.4474
+                                                  Adj R-squared   =     0.3765
+                                                  Within R-sq.    =     0.0055
+Number of clusters (IndYear_num) =      1,042     Root MSE        =     0.0290
+
+                        (Std. err. adjusted for 1,042 clusters in IndYear_num)
+------------------------------------------------------------------------------
+             |               Robust
+ CashFlowVol | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      DU_llm |  -.0004766    .000233    -2.05   0.041    -.0009339   -.0000194
+        Size |   .0004563     .00054     0.85   0.398    -.0006033     .001516
+         Lev |   .0037603   .0021104     1.78   0.075    -.0003808    .0079013
+         ROA |   .0026436   .0048236     0.55   0.584    -.0068215    .0121088
+      TobinQ |   .0017672   .0002845     6.21   0.000     .0012089    .0023254
+         Age |   .0038917   .0009546     4.08   0.000     .0020186    .0057648
+      Growth |    .001418   .0006592     2.15   0.032     .0001244    .0027116
+  IndepRatio |   .0193437   .0046648     4.15   0.000     .0101902    .0284971
+        Dual |   -.000171   .0005802    -0.29   0.768    -.0013096    .0009675
+   Top1Share |   .0000809   .0000285     2.84   0.005     .0000249    .0001369
+         SOE |  -.0007688   .0011373    -0.68   0.499    -.0030004    .0014628
+         CFO |  -.0047352   .0058417    -0.81   0.418    -.0161981    .0067278
+       _cons |   .0102272   .0120717     0.85   0.397    -.0134605    .0339149
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+   Stkcd_num |      4950           0        4950     |
+    year_num |        14           1          13     |
+-----------------------------------------------------+
+
+. estimates store cfv_llm
+
+. 
+. * ============================================================
+. * MECH 2: SCConc (价值实现不确定性 / 供应链)
+. * ============================================================
+. display _newline "=== MECH 2: SCConc = DU + X ==="
+
+=== MECH 2: SCConc = DU + X ===
+
+. reghdfe SCConc DU_kw `ctrls', absorb(Stkcd_num year_num) cluster(IndYear_num)
+(dropped 20 singleton observations)
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =     42,332
+Absorbing 2 HDFE groups                           F(  12,   1037) =      49.93
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.7646
+                                                  Adj R-squared   =     0.7333
+                                                  Within R-sq.    =     0.0255
+Number of clusters (IndYear_num) =      1,038     Root MSE        =     8.8608
+
+                        (Std. err. adjusted for 1,038 clusters in IndYear_num)
+------------------------------------------------------------------------------
+             |               Robust
+      SCConc | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       DU_kw |  -.2767206   .0691051    -4.00   0.000    -.4123223   -.1411189
+        Size |  -1.623257   .1890817    -8.58   0.000    -1.994283    -1.25223
+         Lev |  -3.587403     .71345    -5.03   0.000    -4.987373   -2.187433
+         ROA |  -.3798765   1.329173    -0.29   0.775    -2.988051    2.228298
+      TobinQ |   1.106964    .087412    12.66   0.000     .9354391    1.278488
+         Age |  -4.144656   .2997472   -13.83   0.000    -4.732836   -3.556476
+      Growth |   1.499127   .1954408     7.67   0.000     1.115622    1.882631
+  IndepRatio |   .7364828   1.614951     0.46   0.648    -2.432461    3.905427
+        Dual |   .2587428   .1665683     1.55   0.121    -.0681066    .5855922
+   Top1Share |  -.0016617   .0110009    -0.15   0.880    -.0232482    .0199249
+         SOE |   .4152981   .3717519     1.12   0.264    -.3141736     1.14477
+         CFO |  -.0536251   1.093091    -0.05   0.961    -2.198548    2.091298
+       _cons |   76.72602   4.262341    18.00   0.000     68.36223    85.08982
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+   Stkcd_num |      4934           0        4934     |
+    year_num |        14           1          13     |
+-----------------------------------------------------+
+
+. estimates store sc_kw
+
+. reghdfe SCConc DU_llm `ctrls', absorb(Stkcd_num year_num) cluster(IndYear_num
+> )
+(dropped 20 singleton observations)
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =     42,332
+Absorbing 2 HDFE groups                           F(  12,   1037) =      50.07
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.7647
+                                                  Adj R-squared   =     0.7335
+                                                  Within R-sq.    =     0.0261
+Number of clusters (IndYear_num) =      1,038     Root MSE        =     8.8580
+
+                        (Std. err. adjusted for 1,038 clusters in IndYear_num)
+------------------------------------------------------------------------------
+             |               Robust
+      SCConc | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      DU_llm |   -.460227   .0680174    -6.77   0.000    -.5936944   -.3267596
+        Size |  -1.596462    .186905    -8.54   0.000    -1.963218   -1.229707
+         Lev |  -3.554621   .7126621    -4.99   0.000    -4.953045   -2.156197
+         ROA |  -.2107843   1.328371    -0.16   0.874    -2.817387    2.395818
+      TobinQ |   1.097192   .0862114    12.73   0.000     .9280234    1.266361
+         Age |  -4.233339   .2983236   -14.19   0.000    -4.818726   -3.647953
+      Growth |   1.505556   .1953053     7.71   0.000     1.122317    1.888794
+  IndepRatio |   .7266571   1.610591     0.45   0.652    -2.433732    3.887046
+        Dual |    .263896   .1663541     1.59   0.113     -.062533    .5903251
+   Top1Share |  -.0009097   .0110262    -0.08   0.934    -.0225459    .0207264
+         SOE |   .4127549   .3726416     1.11   0.268    -.3184627    1.143972
+         CFO |  -.0845545   1.090325    -0.08   0.938     -2.22405    2.054941
+       _cons |   76.56337   4.212172    18.18   0.000     68.29802    84.82873
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+   Stkcd_num |      4934           0        4934     |
+    year_num |        14           1          13     |
+-----------------------------------------------------+
+
+. estimates store sc_llm
+
+. 
+. * ============================================================
+. * MECH 3: Amihud 非流动性（市场端信息不对称 — 新增）
+. * ============================================================
+. display _newline "=== MECH 3a: Amihud (原始) = DU + X ==="
+
+=== MECH 3a: Amihud (原始) = DU + X ===
+
+. reghdfe Amihud DU_kw `ctrls', absorb(Stkcd_num year_num) cluster(IndYear_num)
+(dropped 14 singleton observations)
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =     43,721
+Absorbing 2 HDFE groups                           F(  12,   1041) =     133.68
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.5639
+                                                  Adj R-squared   =     0.5079
+                                                  Within R-sq.    =     0.1203
+Number of clusters (IndYear_num) =      1,042     Root MSE        =     0.0335
+
+                        (Std. err. adjusted for 1,042 clusters in IndYear_num)
+------------------------------------------------------------------------------
+             |               Robust
+      Amihud | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       DU_kw |  -.0011445   .0003146    -3.64   0.000    -.0017617   -.0005272
+        Size |  -.0239332   .0008526   -28.07   0.000    -.0256062   -.0222601
+         Lev |  -.0105657   .0023872    -4.43   0.000    -.0152499   -.0058815
+         ROA |  -.0102524   .0046881    -2.19   0.029    -.0194517   -.0010532
+      TobinQ |    .000531   .0004045     1.31   0.190    -.0002627    .0013247
+         Age |  -.0284397   .0020328   -13.99   0.000    -.0324286   -.0244508
+      Growth |   .0028834   .0007081     4.07   0.000     .0014938    .0042729
+  IndepRatio |  -.0073303   .0056611    -1.29   0.196    -.0184387    .0037781
+        Dual |  -.0006736   .0006451    -1.04   0.297    -.0019395    .0005923
+   Top1Share |   .0004187   .0000397    10.55   0.000     .0003408    .0004965
+         SOE |  -.0007751   .0011895    -0.65   0.515    -.0031091     .001559
+         CFO |  -.0093333   .0037203    -2.51   0.012    -.0166334   -.0020332
+       _cons |   .6424664   .0188467    34.09   0.000     .6054845    .6794483
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+   Stkcd_num |      4950           0        4950     |
+    year_num |        14           1          13     |
+-----------------------------------------------------+
+
+. estimates store amh_kw
+
+. reghdfe Amihud DU_llm `ctrls', absorb(Stkcd_num year_num) cluster(IndYear_num
+> )
+(dropped 14 singleton observations)
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =     43,721
+Absorbing 2 HDFE groups                           F(  12,   1041) =     131.28
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.5637
+                                                  Adj R-squared   =     0.5076
+                                                  Within R-sq.    =     0.1198
+Number of clusters (IndYear_num) =      1,042     Root MSE        =     0.0335
+
+                        (Std. err. adjusted for 1,042 clusters in IndYear_num)
+------------------------------------------------------------------------------
+             |               Robust
+      Amihud | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      DU_llm |  -.0006485   .0002385    -2.72   0.007    -.0011166   -.0001805
+        Size |  -.0240532   .0008556   -28.11   0.000    -.0257322   -.0223742
+         Lev |   -.010529   .0023914    -4.40   0.000    -.0152216   -.0058363
+         ROA |   -.009752   .0046909    -2.08   0.038    -.0189566   -.0005473
+      TobinQ |    .000563   .0004048     1.39   0.165    -.0002312    .0013572
+         Age |  -.0288293   .0020564   -14.02   0.000    -.0328644   -.0247943
+      Growth |    .002913   .0007114     4.09   0.000      .001517    .0043089
+  IndepRatio |  -.0070232   .0056618    -1.24   0.215     -.018133    .0040866
+        Dual |  -.0006748   .0006462    -1.04   0.297    -.0019427    .0005932
+   Top1Share |   .0004224   .0000397    10.63   0.000     .0003445    .0005004
+         SOE |  -.0007411   .0011928    -0.62   0.535    -.0030816    .0015994
+         CFO |  -.0091823   .0037177    -2.47   0.014    -.0164774   -.0018872
+       _cons |   .6451226   .0189868    33.98   0.000     .6078659    .6823793
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+   Stkcd_num |      4950           0        4950     |
+    year_num |        14           1          13     |
+-----------------------------------------------------+
+
+. estimates store amh_llm
+
+. 
+. display _newline "=== MECH 3b: lnAmihud (对数) = DU + X ==="
+
+=== MECH 3b: lnAmihud (对数) = DU + X ===
+
+. reghdfe lnAmihud DU_kw `ctrls', absorb(Stkcd_num year_num) cluster(IndYear_nu
+> m)
+(dropped 14 singleton observations)
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =     43,721
+Absorbing 2 HDFE groups                           F(  12,   1041) =     147.81
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.5855
+                                                  Adj R-squared   =     0.5323
+                                                  Within R-sq.    =     0.1296
+Number of clusters (IndYear_num) =      1,042     Root MSE        =     0.0296
+
+                        (Std. err. adjusted for 1,042 clusters in IndYear_num)
+------------------------------------------------------------------------------
+             |               Robust
+    lnAmihud | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       DU_kw |  -.0010539   .0002743    -3.84   0.000    -.0015921   -.0005157
+        Size |  -.0225058   .0007566   -29.75   0.000    -.0239904   -.0210211
+         Lev |  -.0098405   .0021099    -4.66   0.000    -.0139807   -.0057002
+         ROA |  -.0097125   .0041695    -2.33   0.020    -.0178942   -.0015309
+      TobinQ |   .0005233    .000356     1.47   0.142    -.0001752    .0012218
+         Age |  -.0249525   .0017808   -14.01   0.000    -.0284468   -.0214582
+      Growth |   .0027666   .0006288     4.40   0.000     .0015328    .0040004
+  IndepRatio |  -.0068843   .0050222    -1.37   0.171    -.0167391    .0029705
+        Dual |  -.0005941    .000566    -1.05   0.294    -.0017046    .0005165
+   Top1Share |    .000391   .0000348    11.23   0.000     .0003227    .0004592
+         SOE |    -.00081   .0010588    -0.77   0.444    -.0028877    .0012677
+         CFO |  -.0087726   .0032919    -2.66   0.008     -.015232   -.0023131
+       _cons |   .6010102   .0166891    36.01   0.000     .5682621    .6337583
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+   Stkcd_num |      4950           0        4950     |
+    year_num |        14           1          13     |
+-----------------------------------------------------+
+
+. estimates store lnamh_kw
+
+. reghdfe lnAmihud DU_llm `ctrls', absorb(Stkcd_num year_num) cluster(IndYear_n
+> um)
+(dropped 14 singleton observations)
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =     43,721
+Absorbing 2 HDFE groups                           F(  12,   1041) =     145.10
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.5852
+                                                  Adj R-squared   =     0.5319
+                                                  Within R-sq.    =     0.1290
+Number of clusters (IndYear_num) =      1,042     Root MSE        =     0.0296
+
+                        (Std. err. adjusted for 1,042 clusters in IndYear_num)
+------------------------------------------------------------------------------
+             |               Robust
+    lnAmihud | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      DU_llm |  -.0005702   .0002108    -2.71   0.007    -.0009838   -.0001566
+        Size |  -.0226213   .0007592   -29.80   0.000    -.0241111   -.0211316
+         Lev |  -.0098085   .0021142    -4.64   0.000     -.013957     -.00566
+         ROA |  -.0092562   .0041734    -2.22   0.027    -.0174454   -.0010669
+      TobinQ |   .0005543   .0003565     1.56   0.120    -.0001451    .0012538
+         Age |   -.025312   .0018019   -14.05   0.000    -.0288477   -.0217763
+      Growth |    .002794   .0006318     4.42   0.000     .0015542    .0040337
+  IndepRatio |  -.0065951    .005023    -1.31   0.189    -.0164514    .0032612
+        Dual |  -.0005957   .0005669    -1.05   0.294    -.0017082    .0005168
+   Top1Share |   .0003944   .0000348    11.32   0.000     .0003261    .0004628
+         SOE |  -.0007778    .001062    -0.73   0.464    -.0028616     .001306
+         CFO |  -.0086278   .0032893    -2.62   0.009    -.0150822   -.0021733
+       _cons |   .6035301   .0168159    35.89   0.000     .5705331     .636527
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+   Stkcd_num |      4950           0        4950     |
+    year_num |        14           1          13     |
+-----------------------------------------------------+
+
+. estimates store lnamh_llm
+
+. 
+. * ============================================================
+. * 导出
+. * ============================================================
+. esttab cfv_kw cfv_llm sc_kw sc_llm amh_kw amh_llm lnamh_kw lnamh_llm ///
+>     using "/Users/mac/computerscience/0做完了/15会计研究/v2/results/mechanism
+> _v2_no_analyst.csv", ///
+>     replace csv se r2 ar2 star(* 0.10 ** 0.05 *** 0.01) ///
+>     nogaps compress ///
+>     mtitles("CFV_KW" "CFV_LLM" "SC_KW" "SC_LLM" "Amihud_KW" "Amihud_LLM" "lnA
+> mihud_KW" "lnAmihud_LLM") ///
+>     title("机制重构 v2：CashFlowVol + SCConc + Amihud (去 analyst)")
+(file
+    /Users/mac/computerscience/0做完了/15会计研究/v2/results/mechanism_v2_no_
+    > analyst.csv not found)
+(output written to /Users/mac/computerscience/0做完了/15会计研究/v2/results/mec
+> hanism_v2_no_analyst.csv)
+
+. 
+. display _newline "=== 机制 v2 全部完成 ==="
+
+=== 机制 v2 全部完成 ===
+
+. 
+. log close
+      name:  <unnamed>
+       log:  /Users/mac/computerscience/0做完了/15会计研究/v2/results/mechanism
+> _v2_no_analyst.log
+  log type:  text
+ closed on:  20 Apr 2026, 15:26:07
+-------------------------------------------------------------------------------

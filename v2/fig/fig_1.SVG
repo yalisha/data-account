@@ -1,0 +1,139 @@
+       <svg xmlns="http://www.w3.org/2000/svg" width="1120" height="780" viewBox="0 0 1120 780">
+            <defs>
+                <!-- Arrow Markers -->
+                <marker id="arrow-solid" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                    <path d="M 0 1 L 10 5 L 0 9 z" fill="#000000" />
+                </marker>
+                <marker id="arrow-dashed" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                    <path d="M 0 1 L 10 5 L 0 9 z" fill="#000000" />
+                </marker>
+            </defs>
+
+            <!-- Background -->
+            <rect width="1120" height="780" fill="#ffffff" />
+
+            <!-- Main Causal Arrows -->
+            <path d="M 240 335 L 320 335" stroke="#000000" stroke-width="2" fill="none" marker-end="url(#arrow-solid)" />
+            <path d="M 790 335 L 870 335" stroke="#000000" stroke-width="2" fill="none" marker-end="url(#arrow-solid)" />
+            
+            <!-- Upward Arrow from Heterogeneity -->
+            <path d="M 560 590 L 560 550" stroke="#000000" stroke-width="1.5" stroke-dasharray="6,4" fill="none" marker-end="url(#arrow-dashed)" />
+
+            <!-- ==========================================
+                 X Variable: Data Factor Utilization Disclosure 
+                 ========================================== -->
+            <g transform="translate(40, 275)">
+                <rect width="200" height="120" fill="#ffffff" stroke="#000000" stroke-width="2" />
+                <text x="100" y="55" text-anchor="middle" font-size="20" font-weight="bold" fill="#000000">数据要素利用披露</text>
+                <line x1="20" y1="75" x2="180" y2="75" stroke="#000000" stroke-width="1" />
+                <text x="100" y="100" text-anchor="middle" font-size="15" fill="#333333">释放可验证估值信号</text>
+            </g>
+
+            <!-- ==========================================
+                 Middle Container: Theory & Mechanisms 
+                 ========================================== -->
+            <!-- Outer Box -->
+            <rect x="330" y="110" width="460" height="430" fill="#ffffff" stroke="#000000" stroke-width="2" />
+            
+            <!-- Header Section -->
+            <text x="560" y="145" text-anchor="middle" font-size="18" font-weight="bold" fill="#000000">理论主线：降低估值不确定性</text>
+            <text x="560" y="170" text-anchor="middle" font-size="15" fill="#333333">压缩投资者对企业未来现金流估值分布的方差</text>
+            <line x1="330" y1="185" x2="790" y2="185" stroke="#000000" stroke-width="2" />
+
+            <!-- Mechanism 1: Accounting -->
+            <g transform="translate(350, 200)">
+                <rect width="420" height="65" fill="#ffffff" stroke="#000000" stroke-width="1" />
+                <line x1="90" y1="0" x2="90" y2="65" stroke="#000000" stroke-width="1" />
+                <text x="45" y="38" text-anchor="middle" font-size="15" font-weight="bold" fill="#000000">会计质量层</text>
+                <text x="105" y="30" font-size="16" font-weight="bold" fill="#000000">提升会计信息可比性</text>
+                <text x="105" y="52" font-size="14" fill="#333333">盈余回报映射接近同业，降低跨企业估值参照成本</text>
+            </g>
+
+            <!-- Mechanism 2: Fundamentals -->
+            <g transform="translate(350, 285)">
+                <rect width="420" height="65" fill="#ffffff" stroke="#000000" stroke-width="1" />
+                <line x1="90" y1="0" x2="90" y2="65" stroke="#000000" stroke-width="1" />
+                <text x="45" y="38" text-anchor="middle" font-size="15" font-weight="bold" fill="#000000">基本面层</text>
+                <text x="105" y="30" font-size="16" font-weight="bold" fill="#000000">降低现金流波动率</text>
+                <text x="105" y="52" font-size="14" fill="#333333">反映底层数据能力，显著提升企业基本面可预测性</text>
+            </g>
+
+            <!-- Mechanism 3: Value Realization -->
+            <g transform="translate(350, 370)">
+                <rect width="420" height="65" fill="#ffffff" stroke="#000000" stroke-width="1" />
+                <line x1="90" y1="0" x2="90" y2="65" stroke="#000000" stroke-width="1" />
+                <text x="45" y="38" text-anchor="middle" font-size="15" font-weight="bold" fill="#000000">价值实现层</text>
+                <text x="105" y="30" font-size="16" font-weight="bold" fill="#000000">降低供应链集中度</text>
+                <text x="105" y="52" font-size="14" fill="#333333">数据挖掘动态优化供需结构，有效缓解尾部风险冲击</text>
+            </g>
+
+            <!-- Mechanism 4: Market -->
+            <g transform="translate(350, 455)">
+                <rect width="420" height="65" fill="#ffffff" stroke="#000000" stroke-width="1" />
+                <line x1="90" y1="0" x2="90" y2="65" stroke="#000000" stroke-width="1" />
+                <text x="45" y="38" text-anchor="middle" font-size="15" font-weight="bold" fill="#000000">市场层</text>
+                <text x="105" y="30" font-size="16" font-weight="bold" fill="#000000">降低股票非流动性</text>
+                <text x="105" y="52" font-size="14" fill="#333333">降低识别成本与逆向选择风险，同步改善市场深度</text>
+            </g>
+
+            <!-- ==========================================
+                 Y Variable: Dependent Variable 
+                 ========================================== -->
+            <g transform="translate(880, 275)">
+                <rect width="200" height="120" fill="#ffffff" stroke="#000000" stroke-width="2" />
+                <text x="100" y="55" text-anchor="middle" font-size="20" font-weight="bold" fill="#000000">降低股价延迟</text>
+                <line x1="20" y1="75" x2="180" y2="75" stroke="#000000" stroke-width="1" />
+                <text x="100" y="100" text-anchor="middle" font-size="15" fill="#333333">提升市场定价效率</text>
+            </g>
+
+            <!-- ==========================================
+                 Heterogeneity Container (Moderators)
+                 ========================================== -->
+            <!-- 采用虚线边框表示调节效应，加宽处理优化排版 -->
+            <g transform="translate(240, 590)">
+                <rect width="640" height="150" fill="#ffffff" stroke="#000000" stroke-dasharray="6,4" stroke-width="2" />
+                
+                <!-- Title & Core Logic -->
+                <text x="320" y="35" text-anchor="middle" font-size="16" font-weight="bold" fill="#000000">边际定价效应与异质性条件统一框架</text>
+                <text x="320" y="60" text-anchor="middle" font-size="15" fill="#333333">
+                    作用机理：原始估值不确定性更高 • 信息摩擦更大 • 外部处理能力更强
+                </text>
+                
+                <!-- Separators -->
+                <line x1="40" y1="75" x2="600" y2="75" stroke="#000000" stroke-width="1" />
+                <line x1="320" y1="85" x2="320" y2="135" stroke="#000000" stroke-width="1" stroke-dasharray="4,4" />
+
+                <!-- Moderator 1: Post2020 -->
+                <g transform="translate(50, 105)">
+                    <rect x="0" y="-12" width="6" height="14" fill="#000000" />
+                    <text x="15" y="0" font-size="15" fill="#333333">
+                        <tspan font-weight="bold" fill="#000000">Post2020政策期：</tspan>信号稀缺性更强
+                    </text>
+                </g>
+
+                <!-- Moderator 2: Industry -->
+                <g transform="translate(345, 105)">
+                    <rect x="0" y="-12" width="6" height="14" fill="#000000" />
+                    <text x="15" y="0" font-size="15" fill="#333333">
+                        <tspan font-weight="bold" fill="#000000">非数字与非高科技：</tspan>先验少增量信息大
+                    </text>
+                </g>
+
+                <!-- Moderator 3: Financing Constraints -->
+                <g transform="translate(50, 135)">
+                    <rect x="0" y="-12" width="6" height="14" fill="#000000" />
+                    <text x="15" y="0" font-size="15" fill="#333333">
+                        <tspan font-weight="bold" fill="#000000">高融资约束 (SA)：</tspan>外部替代通道稀缺
+                    </text>
+                </g>
+
+                <!-- Moderator 4: Institutional Ownership -->
+                <g transform="translate(345, 135)">
+                    <rect x="0" y="-12" width="6" height="14" fill="#000000" />
+                    <text x="15" y="0" font-size="15" fill="#333333">
+                        <tspan font-weight="bold" fill="#000000">高机构持股比例：</tspan>机构解码信号高效
+                    </text>
+                </g>
+            </g>
+
+        </svg>

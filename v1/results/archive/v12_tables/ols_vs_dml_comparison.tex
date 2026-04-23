@@ -1,0 +1,28 @@
+\begin{table}[htbp]
+\centering
+\caption{稳健性检验：OLS与DML估计对比}
+\label{tab:ols_vs_dml}
+\begin{threeparttable}
+\begin{tabular}{lcccc}
+\toprule
+ & \multicolumn{2}{c}{传统OLS} & \multicolumn{2}{c}{DML-CRE} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+ & (1) OLS-15X & (2) OLS-28X & (3) DML-15X & (4) DML-28X \\
+\midrule
+DU\_kw & $-0.0034$ & $-0.0026$ & $-0.0025^{***}$ & $-0.0033^{***}$ \\
+ & $(0.0010)$ & $(0.0010)$ & $(0.0003)$ & $(0.0003)$ \\
+\midrule
+$N$ & 40,135 & 40,135 & 45,506 & 40,135 \\
+控制变量 & 15个 & 28个 & 15个+CRE & 28个+CRE \\
+企业FE & \checkmark & \checkmark & Mundlak & Mundlak \\
+年份FE & \checkmark & \checkmark & 虚拟变量 & 虚拟变量 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}
+\small
+\item 注：OLS列使用双向固定效应 (企业+年份)，行业×年份聚类标准误。
+DML列使用CRE-Mundlak装置，White HC稳健标准误。
+***、**、* 分别表示在1\%、5\%、10\%水平显著。
+\end{tablenotes}
+\end{threeparttable}
+\end{table}

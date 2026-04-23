@@ -1,0 +1,3 @@
+nonzero_exit_code=1
+Output was still parsed successfully.
+See /Users/mac/computerscience/0做完了/15会计研究/results/v15_llm_rerun/logs/batch_003.log

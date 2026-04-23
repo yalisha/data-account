@@ -1,0 +1,30 @@
+\begin{table}[htbp]
+\centering
+\caption{基准回归：DML-CRE估计结果}
+\label{tab:dml_main}
+\begin{threeparttable}
+\begin{tabular}{lcccc}
+\toprule
+ & (\text{1}) & (\text{2}) & (\text{3}) & (\text{4}) \\
+ & PriceDelay & PriceDelay & PriceDelay & SYNCH \\
+\midrule
+处理变量 & $-0.0025^{***}$ & $-0.0033^{***}$ & $-0.0046^{***}$ & $0.0322^{***}$ \\
+ & $(0.0003)$ & $(0.0003)$ & $(0.0005)$ & $(0.0021)$ \\
+\midrule
+$N$ & 45,506 & 40,135 & 40,135 & 40,087 \\
+控制变量 & 15个 + CRE & 28个 + CRE & 28个 + CRE & 28个 + CRE \\
+企业FE & Mundlak & Mundlak & Mundlak & Mundlak \\
+年份FE & 虚拟变量 & 虚拟变量 & 虚拟变量 & 虚拟变量 \\
+ML学习器 & Lasso+RF & Lasso+RF & Lasso+RF & Lasso+RF \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}
+\small
+\item 注：DML-CRE (Chernozhukov et al., 2018)。CRE = 关联随机效应 (Mundlak, 1978)，
+用企业层面控制变量均值控制个体固定效应，加入年份虚拟变量控制时间效应。
+学习器：E[Y|X]使用Lasso (LassoCV, 5折)，E[D|X]使用随机森林 (500棵, max\_depth=6)。
+交叉拟合：5折×3次重复。标准误为White HC异方差稳健标准误。
+***、**、* 分别表示在1\%、5\%、10\%水平显著。
+\end{tablenotes}
+\end{threeparttable}
+\end{table}

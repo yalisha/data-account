@@ -1,0 +1,13 @@
+{
+  "test": "post_disclosure_window",
+  "window": "May(t+1) to Dec(t+1)",
+  "min_obs": 80,
+  "coef": -0.003661,
+  "se": 0.001418,
+  "tval": -2.582,
+  "pval": 0.01,
+  "N": 42683,
+  "stars": "***",
+  "PriceDelay_post_mean": 0.1647,
+  "PriceDelay_post_sd": 0.1654
+}

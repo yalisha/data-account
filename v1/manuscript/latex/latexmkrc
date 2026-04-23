@@ -1,0 +1,4 @@
+$pdflatex = 'xelatex -interaction=nonstopmode -file-line-error %O %S';
+$bibtex = 'bibtex %O %B';
+$pdf_mode = 1;
+$max_repeat = 5;

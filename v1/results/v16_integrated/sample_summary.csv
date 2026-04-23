@@ -1,0 +1,12 @@
+section,key,value
+sample,N,43735
+sample,columns,124
+sample,source,/Users/mac/computerscience/0做完了/15会计研究/results/v15_measurement/v15_analysis_sample.parquet
+spec,controls,Size; Lev; ROA; TobinQ; Age; Growth; IndepRatio; Dual; Top1Share; SOE; CFO
+spec,fixed_effects,firm + year
+spec,cluster,IndYear_num
+task,h2a_value_chain,DU_stock_lag; DU_dev_lag; DU_app_lag; DU_value_lag; DU_gov_lag
+task,h2b_quality_direct,DUclosedloop_lag; DUcore_lag; DUchain_count_lag; DUkw_mda_lag; DU_llm_lenstd_lag
+task,h2b_quality_joint,DU_kw_lag + quality_lag; DU_llm_lag + DU_llm_lenstd_lag
+task,h2c_washgap,WashGap_lag(v14 formula); DU_kw_lag + WashGap_lag; DU_llm_lag + WashGap_lag
+task,h3_downstream,ForecastDisp; CashFlowVol; SCConc with DU_kw and DU_llm
