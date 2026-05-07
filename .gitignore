@@ -11,7 +11,12 @@ __pycache__/
 .mypy_cache/
 .ipynb_checkpoints/
 .venv/
+.venv*/
 venv/
+
+# Node / JS
+node_modules/
+node_modules
 
 # Local assistant/runtime
 .claude/
@@ -20,18 +25,47 @@ venv/
 data_parquet/
 annual_reports/
 第三方资料
+**/source_texts/
 
 # Binary assets (keep repo lightweight; regenerate when needed)
 *.png
 *.jpg
 *.jpeg
 *.pdf
+*.parquet
+*.dta
+*.smcl
+
+# Office lock / temporary files
+~$*
+.~lock.*
 
 # Generated artifacts
 results/*.log
+**/results/logs/
+**/results/data/
+*.log
 
 # Keep tabular outputs for reproducibility
 !results/*.csv
 
 # Large binary references
-*.parquet
+
+# Project-specific generated working data
+v4/risk_disclosure_trial/data/
+v4/risk_disclosure_trial/scratch_small_runs/
+v4/risk_disclosure_trial/audit/light_linked_tables/source_texts/
+
+# Public-repo exclusions: vendor/search exports and text-bearing audit samples
+bib/**/scopus_export*.csv
+bib/**/*全文搜索.txt
+v4/risk_disclosure_trial/audit/generated_samples/
+v4/risk_disclosure_trial/audit/excel_safe/
+v4/risk_disclosure_trial/audit/light_linked_tables/
+v4/risk_disclosure_trial/audit/manual_review/*.csv
+v4/risk_disclosure_trial/audit/manual_review/*.xlsx
+
+# Derived firm-year panels stay local unless explicitly packaged for sharing
+v4/pb_did_trial/*_base.csv
+v4/pb_did_trial/*panel_keyvars.csv
+**/*event_level.csv

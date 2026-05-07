@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900">
+<rect width="1200" height="900" fill="#ffffff"/>
+<text x="40" y="42" font-size="24" font-family="Arial" font-weight="bold">个人破产制度概念共现网络</text>
+<text x="40" y="72" font-size="14" font-family="Arial" fill="#555">节点大小=概念出现次数；边宽=共现次数；仅显示出现次数>=4的概念</text>
+<line x1="600.0" y1="120.0" x2="765.0" y2="735.8" stroke="#8aa6bf" stroke-width="1.18" opacity="0.30"/>
+<line x1="600.0" y1="120.0" x2="765.0" y2="164.2" stroke="#8aa6bf" stroke-width="5.60" opacity="0.85"/>
+<line x1="765.0" y1="735.8" x2="765.0" y2="164.2" stroke="#8aa6bf" stroke-width="0.95" opacity="0.25"/>
+<line x1="600.0" y1="120.0" x2="930.0" y2="450.0" stroke="#8aa6bf" stroke-width="2.20" opacity="0.50"/>
+<line x1="600.0" y1="120.0" x2="314.2" y2="615.0" stroke="#8aa6bf" stroke-width="0.91" opacity="0.24"/>
+<line x1="600.0" y1="120.0" x2="600.0" y2="780.0" stroke="#8aa6bf" stroke-width="1.01" opacity="0.26"/>
+<line x1="930.0" y1="450.0" x2="314.2" y2="615.0" stroke="#8aa6bf" stroke-width="0.64" opacity="0.19"/>
+<line x1="930.0" y1="450.0" x2="600.0" y2="780.0" stroke="#8aa6bf" stroke-width="0.70" opacity="0.20"/>
+<line x1="600.0" y1="120.0" x2="885.8" y2="615.0" stroke="#8aa6bf" stroke-width="1.76" opacity="0.41"/>
+<line x1="600.0" y1="120.0" x2="314.2" y2="285.0" stroke="#8aa6bf" stroke-width="0.75" opacity="0.21"/>
+<line x1="885.8" y1="615.0" x2="765.0" y2="164.2" stroke="#8aa6bf" stroke-width="1.53" opacity="0.37"/>
+<line x1="885.8" y1="615.0" x2="314.2" y2="285.0" stroke="#8aa6bf" stroke-width="0.68" opacity="0.20"/>
+<line x1="885.8" y1="615.0" x2="600.0" y2="780.0" stroke="#8aa6bf" stroke-width="0.81" opacity="0.22"/>
+<line x1="765.0" y1="164.2" x2="314.2" y2="285.0" stroke="#8aa6bf" stroke-width="0.72" opacity="0.20"/>
+<line x1="765.0" y1="164.2" x2="600.0" y2="780.0" stroke="#8aa6bf" stroke-width="0.87" opacity="0.23"/>
+<line x1="314.2" y1="285.0" x2="600.0" y2="780.0" stroke="#8aa6bf" stroke-width="0.64" opacity="0.19"/>
+<line x1="600.0" y1="120.0" x2="435.0" y2="735.8" stroke="#8aa6bf" stroke-width="0.99" opacity="0.26"/>
+<line x1="885.8" y1="615.0" x2="435.0" y2="735.8" stroke="#8aa6bf" stroke-width="0.81" opacity="0.22"/>
+<line x1="435.0" y1="735.8" x2="765.0" y2="164.2" stroke="#8aa6bf" stroke-width="0.89" opacity="0.24"/>
+<line x1="930.0" y1="450.0" x2="765.0" y2="164.2" stroke="#8aa6bf" stroke-width="1.97" opacity="0.45"/>
+<line x1="765.0" y1="164.2" x2="314.2" y2="615.0" stroke="#8aa6bf" stroke-width="0.72" opacity="0.20"/>
+<line x1="600.0" y1="120.0" x2="885.8" y2="285.0" stroke="#8aa6bf" stroke-width="3.26" opacity="0.71"/>
+<line x1="600.0" y1="120.0" x2="270.0" y2="450.0" stroke="#8aa6bf" stroke-width="0.79" opacity="0.22"/>
+<line x1="930.0" y1="450.0" x2="885.8" y2="615.0" stroke="#8aa6bf" stroke-width="0.75" opacity="0.21"/>
+<line x1="930.0" y1="450.0" x2="435.0" y2="735.8" stroke="#8aa6bf" stroke-width="0.74" opacity="0.21"/>
+<line x1="930.0" y1="450.0" x2="885.8" y2="285.0" stroke="#8aa6bf" stroke-width="0.81" opacity="0.22"/>
+<line x1="930.0" y1="450.0" x2="270.0" y2="450.0" stroke="#8aa6bf" stroke-width="0.70" opacity="0.20"/>
+<line x1="930.0" y1="450.0" x2="314.2" y2="285.0" stroke="#8aa6bf" stroke-width="0.64" opacity="0.19"/>
+<line x1="885.8" y1="615.0" x2="885.8" y2="285.0" stroke="#8aa6bf" stroke-width="0.89" opacity="0.24"/>
+<line x1="885.8" y1="615.0" x2="270.0" y2="450.0" stroke="#8aa6bf" stroke-width="0.75" opacity="0.21"/>
+<line x1="435.0" y1="735.8" x2="885.8" y2="285.0" stroke="#8aa6bf" stroke-width="0.72" opacity="0.20"/>
+<line x1="435.0" y1="735.8" x2="270.0" y2="450.0" stroke="#8aa6bf" stroke-width="0.70" opacity="0.20"/>
+<line x1="435.0" y1="735.8" x2="314.2" y2="285.0" stroke="#8aa6bf" stroke-width="0.64" opacity="0.19"/>
+<line x1="885.8" y1="285.0" x2="270.0" y2="450.0" stroke="#8aa6bf" stroke-width="0.64" opacity="0.19"/>
+<line x1="885.8" y1="285.0" x2="765.0" y2="164.2" stroke="#8aa6bf" stroke-width="2.01" opacity="0.46"/>
+<line x1="270.0" y1="450.0" x2="765.0" y2="164.2" stroke="#8aa6bf" stroke-width="0.79" opacity="0.22"/>
+<line x1="270.0" y1="450.0" x2="314.2" y2="285.0" stroke="#8aa6bf" stroke-width="0.64" opacity="0.19"/>
+<line x1="885.8" y1="615.0" x2="765.0" y2="735.8" stroke="#8aa6bf" stroke-width="0.79" opacity="0.22"/>
+<line x1="765.0" y1="735.8" x2="600.0" y2="780.0" stroke="#8aa6bf" stroke-width="0.68" opacity="0.20"/>
+<line x1="435.0" y1="735.8" x2="600.0" y2="780.0" stroke="#8aa6bf" stroke-width="0.72" opacity="0.20"/>
+<line x1="270.0" y1="450.0" x2="600.0" y2="780.0" stroke="#8aa6bf" stroke-width="0.68" opacity="0.20"/>
+<line x1="435.0" y1="735.8" x2="765.0" y2="735.8" stroke="#8aa6bf" stroke-width="0.64" opacity="0.19"/>
+<line x1="885.8" y1="285.0" x2="314.2" y2="615.0" stroke="#8aa6bf" stroke-width="0.81" opacity="0.22"/>
+<line x1="885.8" y1="285.0" x2="600.0" y2="780.0" stroke="#8aa6bf" stroke-width="0.70" opacity="0.20"/>
+<line x1="765.0" y1="735.8" x2="885.8" y2="285.0" stroke="#8aa6bf" stroke-width="0.79" opacity="0.22"/>
+<line x1="600.0" y1="120.0" x2="435.0" y2="164.2" stroke="#8aa6bf" stroke-width="0.68" opacity="0.20"/>
+<line x1="765.0" y1="735.8" x2="435.0" y2="164.2" stroke="#8aa6bf" stroke-width="0.64" opacity="0.19"/>
+<line x1="435.0" y1="164.2" x2="885.8" y2="285.0" stroke="#8aa6bf" stroke-width="0.64" opacity="0.19"/>
+<line x1="435.0" y1="164.2" x2="765.0" y2="164.2" stroke="#8aa6bf" stroke-width="0.66" opacity="0.19"/>
+<circle cx="600.0" cy="120.0" r="44.0" fill="#C00000" opacity="0.82"/>
+<text x="551.0" y="124.0" text-anchor="end" font-size="15" font-family="Arial" fill="#111">PB制度 (396)</text>
+<circle cx="765.0" cy="164.2" r="38.3" fill="#1F77B4" opacity="0.82"/>
+<text x="721.7" y="168.2" text-anchor="end" font-size="15" font-family="Arial" fill="#111">法学制度/司法实践 (259)</text>
+<circle cx="885.8" cy="285.0" r="31.7" fill="#1F77B4" opacity="0.82"/>
+<text x="849.1" y="289.0" text-anchor="end" font-size="15" font-family="Arial" fill="#111">家庭/居民金融 (138)</text>
+<circle cx="930.0" cy="450.0" r="27.7" fill="#1F77B4" opacity="0.82"/>
+<text x="897.3" y="454.0" text-anchor="end" font-size="15" font-family="Arial" fill="#111">债务期限/融资结构 (83)</text>
+<circle cx="885.8" cy="615.0" r="25.7" fill="#1F77B4" opacity="0.82"/>
+<text x="855.1" y="619.0" text-anchor="end" font-size="15" font-family="Arial" fill="#111">创业/fresh-start (60)</text>
+<circle cx="765.0" cy="735.8" r="22.3" fill="#1F77B4" opacity="0.82"/>
+<text x="737.7" y="739.8" text-anchor="end" font-size="15" font-family="Arial" fill="#111">员工/劳动 (30)</text>
+<circle cx="600.0" cy="780.0" r="20.9" fill="#1F77B4" opacity="0.82"/>
+<text x="574.1" y="784.0" text-anchor="end" font-size="15" font-family="Arial" fill="#111">风险承担/投资 (21)</text>
+<circle cx="435.0" cy="735.8" r="20.7" fill="#1F77B4" opacity="0.82"/>
+<text x="460.7" y="739.8" text-anchor="start" font-size="15" font-family="Arial" fill="#111">创新/研发 (20)</text>
+<circle cx="314.2" cy="615.0" r="20.0" fill="#1F77B4" opacity="0.82"/>
+<text x="339.2" y="619.0" text-anchor="start" font-size="15" font-family="Arial" fill="#111">银行信贷供给 (16)</text>
+<circle cx="270.0" cy="450.0" r="18.8" fill="#C00000" opacity="0.82"/>
+<text x="293.8" y="454.0" text-anchor="start" font-size="15" font-family="Arial" fill="#111">控制人失败成本 (10)</text>
+<circle cx="314.2" cy="285.0" r="18.3" fill="#C00000" opacity="0.82"/>
+<text x="337.5" y="289.0" text-anchor="start" font-size="15" font-family="Arial" fill="#111">自然人保证/连带责任 (8)</text>
+<circle cx="435.0" cy="164.2" r="17.0" fill="#1F77B4" opacity="0.82"/>
+<text x="457.0" y="168.2" text-anchor="start" font-size="15" font-family="Arial" fill="#111">商业信用/供应链 (4)</text>
+</svg>

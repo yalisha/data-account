@@ -1,0 +1,13 @@
+spec,x_name,y_name,coef,se,t_stat,p_value,N,sig_10,sig_05,sig_01
+stacked_notyet_static,sdx_wany17,DU_kw,.1646041605035776,.06062717,2.715023,.0069003417,65534,1,1,1
+stacked_notyet_static,sdx_wstr17,DU_kw,.3503161653881728,.077314831,4.5310345,7.6615606e-06,65534,1,1,1
+stacked_notyet_static,sdx_wany17,NarrHardGap_direct_v1,-.0802842884260399,.017646614,-4.5495577,7.0461697e-06,65534,1,1,1
+stacked_notyet_static,sdx_wstr17,NarrHardGap_direct_v1,-.052917261208657,.01465127,-3.6117866,.00034087416,65534,1,1,1
+stacked_notyet_static,sdx_wany17,NarrHardWashing_direct_v1,-.1064016411168808,.01937129,-5.4927492,6.8685431e-08,65534,1,1,1
+stacked_notyet_static,sdx_wstr17,NarrHardWashing_direct_v1,-.0827112111065041,.012492079,-6.6210923,1.0919617e-10,65534,1,1,1
+stacked_notyet_static,sdx_wany17,TobinQ,.0259272546280388,.038162034,.67939913,.49725923,65534,0,0,0
+stacked_notyet_static,sdx_wstr17,TobinQ,.0827290164963317,.035162307,2.3527756,.019094337,65534,1,1,0
+stacked_notyet_static,sdx_wany17,asset_trade_kw,.0445234140265795,.016673965,2.6702354,.007873999,65530,1,1,1
+stacked_notyet_static,sdx_wstr17,asset_trade_kw,.096005940549788,.027538583,3.4862339,.00054148893,65530,1,1,1
+stacked_notyet_static,sdx_wany17,strict_at_kw,.0164752746114955,.0065204762,2.5266981,.011880345,65530,1,1,0
+stacked_notyet_static,sdx_wstr17,strict_at_kw,.0324439854680024,.0098638115,3.2891936,.0010893898,65530,1,1,1

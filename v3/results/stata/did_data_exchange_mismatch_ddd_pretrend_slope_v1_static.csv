@@ -1,0 +1,13 @@
+spec,x_name,y_name,coef,se,t_stat,p_value,N,sig_10,sig_05,sig_01
+treated_exposure_linear_trend,dx_wany17,DU_kw,-.0168749116736955,.078074224,-.21613933,.82900023,19222,0,0,0
+treated_exposure_linear_trend,dx_wstr17,DU_kw,.0887008007419795,.094588846,.93775117,.34899411,19222,0,0,0
+treated_exposure_linear_trend,dx_wany17,NarrHardGap_direct_v1,-.0625536041031215,.016640039,-3.759222,.0001984866,19222,1,1,1
+treated_exposure_linear_trend,dx_wstr17,NarrHardGap_direct_v1,-.0231955508312424,.018033925,-1.2862175,.1991847,19222,0,0,0
+treated_exposure_linear_trend,dx_wany17,NarrHardWashing_direct_v1,-.0571558142731554,.025526371,-2.239089,.025753705,19222,1,1,0
+treated_exposure_linear_trend,dx_wstr17,NarrHardWashing_direct_v1,-.0306617995407598,.019518774,-1.5708876,.11707759,19222,0,0,0
+treated_exposure_linear_trend,dx_wany17,TobinQ,.0253631452819964,.057999238,.43730134,.66215217,19222,0,0,0
+treated_exposure_linear_trend,dx_wstr17,TobinQ,-.0146738389727753,.072076738,-.20358634,.83879054,19222,0,0,0
+treated_exposure_linear_trend,dx_wany17,asset_trade_kw,.0082725215710776,.009399415,.88011026,.37938026,19222,0,0,0
+treated_exposure_linear_trend,dx_wstr17,asset_trade_kw,.0303830439680358,.013082352,2.3224452,.020759873,19222,1,1,0
+treated_exposure_linear_trend,dx_wany17,strict_at_kw,.0028094672217889,.0029107649,.96519893,.33508599,19222,0,0,0
+treated_exposure_linear_trend,dx_wstr17,strict_at_kw,.0092614344337125,.0048836386,1.896421,.058695953,19222,1,0,0

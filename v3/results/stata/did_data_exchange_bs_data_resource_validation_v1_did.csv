@@ -1,0 +1,13 @@
+spec,exposure,y_name,coef,se,t_stat,p_value,N,y_positive,sig_10,sig_05,sig_01
+baseline_firm_year_fe,dx_wany17,BookDataResourceRatio_bs,.0000103315666877,5.8951514e-06,1.7525532,.080520637,19222,53,1,0,0
+cityyear_prewashyear_fe,dx_wany17,BookDataResourceRatio_bs,4.82416464675e-06,3.8869807e-06,1.2411085,.2158411,18296,52,0,0,0
+baseline_firm_year_fe,dx_wstr17,BookDataResourceRatio_bs,.0000136778786586,5.8127780e-06,2.353071,.019150512,19222,53,1,1,0
+cityyear_prewashyear_fe,dx_wstr17,BookDataResourceRatio_bs,4.29373127402e-06,3.8280496e-06,1.1216499,.26319122,18296,52,0,0,0
+baseline_firm_year_fe,dx_wany17,BookDataResource_bs,.0033649395198731,.0031984223,1.0520624,.29346886,19222,53,0,0,0
+cityyear_prewashyear_fe,dx_wany17,BookDataResource_bs,-.0004897578916995,.003293603,-.14869975,.88192201,18296,52,0,0,0
+baseline_firm_year_fe,dx_wstr17,BookDataResource_bs,.0058868153118893,.0035296062,1.6678392,.096207663,19222,53,1,0,0
+cityyear_prewashyear_fe,dx_wstr17,BookDataResource_bs,-.0002190643751941,.0039860755,-.054957405,.95622051,18296,52,0,0,0
+baseline_firm_year_fe,dx_wany17,lnBookDataResource_bs,.0584109000168794,.04879947,1.1969577,.23210201,19222,53,0,0,0
+cityyear_prewashyear_fe,dx_wany17,lnBookDataResource_bs,-.0069339676060469,.049429942,-.1402787,.88856363,18296,52,0,0,0
+baseline_firm_year_fe,dx_wstr17,lnBookDataResource_bs,.1030669459599692,.054619253,1.8870076,.059954822,19222,53,1,0,0
+cityyear_prewashyear_fe,dx_wstr17,lnBookDataResource_bs,.0002835828647878,.060529798,.0046850126,.99626601,18296,52,0,0,0
